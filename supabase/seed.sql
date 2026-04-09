@@ -29,32 +29,46 @@
 -- branches, never in production, and the example.test TLD makes it obvious
 -- these are not real accounts.
 -- -----------------------------------------------------------------------------
+-- GoTrue cannot scan NULL into the token string columns (confirmation_token,
+-- recovery_token, email_change_*, phone_change, reauthentication_token), so
+-- every token column must be set to '' explicitly. Skipping any of these
+-- produces "Database error querying schema" at sign-in time.
 insert into auth.users (
   id, instance_id, aud, role, email, encrypted_password,
-  email_confirmed_at, raw_user_meta_data, created_at, updated_at
+  email_confirmed_at, raw_user_meta_data, created_at, updated_at,
+  confirmation_token, recovery_token,
+  email_change_token_new, email_change_token_current, email_change,
+  phone_change_token, phone_change, reauthentication_token
 )
 values
   ('00000000-0000-0000-0000-0000000000a1', '00000000-0000-0000-0000-000000000000',
    'authenticated', 'authenticated', 'admin@example.test', crypt('devpassword', gen_salt('bf')),
-   now(), '{"role":"admin","display_name":"Seed Admin"}'::jsonb, now(), now()),
+   now(), '{"role":"admin","display_name":"Seed Admin"}'::jsonb, now(), now(),
+   '', '', '', '', '', '', '', ''),
   ('00000000-0000-0000-0000-0000000000a2', '00000000-0000-0000-0000-000000000000',
    'authenticated', 'authenticated', 'provider-a@example.test', crypt('devpassword', gen_salt('bf')),
-   now(), '{"role":"provider","display_name":"Alex Provider"}'::jsonb, now(), now()),
+   now(), '{"role":"provider","display_name":"Alex Provider"}'::jsonb, now(), now(),
+   '', '', '', '', '', '', '', ''),
   ('00000000-0000-0000-0000-0000000000a3', '00000000-0000-0000-0000-000000000000',
    'authenticated', 'authenticated', 'provider-b@example.test', crypt('devpassword', gen_salt('bf')),
-   now(), '{"role":"provider","display_name":"Blair Provider"}'::jsonb, now(), now()),
+   now(), '{"role":"provider","display_name":"Blair Provider"}'::jsonb, now(), now(),
+   '', '', '', '', '', '', '', ''),
   ('00000000-0000-0000-0000-0000000000a4', '00000000-0000-0000-0000-000000000000',
    'authenticated', 'authenticated', 'company@example.test', crypt('devpassword', gen_salt('bf')),
-   now(), '{"role":"provider_company","display_name":"Synthetic Care Co"}'::jsonb, now(), now()),
+   now(), '{"role":"provider_company","display_name":"Synthetic Care Co"}'::jsonb, now(), now(),
+   '', '', '', '', '', '', '', ''),
   ('00000000-0000-0000-0000-0000000000a5', '00000000-0000-0000-0000-000000000000',
    'authenticated', 'authenticated', 'receiver-a@example.test', crypt('devpassword', gen_salt('bf')),
-   now(), '{"role":"receiver","display_name":"Casey Receiver"}'::jsonb, now(), now()),
+   now(), '{"role":"receiver","display_name":"Casey Receiver"}'::jsonb, now(), now(),
+   '', '', '', '', '', '', '', ''),
   ('00000000-0000-0000-0000-0000000000a6', '00000000-0000-0000-0000-000000000000',
    'authenticated', 'authenticated', 'receiver-b@example.test', crypt('devpassword', gen_salt('bf')),
-   now(), '{"role":"receiver","display_name":"Drew Receiver"}'::jsonb, now(), now()),
+   now(), '{"role":"receiver","display_name":"Drew Receiver"}'::jsonb, now(), now(),
+   '', '', '', '', '', '', '', ''),
   ('00000000-0000-0000-0000-0000000000a7', '00000000-0000-0000-0000-000000000000',
    'authenticated', 'authenticated', 'family@example.test', crypt('devpassword', gen_salt('bf')),
-   now(), '{"role":"family_member","display_name":"Ellis Family"}'::jsonb, now(), now())
+   now(), '{"role":"family_member","display_name":"Ellis Family"}'::jsonb, now(), now(),
+   '', '', '', '', '', '', '', '')
 on conflict (id) do nothing;
 
 -- -----------------------------------------------------------------------------
