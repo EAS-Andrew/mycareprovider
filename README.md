@@ -27,6 +27,10 @@ Blue and purple never mix on a logged-in screen. Shared UI components in `compon
 
 Run `npm run check:themes` to verify no cross-group imports exist.
 
+## Deployment
+
+Hosted on Vercel as `ctrl-alt-elite-uk/mycareprovider`. Pushes to `main` deploy to production; other branches get preview URLs automatically.
+
 ## Accessibility
 
 Every themed surface carries a persistent audience label for WCAG 1.4.1 (color is never the only signal). See `components/ui/audience-banner.tsx`.
