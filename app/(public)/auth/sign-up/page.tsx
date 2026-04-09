@@ -10,8 +10,23 @@ type PageProps = {
   searchParams: Promise<{ error?: string }>;
 };
 
+// Finding auth#11: map whitelisted error codes to friendly strings instead
+// of reflecting raw Supabase error messages.
+const ERROR_MESSAGES: Record<string, string> = {
+  email_taken: "An account with that email already exists. Try signing in.",
+  rate_limited: "Too many attempts. Please wait a minute and try again.",
+  missing_field: "Please fill in every required field and try again.",
+  unknown: "Something went wrong creating your account. Please try again.",
+};
+
+function errorMessage(code: string | undefined): string | null {
+  if (!code) return null;
+  return ERROR_MESSAGES[code] ?? ERROR_MESSAGES.unknown;
+}
+
 export default async function SignUpPage({ searchParams }: PageProps) {
   const { error } = await searchParams;
+  const errorText = errorMessage(error);
 
   return (
     <>
@@ -23,14 +38,14 @@ export default async function SignUpPage({ searchParams }: PageProps) {
         administrators join by invitation only.
       </p>
 
-      {error ? (
+      {errorText ? (
         <div
           id="form-error"
           role="alert"
           tabIndex={-1}
           className="mt-6 rounded-md border border-danger bg-canvas p-3 text-sm text-danger"
         >
-          {error}
+          {errorText}
         </div>
       ) : null}
 
@@ -67,7 +82,7 @@ export default async function SignUpPage({ searchParams }: PageProps) {
             type="email"
             autoComplete="email"
             required
-            aria-describedby={error ? "form-error" : undefined}
+            aria-describedby={errorText ? "form-error" : undefined}
           />
         </div>
 
@@ -104,6 +119,15 @@ export default async function SignUpPage({ searchParams }: PageProps) {
         Already have an account?{" "}
         <Link href="/auth/sign-in" className="font-medium text-ink underline">
           Sign in
+        </Link>
+      </p>
+      <p className="mt-2 text-center text-sm text-ink-muted">
+        Are you a care provider?{" "}
+        <Link
+          href="/auth/provider-sign-up"
+          className="font-medium text-ink underline"
+        >
+          Register here
         </Link>
       </p>
     </>

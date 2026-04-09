@@ -20,8 +20,13 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
-          for (const { name, value } of cookiesToSet) {
-            request.cookies.set(name, value);
+          // Pass `options` on BOTH the request- and response-side set calls
+          // (finding auth#10). Omitting options from the request-side set
+          // caused cookies to round-trip with default attributes on the
+          // inbound request, which in turn let `getUser()` see a stale
+          // session under certain cookie flag combinations.
+          for (const { name, value, options } of cookiesToSet) {
+            request.cookies.set({ name, value, ...options });
           }
           response = NextResponse.next({ request });
           for (const { name, value, options } of cookiesToSet) {

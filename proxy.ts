@@ -1,13 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 
+import { getCurrentRole, type AppRole } from "@/lib/auth/current-role";
 import { updateSession } from "@/lib/supabase/middleware";
-
-type AppRole =
-  | "admin"
-  | "provider"
-  | "provider_company"
-  | "receiver"
-  | "family_member";
 
 const ROLE_RULES: Array<{ prefix: string; allowed: ReadonlySet<AppRole> }> = [
   { prefix: "/admin", allowed: new Set<AppRole>(["admin"]) },
@@ -21,26 +15,13 @@ const ROLE_RULES: Array<{ prefix: string; allowed: ReadonlySet<AppRole> }> = [
   },
 ];
 
-function decodeJwtClaims(token: string): Record<string, unknown> | null {
-  const parts = token.split(".");
-  if (parts.length < 2) return null;
-  try {
-    const payload = parts[1]
-      .replace(/-/g, "+")
-      .replace(/_/g, "/")
-      .padEnd(Math.ceil(parts[1].length / 4) * 4, "=");
-    const json = Buffer.from(payload, "base64").toString("utf8");
-    return JSON.parse(json) as Record<string, unknown>;
-  } catch {
-    return null;
-  }
-}
-
 export async function proxy(request: NextRequest) {
   const { response, supabase, user } = await updateSession(request);
 
   const { pathname } = request.nextUrl;
-  const rule = ROLE_RULES.find((r) => pathname.startsWith(r.prefix));
+  const rule = ROLE_RULES.find(
+    (r) => pathname === r.prefix || pathname.startsWith(`${r.prefix}/`),
+  );
   if (!rule) {
     return response;
   }
@@ -53,26 +34,13 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(signIn);
   }
 
-  // Prefer the JWT claim set by the Custom Access Token hook. Fall back to
-  // app_metadata / user_metadata if the hook is misconfigured so a valid
-  // admin session doesn't silently lose access.
-  let role: string | null =
-    (user.app_metadata?.app_role as string | undefined) ??
-    (user.user_metadata?.role as string | undefined) ??
-    null;
+  // Single source of truth: profiles.role via the user-scoped client.
+  // Do NOT read user.user_metadata.role (user-writable), do NOT read
+  // user.app_metadata.app_role (never populated), do NOT decode the JWT.
+  // See docs/bug-hunt/auth-findings.md #2 and #9 for why.
+  const role = await getCurrentRole(supabase, user);
 
-  if (!role) {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-    const token = session?.access_token;
-    if (token) {
-      const claims = decodeJwtClaims(token);
-      role = (claims?.app_role as string | undefined) ?? null;
-    }
-  }
-
-  if (!role || !rule.allowed.has(role as AppRole)) {
+  if (!role || !rule.allowed.has(role)) {
     const signIn = request.nextUrl.clone();
     signIn.pathname = "/auth/sign-in";
     signIn.search = `?next=${encodeURIComponent(pathname)}`;
@@ -83,6 +51,14 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Exclude static assets, _next internals, and the favicon set.
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|brand/|.*\\..*).*)"],
+  // Exclude only known static asset extensions (finding auth#5 - a path
+  // pattern like `.*\\..*` let `/admin/users/export.csv` skip the proxy
+  // entirely). Gated prefixes are also listed explicitly so they are
+  // always evaluated regardless of extension.
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|brand/|.*\\.(?:png|jpg|jpeg|svg|gif|ico|css|js|map|txt|xml|webp|woff|woff2)).*)",
+    "/admin/:path*",
+    "/provider/:path*",
+    "/receiver/:path*",
+  ],
 };

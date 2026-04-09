@@ -39,6 +39,16 @@ port = 54324
 enabled = true
 file_size_limit = "50MiB"
 
+# C3a provider document vault. Uploads land in quarantine/<profile_id>/... and
+# are promoted to clean/<profile_id>/... by the verification pipeline after a
+# MIME/scan check. Bucket is private; reads go through signed URLs issued by
+# Server Actions. Mirror in hosted environments is created by 0004 via an
+# insert into storage.buckets so the local and hosted configs agree.
+[storage.buckets.provider-docs]
+public = false
+file_size_limit = "25MiB"
+allowed_mime_types = ["application/pdf", "image/jpeg", "image/png", "image/webp", "image/heic"]
+
 [auth]
 enabled = true
 site_url = "http://localhost:3000"

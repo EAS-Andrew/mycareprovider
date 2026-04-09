@@ -36,8 +36,11 @@ export default async function PublicLayout({
         </Link>
         <nav
           className="flex items-center gap-4 text-sm"
-          aria-label="Account"
+          aria-label="Primary"
         >
+          <Link href="/providers" className="hover:underline">
+            Browse providers
+          </Link>
           {user ? (
             <>
               <span className="text-ink-muted" aria-live="polite">
@@ -60,6 +63,12 @@ export default async function PublicLayout({
               </Link>
               <Link href="/auth/sign-up" className="hover:underline">
                 Sign up
+              </Link>
+              <Link
+                href="/auth/provider-sign-up"
+                className="hover:underline"
+              >
+                Register as provider
               </Link>
             </>
           )}

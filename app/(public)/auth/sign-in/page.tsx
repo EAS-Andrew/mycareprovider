@@ -10,8 +10,24 @@ type PageProps = {
   searchParams: Promise<{ error?: string; next?: string }>;
 };
 
+// Finding auth#11: never echo raw Supabase error strings back to the user.
+// Map the whitelisted error codes from actions.ts to a friendly message.
+const ERROR_MESSAGES: Record<string, string> = {
+  invalid_credentials: "That email and password didn't match. Please try again.",
+  rate_limited: "Too many attempts. Please wait a minute and try again.",
+  admin_required: "You need to sign in as an administrator to continue.",
+  missing_field: "Please fill in every field and try again.",
+  unknown: "Something went wrong signing you in. Please try again.",
+};
+
+function errorMessage(code: string | undefined): string | null {
+  if (!code) return null;
+  return ERROR_MESSAGES[code] ?? ERROR_MESSAGES.unknown;
+}
+
 export default async function SignInPage({ searchParams }: PageProps) {
   const { error, next } = await searchParams;
+  const errorText = errorMessage(error);
 
   return (
     <>
@@ -22,13 +38,14 @@ export default async function SignInPage({ searchParams }: PageProps) {
         Welcome back. Enter your email and password.
       </p>
 
-      {error ? (
+      {errorText ? (
         <div
+          id="form-error"
           role="alert"
           tabIndex={-1}
           className="mt-6 rounded-md border border-danger bg-canvas p-3 text-sm text-danger"
         >
-          {error}
+          {errorText}
         </div>
       ) : null}
 
@@ -48,7 +65,7 @@ export default async function SignInPage({ searchParams }: PageProps) {
             type="email"
             autoComplete="email"
             required
-            aria-describedby={error ? "form-error" : undefined}
+            aria-describedby={errorText ? "form-error" : undefined}
           />
         </div>
 
@@ -65,7 +82,7 @@ export default async function SignInPage({ searchParams }: PageProps) {
             type="password"
             autoComplete="current-password"
             required
-            aria-describedby={error ? "form-error" : undefined}
+            aria-describedby={errorText ? "form-error" : undefined}
           />
         </div>
 

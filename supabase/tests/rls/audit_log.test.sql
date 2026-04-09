@@ -9,19 +9,22 @@ begin;
 
 create extension if not exists pgtap;
 
-select plan(10);
+select plan(12);
 
 -- -----------------------------------------------------------------------------
--- Fixture users
+-- Fixture users. Non-receiver roles set raw_app_meta_data.invited_by so the
+-- post-0009 handle_new_auth_user trigger honours the requested role.
 -- -----------------------------------------------------------------------------
-insert into auth.users (id, instance_id, aud, role, email, raw_user_meta_data, created_at, updated_at)
+insert into auth.users (id, instance_id, aud, role, email, raw_user_meta_data, raw_app_meta_data, created_at, updated_at)
 values
   ('00000000-0000-0000-0000-0000000000b1', '00000000-0000-0000-0000-000000000000',
    'authenticated', 'authenticated', 'actor@t.test',
-   '{"role":"provider","display_name":"Actor"}'::jsonb, now(), now()),
+   '{"role":"provider","display_name":"Actor"}'::jsonb,
+   '{"invited_by":"test-setup"}'::jsonb, now(), now()),
   ('00000000-0000-0000-0000-0000000000b2', '00000000-0000-0000-0000-000000000000',
    'authenticated', 'authenticated', 'admin-reader@t.test',
-   '{"role":"admin","display_name":"Admin Reader"}'::jsonb, now(), now());
+   '{"role":"admin","display_name":"Admin Reader"}'::jsonb,
+   '{"invited_by":"test-setup"}'::jsonb, now(), now());
 
 -- =============================================================================
 -- Authenticated actor inserts
@@ -95,24 +98,44 @@ select throws_ok(
   'authenticated user cannot insert audit row with another actor_id'
 );
 
--- UPDATE: RLS has no update policy, so 0 rows are affected (no throw).
-update public.audit_log
-  set action = 'tampered'
-  where actor_id = '00000000-0000-0000-0000-0000000000b1';
-
-select is(
-  (select count(*)::int from public.audit_log where action = 'tampered'),
-  0,
-  'update is silently denied (no policy -> zero rows affected)'
+-- rls#4 / auth#6: the null-actor ("system") branch was removed from the
+-- authenticated policy. A direct insert with actor_id = null must now be
+-- rejected. The only legal system path is app.record_system_audit, which
+-- runs as SECURITY DEFINER and is granted to service_role only.
+select throws_ok(
+  $$ insert into public.audit_log (actor_id, action, subject_table)
+     values (null, 'system.forged', 'system') $$,
+  '42501',
+  null,
+  'authenticated user cannot forge a null-actor system audit row'
 );
 
--- DELETE: same treatment.
-delete from public.audit_log where actor_id = '00000000-0000-0000-0000-0000000000b1';
+-- UPDATE: 0002_audit_log.sql REVOKEs UPDATE at the grant level (not just via
+-- RLS default-deny) so a tamper attempt throws 42501 (permission denied) - a
+-- stronger guarantee than a silently-zero UPDATE, and the one we want.
+select throws_ok(
+  $$ update public.audit_log
+       set action = 'tampered'
+       where actor_id = '00000000-0000-0000-0000-0000000000b1' $$,
+  '42501',
+  null,
+  'update is denied at grant level (REVOKE UPDATE)'
+);
 
+-- DELETE: same treatment - DELETE is revoked at grant level, so the attempt
+-- throws 42501.
+select throws_ok(
+  $$ delete from public.audit_log where actor_id = '00000000-0000-0000-0000-0000000000b1' $$,
+  '42501',
+  null,
+  'delete is denied at grant level (REVOKE DELETE)'
+);
+
+-- Rows remain intact.
 select is(
   (select count(*)::int from public.audit_log where actor_id = '00000000-0000-0000-0000-0000000000b1'),
   2,
-  'delete is silently denied (no policy -> rows remain)'
+  'delete is denied - rows remain'
 );
 
 reset role;
@@ -144,12 +167,13 @@ select ok(
   'admin can read all audit rows'
 );
 
--- Admin also cannot update or delete (no policy exists for those verbs at all)
-update public.audit_log set action = 'tampered-by-admin';
-select is(
-  (select count(*)::int from public.audit_log where action = 'tampered-by-admin'),
-  0,
-  'even admin cannot update audit rows'
+-- Admin also cannot update or delete - 0002 REVOKEs UPDATE/DELETE at the grant
+-- level regardless of role, so the attempt throws 42501.
+select throws_ok(
+  $$ update public.audit_log set action = 'tampered-by-admin' $$,
+  '42501',
+  null,
+  'even admin cannot update audit rows (REVOKE UPDATE)'
 );
 
 reset role;
