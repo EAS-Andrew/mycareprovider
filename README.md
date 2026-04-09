@@ -27,6 +27,12 @@ Blue and purple never mix on a logged-in screen. Shared UI components in `compon
 
 Run `npm run check:themes` to verify no cross-group imports exist.
 
+## Local setup (Supabase)
+
+Copy `.env.example` to `.env.local` and fill in the keys from your Supabase project (local stack or hosted). The app reads `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY`.
+
+The `app_role` JWT claim is populated by a Supabase Auth Hook. Locally, `supabase/config.toml` already wires `public.custom_access_token_hook` so `supabase start` picks it up. In hosted environments, enable it under Dashboard -> Authentication -> Hooks -> Custom Access Token and point it at the same function.
+
 ## Deployment
 
 Hosted on Vercel as `ctrl-alt-elite-uk/mycareprovider`. Pushes to `main` deploy to production; other branches get preview URLs automatically.

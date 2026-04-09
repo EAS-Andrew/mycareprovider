@@ -1,0 +1,3 @@
+# Supabase CLI local state - not source of truth.
+.branches/
+.temp/
