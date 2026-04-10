@@ -76,7 +76,7 @@ export default async function ReceiverCarePlanDetailPage(props: {
           >
             &larr; Care plans
           </Link>
-          <h1 className="mt-2 text-2xl font-semibold tracking-tight text-ink">
+          <h1 className="mt-2 font-heading text-2xl font-bold tracking-tight text-ink">
             {plan.title}
           </h1>
           <p className="mt-1 text-sm text-ink-muted">
@@ -91,7 +91,7 @@ export default async function ReceiverCarePlanDetailPage(props: {
       {searchParams.error ? (
         <div
           role="alert"
-          className="rounded-md border border-danger bg-danger/10 p-4 text-sm text-danger"
+          className="rounded-xl border border-danger bg-danger/10 p-4 text-sm text-danger"
         >
           {searchParams.error}
         </div>
@@ -99,9 +99,9 @@ export default async function ReceiverCarePlanDetailPage(props: {
 
       {/* Latest version */}
       {latestVersion ? (
-        <div className="rounded-lg border border-border bg-surface p-5 space-y-4">
+        <div className="rounded-2xl border border-border bg-surface p-5 space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-ink">
+            <h2 className="font-heading text-lg font-semibold text-ink">
               Version {latestVersion.version_number}
             </h2>
             <span className="text-sm text-ink-muted">
@@ -172,7 +172,7 @@ export default async function ReceiverCarePlanDetailPage(props: {
 
           <Link
             href={`/receiver/care-plans/${planId}/versions/${latestVersion.id}`}
-            className="inline-flex h-9 items-center justify-center rounded-md border border-brand px-3 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg"
+            className="inline-flex h-9 items-center justify-center rounded-xl border border-brand px-3 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg"
           >
             View full details
           </Link>
@@ -181,8 +181,8 @@ export default async function ReceiverCarePlanDetailPage(props: {
 
       {/* Approval flow */}
       {isPending && latestVersion ? (
-        <div className="rounded-lg border-2 border-brand bg-surface p-6 space-y-6">
-          <h2 className="text-lg font-semibold text-ink">
+        <div className="rounded-2xl border-2 border-brand bg-surface p-6 space-y-6">
+          <h2 className="font-heading text-lg font-semibold text-ink">
             Review and approve this care plan
           </h2>
 
@@ -193,7 +193,7 @@ export default async function ReceiverCarePlanDetailPage(props: {
 
           {/* Approve form */}
           <form action={handleApprove} className="space-y-4">
-            <div className="rounded-md border border-border p-4">
+            <div className="rounded-xl border border-border p-4">
               <label className="flex items-start gap-3">
                 <input
                   type="checkbox"
@@ -211,7 +211,7 @@ export default async function ReceiverCarePlanDetailPage(props: {
 
             <button
               type="submit"
-              className="inline-flex h-10 items-center justify-center rounded-md bg-success px-4 text-sm font-medium text-white transition-colors hover:bg-success/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+              className="inline-flex h-10 items-center justify-center rounded-xl bg-success px-4 text-sm font-medium text-white transition-colors hover:bg-success/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
             >
               Approve care plan
             </button>
@@ -239,7 +239,7 @@ export default async function ReceiverCarePlanDetailPage(props: {
             </div>
             <button
               type="submit"
-              className="inline-flex h-10 items-center justify-center rounded-md border border-danger px-4 text-sm font-medium text-danger transition-colors hover:bg-danger hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+              className="inline-flex h-10 items-center justify-center rounded-xl border border-danger px-4 text-sm font-medium text-danger transition-colors hover:bg-danger hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
             >
               Reject care plan
             </button>
@@ -248,14 +248,14 @@ export default async function ReceiverCarePlanDetailPage(props: {
       ) : null}
 
       {/* Version history link */}
-      <div className="rounded-lg border border-border bg-surface p-5">
-        <h2 className="text-lg font-semibold text-ink">Version history</h2>
+      <div className="rounded-2xl border border-border bg-surface p-5">
+        <h2 className="font-heading text-lg font-semibold text-ink">Version history</h2>
         <p className="mt-1 text-sm text-ink-muted">
           View all previous versions and track changes.
         </p>
         <Link
           href={`/receiver/care-plans/${planId}/versions`}
-          className="mt-3 inline-flex h-9 items-center justify-center rounded-md border border-brand px-3 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg"
+          className="mt-3 inline-flex h-9 items-center justify-center rounded-xl border border-brand px-3 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg"
         >
           View version history
         </Link>

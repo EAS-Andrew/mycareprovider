@@ -21,7 +21,7 @@ export default async function CompanyMembersPage({ searchParams }: PageProps) {
   return (
     <section className="mx-auto max-w-3xl space-y-6">
       <header>
-        <h1 className="text-3xl font-semibold tracking-tight text-ink">
+        <h1 className="font-heading text-3xl font-bold tracking-tight text-ink">
           Team members
         </h1>
         <p className="mt-1 text-ink-muted">
@@ -33,7 +33,7 @@ export default async function CompanyMembersPage({ searchParams }: PageProps) {
       {invited ? (
         <div
           role="status"
-          className="rounded-md border border-success bg-surface p-3 text-sm text-ink"
+          className="rounded-xl border border-success bg-surface p-3 text-sm text-ink"
         >
           Invitation sent.
         </div>
@@ -42,7 +42,7 @@ export default async function CompanyMembersPage({ searchParams }: PageProps) {
       {removed ? (
         <div
           role="status"
-          className="rounded-md border border-brand bg-surface p-3 text-sm text-ink"
+          className="rounded-xl border border-brand bg-surface p-3 text-sm text-ink"
         >
           Member removed.
         </div>
@@ -53,14 +53,14 @@ export default async function CompanyMembersPage({ searchParams }: PageProps) {
           id="form-error"
           role="alert"
           tabIndex={-1}
-          className="rounded-md border border-danger bg-canvas p-3 text-sm text-danger"
+          className="rounded-xl border border-danger bg-canvas p-3 text-sm text-danger"
         >
           {error}
         </div>
       ) : null}
 
-      <div className="rounded-lg border border-border bg-surface p-5">
-        <h2 className="text-lg font-semibold text-ink">
+      <div className="rounded-2xl border border-border bg-surface p-5">
+        <h2 className="font-heading text-lg font-semibold text-ink">
           Invite a provider
         </h2>
         <p className="mt-1 text-sm text-ink-muted">
@@ -77,7 +77,7 @@ export default async function CompanyMembersPage({ searchParams }: PageProps) {
           />
           <button
             type="submit"
-            className="inline-flex h-11 shrink-0 items-center justify-center rounded-md bg-brand px-5 text-base font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+            className="inline-flex h-11 shrink-0 items-center justify-center rounded-xl bg-brand px-5 text-base font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
           >
             Invite
           </button>
@@ -85,16 +85,16 @@ export default async function CompanyMembersPage({ searchParams }: PageProps) {
       </div>
 
       {members.length === 0 ? (
-        <div className="rounded-lg border border-dashed border-border bg-surface p-8 text-center">
+        <div className="rounded-2xl border border-dashed border-border bg-surface p-8 text-center">
           <p className="text-sm text-ink-muted">
             No team members yet. Invite individual providers to join your
             company.
           </p>
         </div>
       ) : (
-        <div className="rounded-lg border border-border bg-surface">
+        <div className="rounded-2xl border border-border bg-surface">
           <div className="border-b border-border px-5 py-4">
-            <h2 className="text-lg font-semibold text-ink">
+            <h2 className="font-heading text-lg font-semibold text-ink">
               Current members ({members.length})
             </h2>
           </div>
@@ -128,13 +128,13 @@ export default async function CompanyMembersPage({ searchParams }: PageProps) {
                   </dl>
                 </div>
 
-                <details className="group shrink-0 rounded-md">
-                  <summary className="inline-flex h-10 cursor-pointer list-none items-center justify-center rounded-md border border-danger px-4 text-sm font-medium text-danger transition-colors hover:bg-danger hover:text-canvas focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring [&::-webkit-details-marker]:hidden">
+                <details className="group shrink-0 rounded-xl">
+                  <summary className="inline-flex h-10 cursor-pointer list-none items-center justify-center rounded-xl border border-danger px-4 text-sm font-medium text-danger transition-colors hover:bg-danger hover:text-canvas focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring [&::-webkit-details-marker]:hidden">
                     Remove
                   </summary>
                   <form
                     action={removeMember}
-                    className="mt-2 flex flex-col gap-2 rounded-md border border-danger bg-canvas p-3 text-sm text-ink"
+                    className="mt-2 flex flex-col gap-2 rounded-xl border border-danger bg-canvas p-3 text-sm text-ink"
                   >
                     <input
                       type="hidden"
@@ -150,7 +150,7 @@ export default async function CompanyMembersPage({ searchParams }: PageProps) {
                     </p>
                     <button
                       type="submit"
-                      className="inline-flex h-9 items-center justify-center rounded-md bg-danger px-4 text-sm font-medium text-canvas transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+                      className="inline-flex h-9 items-center justify-center rounded-xl bg-danger px-4 text-sm font-medium text-canvas transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
                       aria-label={`Confirm removal of ${member.provider_display_name ?? member.provider_id}`}
                     >
                       Confirm remove

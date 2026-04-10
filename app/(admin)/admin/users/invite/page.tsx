@@ -22,7 +22,7 @@ export default async function InviteAdminPage({ searchParams }: PageProps) {
         </Link>
       </div>
 
-      <h1 className="text-3xl font-semibold tracking-tight">Invite admin</h1>
+      <h1 className="font-heading text-3xl font-bold tracking-tight">Invite admin</h1>
       <p className="mt-2 text-ink-muted">
         Send an invitation email. The recipient will receive a magic link to
         finish setting up their administrator account.

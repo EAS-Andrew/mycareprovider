@@ -47,7 +47,7 @@ export default async function ProviderCertificationsPage({
   return (
     <section className="mx-auto max-w-3xl space-y-6">
       <header className="space-y-2">
-        <h1 className="text-3xl font-semibold tracking-tight text-ink">
+        <h1 className="font-heading text-3xl font-bold tracking-tight text-ink">
           Certifications
         </h1>
         <p className="text-ink-muted">
@@ -59,7 +59,7 @@ export default async function ProviderCertificationsPage({
       {saved ? (
         <div
           role="status"
-          className="rounded-md border border-success bg-surface p-3 text-sm text-ink"
+          className="rounded-xl border border-success bg-surface p-3 text-sm text-ink"
         >
           Certification added.
         </div>
@@ -67,7 +67,7 @@ export default async function ProviderCertificationsPage({
       {deleted ? (
         <div
           role="status"
-          className="rounded-md border border-border bg-surface p-3 text-sm text-ink"
+          className="rounded-xl border border-border bg-surface p-3 text-sm text-ink"
         >
           Certification removed.
         </div>
@@ -77,15 +77,15 @@ export default async function ProviderCertificationsPage({
           id="form-error"
           role="alert"
           tabIndex={-1}
-          className="rounded-md border border-danger bg-canvas p-3 text-sm text-danger"
+          className="rounded-xl border border-danger bg-canvas p-3 text-sm text-danger"
         >
           {error}
         </div>
       ) : null}
 
-      <div className="rounded-lg border border-border bg-surface">
+      <div className="rounded-2xl border border-border bg-surface">
         <div className="border-b border-border px-5 py-4">
-          <h2 className="text-lg font-semibold text-ink">
+          <h2 className="font-heading text-lg font-semibold text-ink">
             Your certifications
           </h2>
         </div>
@@ -135,7 +135,7 @@ export default async function ProviderCertificationsPage({
                   <input type="hidden" name="id" value={row.id} />
                   <button
                     type="submit"
-                    className="inline-flex h-9 shrink-0 items-center justify-center rounded-md border border-border px-3 text-sm font-medium text-ink transition-colors hover:border-danger hover:text-danger focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+                    className="inline-flex h-9 shrink-0 items-center justify-center rounded-xl border border-border px-3 text-sm font-medium text-ink transition-colors hover:border-danger hover:text-danger focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
                   >
                     Remove
                   </button>
@@ -148,10 +148,10 @@ export default async function ProviderCertificationsPage({
 
       <form
         action={submitAddCertification}
-        className="space-y-5 rounded-lg border border-border bg-surface p-6"
+        className="space-y-5 rounded-2xl border border-border bg-surface p-6"
         noValidate
       >
-        <h2 className="text-lg font-semibold text-ink">Add a certification</h2>
+        <h2 className="font-heading text-lg font-semibold text-ink">Add a certification</h2>
 
         <div className="space-y-2">
           <label
@@ -265,7 +265,7 @@ export default async function ProviderCertificationsPage({
         <div className="flex items-center gap-4">
           <button
             type="submit"
-            className="inline-flex h-11 items-center justify-center rounded-md bg-brand px-5 text-base font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+            className="inline-flex h-11 items-center justify-center rounded-xl bg-brand px-5 text-base font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
           >
             Add certification
           </button>

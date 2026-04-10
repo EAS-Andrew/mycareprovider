@@ -19,7 +19,7 @@ export default async function ProviderCarePlansPage() {
     <section className="mx-auto max-w-3xl space-y-6">
       <header className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight text-ink">
+          <h1 className="font-heading text-2xl font-bold tracking-tight text-ink">
             Care plans
           </h1>
           <p className="mt-1 text-sm text-ink-muted">
@@ -28,26 +28,26 @@ export default async function ProviderCarePlansPage() {
         </div>
         <Link
           href="/provider/care-plans/new"
-          className="inline-flex h-10 items-center justify-center rounded-md bg-brand px-4 text-sm font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+          className="inline-flex h-10 items-center justify-center rounded-xl bg-brand px-4 text-sm font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
         >
           New care plan
         </Link>
       </header>
 
       {plans.length === 0 ? (
-        <div className="rounded-lg border border-border bg-surface p-8 text-center">
+        <div className="rounded-2xl border border-border bg-surface p-8 text-center">
           <p className="text-ink-muted">
             You have not created any care plans yet.
           </p>
           <Link
             href="/provider/care-plans/new"
-            className="mt-4 inline-flex h-10 items-center justify-center rounded-md border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+            className="mt-4 inline-flex h-10 items-center justify-center rounded-xl border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
           >
             Create your first care plan
           </Link>
         </div>
       ) : (
-        <ul className="divide-y divide-border rounded-lg border border-border bg-surface">
+        <ul className="divide-y divide-border rounded-2xl border border-border bg-surface">
           {plans.map((plan) => (
             <li key={plan.id}>
               <Link

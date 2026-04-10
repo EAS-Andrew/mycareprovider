@@ -31,7 +31,7 @@ export default async function InviteFamilyMemberPage({
   return (
     <section className="mx-auto max-w-lg space-y-6">
       <header>
-        <h1 className="text-2xl font-semibold tracking-tight text-ink">
+        <h1 className="font-heading text-2xl font-bold tracking-tight text-ink">
           Invite a family member
         </h1>
         <p className="mt-2 text-ink-muted">
@@ -45,7 +45,7 @@ export default async function InviteFamilyMemberPage({
           id="form-error"
           role="alert"
           tabIndex={-1}
-          className="rounded-md border border-danger bg-canvas p-3 text-sm text-danger"
+          className="rounded-xl border border-danger bg-canvas p-3 text-sm text-danger"
         >
           {errorText}
         </div>

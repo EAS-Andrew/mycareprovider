@@ -139,7 +139,7 @@ export default async function ReceiverContactDetailPage({
         </Link>
       </nav>
 
-      <header className="space-y-3 rounded-lg border border-border bg-surface p-6">
+      <header className="space-y-3 rounded-2xl border border-border bg-surface p-6">
         <div className="flex flex-wrap items-center gap-3">
           <span
             className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${REQUEST_STATUS_CLASS[request.status]}`}
@@ -150,7 +150,7 @@ export default async function ReceiverContactDetailPage({
             Sent {formatDateTime(request.created_at)}
           </p>
         </div>
-        <h1 className="text-2xl font-semibold tracking-tight text-ink">
+        <h1 className="font-heading text-2xl font-bold tracking-tight text-ink">
           {request.subject}
         </h1>
         <p className="text-sm text-ink-muted">
@@ -160,7 +160,7 @@ export default async function ReceiverContactDetailPage({
           </span>
         </p>
         {request.response_note ? (
-          <div className="rounded-md border border-border bg-canvas p-3 text-sm text-ink">
+          <div className="rounded-xl border border-border bg-canvas p-3 text-sm text-ink">
             <p className="font-medium">Provider note</p>
             <p className="mt-1 whitespace-pre-line">{request.response_note}</p>
           </div>
@@ -176,7 +176,7 @@ export default async function ReceiverContactDetailPage({
       {notice ? (
         <div
           role="status"
-          className="rounded-md border border-success bg-surface p-3 text-sm text-ink"
+          className="rounded-xl border border-success bg-surface p-3 text-sm text-ink"
         >
           {notice}
         </div>
@@ -187,7 +187,7 @@ export default async function ReceiverContactDetailPage({
           id="form-error"
           role="alert"
           tabIndex={-1}
-          className="rounded-md border border-danger bg-canvas p-3 text-sm text-danger"
+          className="rounded-xl border border-danger bg-canvas p-3 text-sm text-danger"
         >
           {error}
         </div>
@@ -198,7 +198,7 @@ export default async function ReceiverContactDetailPage({
           <input type="hidden" name="id" value={request.id} />
           <button
             type="submit"
-            className="inline-flex h-10 items-center justify-center rounded-md border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+            className="inline-flex h-10 items-center justify-center rounded-xl border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
           >
             Withdraw request
           </button>
@@ -208,7 +208,7 @@ export default async function ReceiverContactDetailPage({
       <section className="space-y-4" aria-labelledby="meetings-heading">
         <h2
           id="meetings-heading"
-          className="text-xl font-semibold tracking-tight text-ink"
+          className="font-heading text-xl font-semibold tracking-tight text-ink"
         >
           Meetings
         </h2>
@@ -231,7 +231,7 @@ export default async function ReceiverContactDetailPage({
         )}
 
         {canProposeMeeting ? (
-          <details className="rounded-lg border border-border bg-surface p-5">
+          <details className="rounded-2xl border border-border bg-surface p-5">
             <summary className="cursor-pointer text-sm font-medium text-ink">
               Propose a new meeting
             </summary>
@@ -332,7 +332,7 @@ export default async function ReceiverContactDetailPage({
 
               <button
                 type="submit"
-                className="inline-flex h-11 items-center justify-center rounded-md bg-brand px-5 text-base font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+                className="inline-flex h-11 items-center justify-center rounded-xl bg-brand px-5 text-base font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
               >
                 Propose meeting
               </button>
@@ -344,7 +344,7 @@ export default async function ReceiverContactDetailPage({
       <section className="space-y-4" aria-labelledby="thread-heading">
         <h2
           id="thread-heading"
-          className="text-xl font-semibold tracking-tight text-ink"
+          className="font-heading text-xl font-semibold tracking-tight text-ink"
         >
           Messages
         </h2>
@@ -365,7 +365,7 @@ export default async function ReceiverContactDetailPage({
               return (
                 <li
                   key={post.id}
-                  className={`rounded-lg border p-4 ${
+                  className={`rounded-2xl border p-4 ${
                     mine
                       ? "border-brand bg-surface"
                       : "border-border bg-canvas"
@@ -391,7 +391,7 @@ export default async function ReceiverContactDetailPage({
         {threadPostable && detail.thread ? (
           <form
             action={postToThreadAction}
-            className="space-y-3 rounded-lg border border-border bg-surface p-5"
+            className="space-y-3 rounded-2xl border border-border bg-surface p-5"
             noValidate
           >
             <input
@@ -420,7 +420,7 @@ export default async function ReceiverContactDetailPage({
             </div>
             <button
               type="submit"
-              className="inline-flex h-11 items-center justify-center rounded-md bg-brand px-5 text-base font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+              className="inline-flex h-11 items-center justify-center rounded-xl bg-brand px-5 text-base font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
             >
               Send message
             </button>
@@ -445,7 +445,7 @@ function MeetingRow({
   const canCancel = proposal.status === "proposed" && iProposed;
 
   return (
-    <li className="space-y-3 rounded-lg border border-border bg-surface p-5">
+    <li className="space-y-3 rounded-2xl border border-border bg-surface p-5">
       <div className="flex flex-wrap items-center gap-3">
         <span
           className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${MEETING_STATUS_CLASS[proposal.status]}`}
@@ -497,7 +497,7 @@ function MeetingRow({
             <input type="hidden" name="decision" value="accepted" />
             <button
               type="submit"
-              className="inline-flex h-10 items-center justify-center rounded-md bg-brand px-4 text-sm font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+              className="inline-flex h-10 items-center justify-center rounded-xl bg-brand px-4 text-sm font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
             >
               Accept
             </button>
@@ -512,7 +512,7 @@ function MeetingRow({
             <input type="hidden" name="decision" value="declined" />
             <button
               type="submit"
-              className="inline-flex h-10 items-center justify-center rounded-md border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+              className="inline-flex h-10 items-center justify-center rounded-xl border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
             >
               Decline
             </button>
@@ -531,7 +531,7 @@ function MeetingRow({
           <input type="hidden" name="decision" value="cancelled" />
           <button
             type="submit"
-            className="inline-flex h-10 items-center justify-center rounded-md border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+            className="inline-flex h-10 items-center justify-center rounded-xl border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
           >
             Cancel proposal
           </button>

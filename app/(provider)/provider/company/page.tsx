@@ -104,7 +104,7 @@ export default async function CompanyDashboardPage({
   return (
     <section className="mx-auto max-w-3xl space-y-8">
       <header className="space-y-2">
-        <h1 className="text-3xl font-semibold tracking-tight text-ink">
+        <h1 className="font-heading text-3xl font-bold tracking-tight text-ink">
           {profile?.company_name ?? "Company dashboard"}
         </h1>
         <p className="text-ink-muted">
@@ -115,7 +115,7 @@ export default async function CompanyDashboardPage({
       {welcome ? (
         <div
           role="status"
-          className="rounded-md border border-success bg-surface p-3 text-sm text-ink"
+          className="rounded-xl border border-success bg-surface p-3 text-sm text-ink"
         >
           Welcome! Complete the steps below to get your company verified and
           visible to care receivers.
@@ -123,23 +123,23 @@ export default async function CompanyDashboardPage({
       ) : null}
 
       {!profile ? (
-        <div className="rounded-lg border border-brand bg-surface p-5">
+        <div className="rounded-2xl border border-brand bg-surface p-5">
           <p className="text-sm text-ink">
             You have not set up your company profile yet. This is the first
             thing care receivers will see once your company is verified.
           </p>
           <Link
             href="/provider/company/profile"
-            className="mt-4 inline-flex h-11 items-center justify-center rounded-md bg-brand px-5 text-base font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+            className="mt-4 inline-flex h-11 items-center justify-center rounded-xl bg-brand px-5 text-base font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
           >
             Set up company profile
           </Link>
         </div>
       ) : null}
 
-      <div className="rounded-lg border border-border bg-surface">
+      <div className="rounded-2xl border border-border bg-surface">
         <div className="flex items-center justify-between border-b border-border px-5 py-4">
-          <h2 className="text-lg font-semibold text-ink">Setup checklist</h2>
+          <h2 className="font-heading text-lg font-semibold text-ink">Setup checklist</h2>
           <span className="text-sm text-ink-muted" aria-live="polite">
             {completeCount} of {checklist.length} complete
           </span>
@@ -161,7 +161,7 @@ export default async function CompanyDashboardPage({
               </div>
               <Link
                 href={row.href}
-                className="inline-flex h-10 shrink-0 items-center justify-center rounded-md border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+                className="inline-flex h-10 shrink-0 items-center justify-center rounded-xl border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
               >
                 {row.hrefLabel}
               </Link>

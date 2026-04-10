@@ -43,7 +43,7 @@ export default async function ReceiverDataPage({ searchParams }: PageProps) {
         </Link>
       </div>
 
-      <h1 className="text-3xl font-semibold tracking-tight">Your data</h1>
+      <h1 className="font-heading text-3xl font-bold tracking-tight">Your data</h1>
       <p className="mt-1 text-ink-muted">
         Manage your personal data. Under UK GDPR you have the right to export
         or request deletion of your data.
@@ -52,7 +52,7 @@ export default async function ReceiverDataPage({ searchParams }: PageProps) {
       {error ? (
         <div
           role="alert"
-          className="mt-4 rounded-md border border-danger bg-canvas p-3 text-sm text-danger"
+          className="mt-4 rounded-xl border border-danger bg-canvas p-3 text-sm text-danger"
         >
           {error}
         </div>
@@ -61,15 +61,15 @@ export default async function ReceiverDataPage({ searchParams }: PageProps) {
       {ok ? (
         <div
           role="status"
-          className="mt-4 rounded-md border border-success bg-canvas p-3 text-sm text-ink"
+          className="mt-4 rounded-xl border border-success bg-canvas p-3 text-sm text-ink"
         >
           {ok}
         </div>
       ) : null}
 
       {/* Data export */}
-      <div className="mt-8 rounded-lg border border-border p-5">
-        <h2 className="font-semibold text-ink">Export your data</h2>
+      <div className="mt-8 rounded-2xl border border-border p-5">
+        <h2 className="font-heading font-semibold text-ink">Export your data</h2>
         <p className="mt-1 text-sm text-ink-muted">
           Download a machine-readable (JSON) bundle of all your personal data
           held on the platform.
@@ -84,8 +84,8 @@ export default async function ReceiverDataPage({ searchParams }: PageProps) {
       {/* Previous export downloads */}
       {dsarRequests.filter((r) => r.request_type === "access").length > 0 ? (
         <div className="mt-6">
-          <h2 className="text-lg font-semibold">Export history</h2>
-          <div className="mt-3 overflow-hidden rounded-lg border border-border">
+          <h2 className="font-heading text-lg font-semibold">Export history</h2>
+          <div className="mt-3 overflow-hidden rounded-2xl border border-border">
             <table className="w-full text-left text-sm">
               <thead className="bg-surface text-ink-muted">
                 <tr>
@@ -141,8 +141,8 @@ export default async function ReceiverDataPage({ searchParams }: PageProps) {
       ) : null}
 
       {/* Erasure */}
-      <div className="mt-8 rounded-lg border border-danger/30 p-5">
-        <h2 className="font-semibold text-ink">Delete your account</h2>
+      <div className="mt-8 rounded-2xl border border-danger/30 p-5">
+        <h2 className="font-heading font-semibold text-ink">Delete your account</h2>
         <p className="mt-1 text-sm text-ink-muted">
           Request permanent deletion of your account and personal data. A 30-day
           cool-off period applies during which you can cancel. Some records may
@@ -150,7 +150,7 @@ export default async function ReceiverDataPage({ searchParams }: PageProps) {
         </p>
 
         {activeErasure ? (
-          <div className="mt-4 rounded-md border border-border bg-surface p-4">
+          <div className="mt-4 rounded-xl border border-border bg-surface p-4">
             <p className="text-sm text-ink">
               Your erasure request is in the cool-off period. You can cancel
               before{" "}
@@ -186,8 +186,8 @@ export default async function ReceiverDataPage({ searchParams }: PageProps) {
       {/* Erasure history */}
       {erasureRequests.length > 0 ? (
         <div className="mt-6">
-          <h2 className="text-lg font-semibold">Erasure history</h2>
-          <div className="mt-3 overflow-hidden rounded-lg border border-border">
+          <h2 className="font-heading text-lg font-semibold">Erasure history</h2>
+          <div className="mt-3 overflow-hidden rounded-2xl border border-border">
             <table className="w-full text-left text-sm">
               <thead className="bg-surface text-ink-muted">
                 <tr>

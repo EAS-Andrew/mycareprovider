@@ -38,7 +38,7 @@ export default async function VerificationDashboardPage() {
 
   return (
     <section className="mx-auto max-w-3xl">
-      <h1 className="text-3xl font-semibold tracking-tight">Verification</h1>
+      <h1 className="font-heading text-3xl font-bold tracking-tight">Verification</h1>
       <p className="mt-1 text-ink-muted">
         Review and approve provider documents, company registrations, and family
         authorisations.
@@ -49,10 +49,10 @@ export default async function VerificationDashboardPage() {
           <Link
             key={q.href + q.label}
             href={q.href}
-            className="rounded-lg border border-border p-5 transition-colors hover:bg-surface"
+            className="rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-md transition-colors hover:bg-surface"
           >
             <div className="flex items-baseline justify-between">
-              <h2 className="font-medium text-ink">{q.label}</h2>
+              <h2 className="font-heading font-medium text-ink">{q.label}</h2>
               <span className="text-2xl font-semibold tabular-nums text-ink">
                 {q.count}
               </span>

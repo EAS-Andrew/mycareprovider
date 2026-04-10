@@ -84,7 +84,7 @@ export default async function ProviderCarePlanDetailPage(props: {
           >
             &larr; Care plans
           </Link>
-          <h1 className="mt-2 text-2xl font-semibold tracking-tight text-ink">
+          <h1 className="mt-2 font-heading text-2xl font-bold tracking-tight text-ink">
             {plan.title}
           </h1>
           <p className="mt-1 text-sm text-ink-muted">
@@ -99,7 +99,7 @@ export default async function ProviderCarePlanDetailPage(props: {
       {searchParams.error ? (
         <div
           role="alert"
-          className="rounded-md border border-danger bg-danger/10 p-4 text-sm text-danger"
+          className="rounded-xl border border-danger bg-danger/10 p-4 text-sm text-danger"
         >
           {searchParams.error}
         </div>
@@ -107,9 +107,9 @@ export default async function ProviderCarePlanDetailPage(props: {
 
       {/* Latest version summary */}
       {latestVersion ? (
-        <div className="rounded-lg border border-border bg-surface p-5">
+        <div className="rounded-2xl border border-border bg-surface p-5">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-ink">
+            <h2 className="font-heading text-lg font-semibold text-ink">
               Version {latestVersion.version_number}
             </h2>
             <span className="text-sm text-ink-muted">
@@ -131,21 +131,21 @@ export default async function ProviderCarePlanDetailPage(props: {
             </span>
           </div>
           {latestVersion.rejection_reason ? (
-            <div className="mt-3 rounded-md border border-danger bg-danger/10 p-3 text-sm text-danger">
+            <div className="mt-3 rounded-xl border border-danger bg-danger/10 p-3 text-sm text-danger">
               <strong>Rejected:</strong> {latestVersion.rejection_reason}
             </div>
           ) : null}
           <div className="mt-4 flex gap-3">
             <Link
               href={`/provider/care-plans/${planId}/versions/${latestVersion.id}`}
-              className="inline-flex h-9 items-center justify-center rounded-md border border-brand px-3 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg"
+              className="inline-flex h-9 items-center justify-center rounded-xl border border-brand px-3 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg"
             >
               View details
             </Link>
           </div>
         </div>
       ) : (
-        <div className="rounded-lg border border-border bg-surface p-8 text-center">
+        <div className="rounded-2xl border border-border bg-surface p-8 text-center">
           <p className="text-ink-muted">No versions created yet.</p>
         </div>
       )}
@@ -154,7 +154,7 @@ export default async function ProviderCarePlanDetailPage(props: {
       <div className="flex flex-wrap gap-3">
         <Link
           href={`/provider/care-plans/${planId}/versions/new`}
-          className="inline-flex h-10 items-center justify-center rounded-md bg-brand px-4 text-sm font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+          className="inline-flex h-10 items-center justify-center rounded-xl bg-brand px-4 text-sm font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
         >
           Create new version
         </Link>
@@ -163,7 +163,7 @@ export default async function ProviderCarePlanDetailPage(props: {
           <form action={handleSubmit}>
             <button
               type="submit"
-              className="inline-flex h-10 items-center justify-center rounded-md border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg"
+              className="inline-flex h-10 items-center justify-center rounded-xl border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg"
             >
               Submit for approval
             </button>
@@ -175,7 +175,7 @@ export default async function ProviderCarePlanDetailPage(props: {
             <form action={handlePause}>
               <button
                 type="submit"
-                className="inline-flex h-10 items-center justify-center rounded-md border border-warning px-4 text-sm font-medium text-warning transition-colors hover:bg-warning hover:text-white"
+                className="inline-flex h-10 items-center justify-center rounded-xl border border-warning px-4 text-sm font-medium text-warning transition-colors hover:bg-warning hover:text-white"
               >
                 Pause
               </button>
@@ -183,7 +183,7 @@ export default async function ProviderCarePlanDetailPage(props: {
             <form action={handleComplete}>
               <button
                 type="submit"
-                className="inline-flex h-10 items-center justify-center rounded-md border border-success px-4 text-sm font-medium text-success transition-colors hover:bg-success hover:text-white"
+                className="inline-flex h-10 items-center justify-center rounded-xl border border-success px-4 text-sm font-medium text-success transition-colors hover:bg-success hover:text-white"
               >
                 Complete
               </button>
@@ -195,7 +195,7 @@ export default async function ProviderCarePlanDetailPage(props: {
           <form action={handleResume}>
             <button
               type="submit"
-              className="inline-flex h-10 items-center justify-center rounded-md border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg"
+              className="inline-flex h-10 items-center justify-center rounded-xl border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg"
             >
               Resume
             </button>
@@ -215,8 +215,8 @@ export default async function ProviderCarePlanDetailPage(props: {
       </div>
 
       {/* Version history link */}
-      <div className="rounded-lg border border-border bg-surface p-5">
-        <h2 className="text-lg font-semibold text-ink">Version history</h2>
+      <div className="rounded-2xl border border-border bg-surface p-5">
+        <h2 className="font-heading text-lg font-semibold text-ink">Version history</h2>
         <p className="mt-1 text-sm text-ink-muted">
           View all previous versions and track changes over time.
         </p>

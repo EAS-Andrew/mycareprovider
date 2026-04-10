@@ -19,23 +19,23 @@ export default async function ProviderVersionHistoryPage(props: {
         >
           &larr; Back to care plan
         </Link>
-        <h1 className="mt-2 text-2xl font-semibold tracking-tight text-ink">
+        <h1 className="mt-2 font-heading text-2xl font-bold tracking-tight text-ink">
           Version history
         </h1>
       </div>
 
       {versions.length === 0 ? (
-        <div className="rounded-lg border border-border bg-surface p-8 text-center">
+        <div className="rounded-2xl border border-border bg-surface p-8 text-center">
           <p className="text-ink-muted">No versions created yet.</p>
           <Link
             href={`/provider/care-plans/${planId}/versions/new`}
-            className="mt-4 inline-flex h-10 items-center justify-center rounded-md bg-brand px-4 text-sm font-medium text-brand-fg transition-colors hover:bg-brand-strong"
+            className="mt-4 inline-flex h-10 items-center justify-center rounded-xl bg-brand px-4 text-sm font-medium text-brand-fg transition-colors hover:bg-brand-strong"
           >
             Create first version
           </Link>
         </div>
       ) : (
-        <ul className="divide-y divide-border rounded-lg border border-border bg-surface">
+        <ul className="divide-y divide-border rounded-2xl border border-border bg-surface">
           {versions.map((v) => (
             <li key={v.id}>
               <Link

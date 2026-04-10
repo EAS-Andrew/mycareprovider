@@ -21,7 +21,7 @@ export default async function ProviderSafeguardingPage({
 
   return (
     <section className="mx-auto max-w-2xl">
-      <h1 className="text-3xl font-semibold tracking-tight">
+      <h1 className="font-heading text-3xl font-bold tracking-tight">
         Safeguarding
       </h1>
       <p className="mt-1 text-ink-muted">
@@ -29,7 +29,7 @@ export default async function ProviderSafeguardingPage({
         This is a confidential channel, separate from general complaints.
       </p>
 
-      <div className="mt-4 rounded-md border border-border bg-surface p-4 text-sm text-ink-muted">
+      <div className="mt-4 rounded-xl border border-border bg-surface p-4 text-sm text-ink-muted">
         <p className="font-medium text-ink">
           When to raise a safeguarding concern
         </p>
@@ -44,7 +44,7 @@ export default async function ProviderSafeguardingPage({
       {error ? (
         <div
           role="alert"
-          className="mt-4 rounded-md border border-danger bg-canvas p-3 text-sm text-danger"
+          className="mt-4 rounded-xl border border-danger bg-canvas p-3 text-sm text-danger"
         >
           {error}
         </div>
@@ -53,7 +53,7 @@ export default async function ProviderSafeguardingPage({
       {ok ? (
         <div
           role="status"
-          className="mt-4 rounded-md border border-success bg-canvas p-3 text-sm text-ink"
+          className="mt-4 rounded-xl border border-success bg-canvas p-3 text-sm text-ink"
         >
           {ok}
         </div>
@@ -155,8 +155,8 @@ export default async function ProviderSafeguardingPage({
 
       {myReports.length > 0 ? (
         <div className="mt-12">
-          <h2 className="text-xl font-semibold">Your previous reports</h2>
-          <div className="mt-4 overflow-hidden rounded-lg border border-border">
+          <h2 className="font-heading text-xl font-semibold">Your previous reports</h2>
+          <div className="mt-4 overflow-hidden rounded-2xl border border-border">
             <table className="w-full text-left text-sm">
               <thead className="bg-surface text-ink-muted">
                 <tr>
@@ -195,7 +195,7 @@ export default async function ProviderSafeguardingPage({
         </div>
       ) : null}
 
-      <div className="mt-8 rounded-md border border-border bg-surface p-4 text-sm text-ink-muted">
+      <div className="mt-8 rounded-xl border border-border bg-surface p-4 text-sm text-ink-muted">
         <p className="font-medium text-ink">In an emergency</p>
         <p className="mt-1">
           If someone is in immediate danger, call 999.

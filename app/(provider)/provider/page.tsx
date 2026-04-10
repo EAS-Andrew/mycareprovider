@@ -231,7 +231,7 @@ export default async function ProviderHome() {
   return (
     <section className="mx-auto max-w-3xl space-y-8">
       <header className="space-y-2">
-        <h1 className="text-3xl font-semibold tracking-tight text-ink">
+        <h1 className="font-heading text-3xl font-bold tracking-tight text-ink">
           Welcome, care provider
         </h1>
         <p className="text-ink-muted">
@@ -244,9 +244,9 @@ export default async function ProviderHome() {
       {allComplete && !isVerified ? (
         <div
           role="status"
-          className="rounded-lg border border-warning bg-warning/10 p-5"
+          className="rounded-2xl border border-warning bg-warning/10 p-5"
         >
-          <h2 className="font-semibold text-ink">Profile under review</h2>
+          <h2 className="font-heading font-semibold text-ink">Profile under review</h2>
           <p className="mt-1 text-sm text-ink-muted">
             You have completed all onboarding steps. Our team is reviewing your
             documents and will verify your profile shortly. Once approved, your
@@ -258,9 +258,9 @@ export default async function ProviderHome() {
       {allComplete && isVerified ? (
         <div
           role="status"
-          className="rounded-lg border border-success bg-success/10 p-5"
+          className="rounded-2xl border border-success bg-success/10 p-5"
         >
-          <h2 className="font-semibold text-ink">Profile verified</h2>
+          <h2 className="font-heading font-semibold text-ink">Profile verified</h2>
           <p className="mt-1 text-sm text-ink-muted">
             Your profile is live and visible in the provider directory. Care
             receivers can find you and send contact requests.
@@ -269,23 +269,23 @@ export default async function ProviderHome() {
       ) : null}
 
       {!profile ? (
-        <div className="rounded-lg border border-brand bg-surface p-5">
+        <div className="rounded-2xl border border-brand bg-surface p-5">
           <p className="text-sm text-ink">
             You have not started your profile yet. This is the first thing care
             receivers will see once your documents are approved.
           </p>
           <Link
             href="/provider/onboarding"
-            className="mt-4 inline-flex h-11 items-center justify-center rounded-md bg-brand px-5 text-base font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+            className="mt-4 inline-flex h-11 items-center justify-center rounded-xl bg-brand px-5 text-base font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
           >
             Start your profile
           </Link>
         </div>
       ) : null}
 
-      <div className="rounded-lg border border-border bg-surface">
+      <div className="rounded-2xl border border-border bg-surface">
         <div className="flex items-center justify-between border-b border-border px-5 py-4">
-          <h2 className="text-lg font-semibold text-ink">
+          <h2 className="font-heading text-lg font-semibold text-ink">
             Onboarding checklist
           </h2>
           <span className="text-sm text-ink-muted" aria-live="polite">
@@ -307,7 +307,7 @@ export default async function ProviderHome() {
               </div>
               <Link
                 href={row.href}
-                className="inline-flex h-10 shrink-0 items-center justify-center rounded-md border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+                className="inline-flex h-10 shrink-0 items-center justify-center rounded-xl border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
               >
                 {row.hrefLabel}
               </Link>
@@ -319,10 +319,10 @@ export default async function ProviderHome() {
       <div className="grid gap-4 sm:grid-cols-2">
         <Link
           href="/provider/messages"
-          className="rounded-lg border border-border bg-surface p-5 transition-colors hover:bg-surface-hover"
+          className="rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-md transition-shadow duration-300 hover:shadow-lg"
         >
           <div className="flex items-center justify-between">
-            <h2 className="font-semibold text-ink">Messages</h2>
+            <h2 className="font-heading font-semibold text-ink">Messages</h2>
             {counts.unreadMessages > 0 ? (
               <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-brand px-1.5 text-xs font-medium text-brand-fg">
                 {counts.unreadMessages}
@@ -336,10 +336,10 @@ export default async function ProviderHome() {
 
         <Link
           href="/provider/contacts"
-          className="rounded-lg border border-border bg-surface p-5 transition-colors hover:bg-surface-hover"
+          className="rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-md transition-shadow duration-300 hover:shadow-lg"
         >
           <div className="flex items-center justify-between">
-            <h2 className="font-semibold text-ink">Contact requests</h2>
+            <h2 className="font-heading font-semibold text-ink">Contact requests</h2>
             {counts.pendingContacts > 0 ? (
               <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-brand px-1.5 text-xs font-medium text-brand-fg">
                 {counts.pendingContacts}
@@ -353,9 +353,9 @@ export default async function ProviderHome() {
 
         <Link
           href="/provider/care-plans"
-          className="rounded-lg border border-border bg-surface p-5 transition-colors hover:bg-surface-hover"
+          className="rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-md transition-shadow duration-300 hover:shadow-lg"
         >
-          <h2 className="font-semibold text-ink">Care plans</h2>
+          <h2 className="font-heading font-semibold text-ink">Care plans</h2>
           <p className="mt-1 text-sm text-ink-muted">
             Create and manage care plans for your clients.
           </p>
@@ -363,9 +363,9 @@ export default async function ProviderHome() {
 
         <Link
           href="/provider/documents"
-          className="rounded-lg border border-border bg-surface p-5 transition-colors hover:bg-surface-hover"
+          className="rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-md transition-shadow duration-300 hover:shadow-lg"
         >
-          <h2 className="font-semibold text-ink">Documents</h2>
+          <h2 className="font-heading font-semibold text-ink">Documents</h2>
           <p className="mt-1 text-sm text-ink-muted">
             View everything you have uploaded and check the review status.
           </p>
@@ -373,9 +373,9 @@ export default async function ProviderHome() {
 
         <Link
           href="/provider/safeguarding"
-          className="rounded-lg border border-border bg-surface p-5 transition-colors hover:bg-surface-hover"
+          className="rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-md transition-shadow duration-300 hover:shadow-lg"
         >
-          <h2 className="font-semibold text-ink">Safeguarding</h2>
+          <h2 className="font-heading font-semibold text-ink">Safeguarding</h2>
           <p className="mt-1 text-sm text-ink-muted">
             Raise or review safeguarding concerns.
           </p>
@@ -383,9 +383,9 @@ export default async function ProviderHome() {
 
         <Link
           href="/provider/settings/data"
-          className="rounded-lg border border-border bg-surface p-5 transition-colors hover:bg-surface-hover"
+          className="rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-md transition-shadow duration-300 hover:shadow-lg"
         >
-          <h2 className="font-semibold text-ink">Settings</h2>
+          <h2 className="font-heading font-semibold text-ink">Settings</h2>
           <p className="mt-1 text-sm text-ink-muted">
             Data export, privacy, and account settings.
           </p>

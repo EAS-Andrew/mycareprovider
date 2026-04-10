@@ -50,21 +50,21 @@ export default async function NewCarePlanPage(props: {
 
   return (
     <section className="mx-auto max-w-xl space-y-6">
-      <h1 className="text-2xl font-semibold tracking-tight text-ink">
+      <h1 className="font-heading text-2xl font-bold tracking-tight text-ink">
         New care plan
       </h1>
 
       {searchParams.error ? (
         <div
           role="alert"
-          className="rounded-md border border-danger bg-danger/10 p-4 text-sm text-danger"
+          className="rounded-xl border border-danger bg-danger/10 p-4 text-sm text-danger"
         >
           {searchParams.error}
         </div>
       ) : null}
 
       {receivers.length === 0 ? (
-        <div className="rounded-lg border border-border bg-surface p-6 text-center">
+        <div className="rounded-2xl border border-border bg-surface p-6 text-center">
           <p className="text-ink-muted">
             You do not have any accepted contact requests yet. A care receiver
             must contact you and you must accept before you can create a care
@@ -72,7 +72,7 @@ export default async function NewCarePlanPage(props: {
           </p>
           <a
             href="/provider/contacts"
-            className="mt-4 inline-flex h-10 items-center justify-center rounded-md border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+            className="mt-4 inline-flex h-10 items-center justify-center rounded-xl border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
           >
             View contact requests
           </a>
@@ -92,7 +92,7 @@ export default async function NewCarePlanPage(props: {
             name="title"
             type="text"
             required
-            className="mt-1 block w-full rounded-md border border-border bg-canvas px-3 py-2 text-ink shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand-ring"
+            className="mt-1 block w-full rounded-xl border border-border bg-canvas px-3 py-2 text-ink shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand-ring"
             placeholder="e.g. Daily personal care"
           />
         </div>
@@ -108,7 +108,7 @@ export default async function NewCarePlanPage(props: {
             id="receiver_id"
             name="receiver_id"
             required
-            className="mt-1 block w-full rounded-md border border-border bg-canvas px-3 py-2 text-ink shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand-ring"
+            className="mt-1 block w-full rounded-xl border border-border bg-canvas px-3 py-2 text-ink shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand-ring"
           >
             <option value="">Select a receiver</option>
             {receivers.map((r) => (
@@ -122,13 +122,13 @@ export default async function NewCarePlanPage(props: {
         <div className="flex gap-3">
           <button
             type="submit"
-            className="inline-flex h-10 items-center justify-center rounded-md bg-brand px-4 text-sm font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+            className="inline-flex h-10 items-center justify-center rounded-xl bg-brand px-4 text-sm font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
           >
             Create care plan
           </button>
           <a
             href="/provider/care-plans"
-            className="inline-flex h-10 items-center justify-center rounded-md border border-border px-4 text-sm font-medium text-ink transition-colors hover:bg-canvas focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+            className="inline-flex h-10 items-center justify-center rounded-xl border border-border px-4 text-sm font-medium text-ink transition-colors hover:bg-canvas focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
           >
             Cancel
           </a>

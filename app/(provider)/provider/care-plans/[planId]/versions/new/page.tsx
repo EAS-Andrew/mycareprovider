@@ -81,7 +81,7 @@ export default async function NewVersionPage(props: {
         >
           &larr; Back to care plan
         </Link>
-        <h1 className="mt-2 text-2xl font-semibold tracking-tight text-ink">
+        <h1 className="mt-2 font-heading text-2xl font-bold tracking-tight text-ink">
           Create new version
         </h1>
       </div>
@@ -89,7 +89,7 @@ export default async function NewVersionPage(props: {
       {searchParams.error ? (
         <div
           role="alert"
-          className="rounded-md border border-danger bg-danger/10 p-4 text-sm text-danger"
+          className="rounded-xl border border-danger bg-danger/10 p-4 text-sm text-danger"
         >
           {searchParams.error}
         </div>
@@ -97,7 +97,7 @@ export default async function NewVersionPage(props: {
 
       <form action={handleCreate} className="space-y-8">
         {/* Activities section */}
-        <fieldset className="rounded-lg border border-border bg-surface p-5">
+        <fieldset className="rounded-2xl border border-border bg-surface p-5">
           <legend className="px-2 text-lg font-semibold text-ink">
             Activities
           </legend>
@@ -107,7 +107,7 @@ export default async function NewVersionPage(props: {
           </p>
 
           <div className="space-y-4" id="activities">
-            <div className="rounded-md border border-border p-4 space-y-3">
+            <div className="rounded-xl border border-border p-4 space-y-3">
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-sm font-medium text-ink">
@@ -116,7 +116,7 @@ export default async function NewVersionPage(props: {
                   <input
                     name="activity_title"
                     type="text"
-                    className="mt-1 block w-full rounded-md border border-border bg-canvas px-3 py-2 text-ink shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand-ring"
+                    className="mt-1 block w-full rounded-xl border border-border bg-canvas px-3 py-2 text-ink shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand-ring"
                     placeholder="e.g. Morning personal care"
                   />
                 </div>
@@ -126,7 +126,7 @@ export default async function NewVersionPage(props: {
                   </label>
                   <select
                     name="activity_frequency"
-                    className="mt-1 block w-full rounded-md border border-border bg-canvas px-3 py-2 text-ink shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand-ring"
+                    className="mt-1 block w-full rounded-xl border border-border bg-canvas px-3 py-2 text-ink shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand-ring"
                   >
                     <option value="daily">Daily</option>
                     <option value="weekly">Weekly</option>
@@ -144,7 +144,7 @@ export default async function NewVersionPage(props: {
                   <input
                     name="activity_description"
                     type="text"
-                    className="mt-1 block w-full rounded-md border border-border bg-canvas px-3 py-2 text-ink shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand-ring"
+                    className="mt-1 block w-full rounded-xl border border-border bg-canvas px-3 py-2 text-ink shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand-ring"
                     placeholder="Details about this activity"
                   />
                 </div>
@@ -156,7 +156,7 @@ export default async function NewVersionPage(props: {
                     name="activity_duration"
                     type="number"
                     min="1"
-                    className="mt-1 block w-full rounded-md border border-border bg-canvas px-3 py-2 text-ink shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand-ring"
+                    className="mt-1 block w-full rounded-xl border border-border bg-canvas px-3 py-2 text-ink shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand-ring"
                     placeholder="30"
                   />
                 </div>
@@ -170,7 +170,7 @@ export default async function NewVersionPage(props: {
         </fieldset>
 
         {/* Line items section */}
-        <fieldset className="rounded-lg border border-border bg-surface p-5">
+        <fieldset className="rounded-2xl border border-border bg-surface p-5">
           <legend className="px-2 text-lg font-semibold text-ink">
             Pricing
           </legend>
@@ -179,7 +179,7 @@ export default async function NewVersionPage(props: {
           </p>
 
           <div className="space-y-4" id="line-items">
-            <div className="rounded-md border border-border p-4 space-y-3">
+            <div className="rounded-xl border border-border p-4 space-y-3">
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-sm font-medium text-ink">
@@ -188,7 +188,7 @@ export default async function NewVersionPage(props: {
                   <input
                     name="item_description"
                     type="text"
-                    className="mt-1 block w-full rounded-md border border-border bg-canvas px-3 py-2 text-ink shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand-ring"
+                    className="mt-1 block w-full rounded-xl border border-border bg-canvas px-3 py-2 text-ink shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand-ring"
                     placeholder="e.g. Personal care visit"
                   />
                 </div>
@@ -199,7 +199,7 @@ export default async function NewVersionPage(props: {
                   <input
                     name="item_unit"
                     type="text"
-                    className="mt-1 block w-full rounded-md border border-border bg-canvas px-3 py-2 text-ink shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand-ring"
+                    className="mt-1 block w-full rounded-xl border border-border bg-canvas px-3 py-2 text-ink shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand-ring"
                     placeholder="hour"
                   />
                 </div>
@@ -214,7 +214,7 @@ export default async function NewVersionPage(props: {
                     type="number"
                     min="0"
                     step="0.5"
-                    className="mt-1 block w-full rounded-md border border-border bg-canvas px-3 py-2 text-ink shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand-ring"
+                    className="mt-1 block w-full rounded-xl border border-border bg-canvas px-3 py-2 text-ink shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand-ring"
                     placeholder="1"
                   />
                 </div>
@@ -227,7 +227,7 @@ export default async function NewVersionPage(props: {
                     type="number"
                     min="0"
                     step="0.01"
-                    className="mt-1 block w-full rounded-md border border-border bg-canvas px-3 py-2 text-ink shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand-ring"
+                    className="mt-1 block w-full rounded-xl border border-border bg-canvas px-3 py-2 text-ink shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand-ring"
                     placeholder="15.00"
                   />
                 </div>
@@ -249,7 +249,7 @@ export default async function NewVersionPage(props: {
             id="notes"
             name="notes"
             rows={3}
-            className="mt-1 block w-full rounded-md border border-border bg-canvas px-3 py-2 text-ink shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand-ring"
+            className="mt-1 block w-full rounded-xl border border-border bg-canvas px-3 py-2 text-ink shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand-ring"
             placeholder="Any additional notes for this version..."
           />
         </div>
@@ -257,13 +257,13 @@ export default async function NewVersionPage(props: {
         <div className="flex gap-3">
           <button
             type="submit"
-            className="inline-flex h-10 items-center justify-center rounded-md bg-brand px-4 text-sm font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+            className="inline-flex h-10 items-center justify-center rounded-xl bg-brand px-4 text-sm font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
           >
             Create version
           </button>
           <Link
             href={`/provider/care-plans/${planId}`}
-            className="inline-flex h-10 items-center justify-center rounded-md border border-border px-4 text-sm font-medium text-ink transition-colors hover:bg-canvas"
+            className="inline-flex h-10 items-center justify-center rounded-xl border border-border px-4 text-sm font-medium text-ink transition-colors hover:bg-canvas"
           >
             Cancel
           </Link>

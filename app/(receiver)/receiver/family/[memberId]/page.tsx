@@ -69,7 +69,7 @@ export default async function MemberDetailPage({ params }: PageProps) {
         >
           &larr; Back to family circle
         </Link>
-        <h1 className="mt-3 text-2xl font-semibold tracking-tight text-ink">
+        <h1 className="mt-3 font-heading text-2xl font-bold tracking-tight text-ink">
           {member.display_name ?? "Family member"}
         </h1>
         <div className="mt-2 flex flex-wrap gap-3 text-sm text-ink-muted">
@@ -93,19 +93,19 @@ export default async function MemberDetailPage({ params }: PageProps) {
       {/* Authorisation documents */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-ink">
+          <h2 className="font-heading text-lg font-semibold text-ink">
             Authorisation documents
           </h2>
         </div>
 
         {authorisations.length === 0 ? (
-          <div className="rounded-lg border border-border bg-surface p-6 text-center">
+          <div className="rounded-2xl border border-border bg-surface p-6 text-center">
             <p className="text-sm text-ink-muted">
               No authorisation documents uploaded yet.
             </p>
           </div>
         ) : (
-          <ul className="divide-y divide-border overflow-hidden rounded-lg border border-border bg-surface">
+          <ul className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-surface">
             {authorisations.map((auth) => (
               <li key={auth.id} className="px-5 py-4">
                 <div className="flex items-start justify-between">
@@ -153,7 +153,7 @@ export default async function MemberDetailPage({ params }: PageProps) {
 
         {/* Upload form - only visible to the member themselves */}
         {isOwnProfile && (
-          <div className="rounded-lg border border-border bg-surface p-6">
+          <div className="rounded-2xl border border-border bg-surface p-6">
             <h3 className="text-base font-semibold text-ink">
               Upload authorisation document
             </h3>

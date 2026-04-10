@@ -76,7 +76,7 @@ function MessageBubble({
 
   if (isEmergency) {
     return (
-      <div className="mx-auto max-w-md rounded-lg border-2 border-danger bg-danger/10 px-4 py-3">
+      <div className="mx-auto max-w-md rounded-2xl border-2 border-danger bg-danger/10 px-4 py-3">
         <div className="flex items-center gap-2">
           <svg
             className="h-5 w-5 text-danger"
@@ -239,7 +239,7 @@ export function ConversationView({
       <header className="flex items-center gap-4 border-b border-border pb-4">
         <Link
           href={backHref}
-          className="inline-flex h-8 w-8 items-center justify-center rounded-md text-ink-muted transition-colors hover:bg-surface hover:text-ink"
+          className="inline-flex h-8 w-8 items-center justify-center rounded-xl text-ink-muted transition-colors hover:bg-surface hover:text-ink"
           aria-label="Back to messages"
         >
           <svg
@@ -258,7 +258,7 @@ export function ConversationView({
           </svg>
         </Link>
         <div className="min-w-0 flex-1">
-          <h1 className="truncate text-lg font-semibold text-ink">
+          <h1 className="truncate font-heading text-lg font-bold text-ink">
             {conversationTitle}
           </h1>
           <p className="text-xs text-ink-muted">
@@ -294,7 +294,7 @@ export function ConversationView({
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-border text-ink-muted transition-colors hover:bg-surface hover:text-ink"
+            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border text-ink-muted transition-colors hover:bg-surface hover:text-ink"
             aria-label="Attach file"
           >
             <svg
@@ -336,7 +336,7 @@ export function ConversationView({
             type="button"
             onClick={handleSend}
             disabled={isPending || !inputValue.trim()}
-            className="inline-flex h-10 shrink-0 items-center justify-center rounded-md bg-brand px-4 text-sm font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring disabled:opacity-50"
+            className="inline-flex h-10 shrink-0 items-center justify-center rounded-xl bg-brand px-4 text-sm font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring disabled:opacity-50"
           >
             {isPending ? "Sending..." : "Send"}
           </button>

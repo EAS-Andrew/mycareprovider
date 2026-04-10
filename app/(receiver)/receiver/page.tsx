@@ -49,7 +49,7 @@ export default async function ReceiverHome() {
   return (
     <section className="mx-auto max-w-2xl space-y-8">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight">
+        <h1 className="font-heading text-3xl font-bold tracking-tight">
           Welcome, care receiver
         </h1>
         <p className="mt-3 text-ink-muted">
@@ -60,19 +60,19 @@ export default async function ReceiverHome() {
       <div className="grid gap-4 sm:grid-cols-2">
         <Link
           href="/providers"
-          className="rounded-lg border border-border bg-surface p-5 transition-colors hover:bg-surface-hover"
+          className="rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-soft hover:shadow-md transition-shadow duration-300"
         >
-          <h2 className="font-semibold text-ink">Find a provider</h2>
+          <h2 className="font-heading font-semibold text-ink">Find a provider</h2>
           <p className="mt-1 text-sm text-ink-muted">
             Browse verified care providers in your area.
           </p>
         </Link>
         <Link
           href="/receiver/messages"
-          className="rounded-lg border border-border bg-surface p-5 transition-colors hover:bg-surface-hover"
+          className="rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-soft hover:shadow-md transition-shadow duration-300"
         >
           <div className="flex items-center justify-between">
-            <h2 className="font-semibold text-ink">Messages</h2>
+            <h2 className="font-heading font-semibold text-ink">Messages</h2>
             {counts.unreadMessages > 0 ? (
               <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-brand px-1.5 text-xs font-medium text-brand-fg">
                 {counts.unreadMessages}
@@ -85,19 +85,19 @@ export default async function ReceiverHome() {
         </Link>
         <Link
           href="/receiver/contacts"
-          className="rounded-lg border border-border bg-surface p-5 transition-colors hover:bg-surface-hover"
+          className="rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-soft hover:shadow-md transition-shadow duration-300"
         >
-          <h2 className="font-semibold text-ink">Contact requests</h2>
+          <h2 className="font-heading font-semibold text-ink">Contact requests</h2>
           <p className="mt-1 text-sm text-ink-muted">
             Track your outreach to providers.
           </p>
         </Link>
         <Link
           href="/receiver/care-plans"
-          className="rounded-lg border border-border bg-surface p-5 transition-colors hover:bg-surface-hover"
+          className="rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-soft hover:shadow-md transition-shadow duration-300"
         >
           <div className="flex items-center justify-between">
-            <h2 className="font-semibold text-ink">Care plans</h2>
+            <h2 className="font-heading font-semibold text-ink">Care plans</h2>
             {counts.pendingApproval > 0 ? (
               <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-warning px-1.5 text-xs font-medium text-ink">
                 {counts.pendingApproval}
@@ -110,36 +110,36 @@ export default async function ReceiverHome() {
         </Link>
         <Link
           href="/receiver/family"
-          className="rounded-lg border border-border bg-surface p-5 transition-colors hover:bg-surface-hover"
+          className="rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-soft hover:shadow-md transition-shadow duration-300"
         >
-          <h2 className="font-semibold text-ink">Family circle</h2>
+          <h2 className="font-heading font-semibold text-ink">Family circle</h2>
           <p className="mt-1 text-sm text-ink-muted">
             Manage family members involved in your care.
           </p>
         </Link>
         <Link
           href="/receiver/profile"
-          className="rounded-lg border border-border bg-surface p-5 transition-colors hover:bg-surface-hover"
+          className="rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-soft hover:shadow-md transition-shadow duration-300"
         >
-          <h2 className="font-semibold text-ink">Your profile</h2>
+          <h2 className="font-heading font-semibold text-ink">Your profile</h2>
           <p className="mt-1 text-sm text-ink-muted">
             Describe your care needs and preferences.
           </p>
         </Link>
         <Link
           href="/receiver/safeguarding"
-          className="rounded-lg border border-border bg-surface p-5 transition-colors hover:bg-surface-hover"
+          className="rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-soft hover:shadow-md transition-shadow duration-300"
         >
-          <h2 className="font-semibold text-ink">Safeguarding</h2>
+          <h2 className="font-heading font-semibold text-ink">Safeguarding</h2>
           <p className="mt-1 text-sm text-ink-muted">
             Raise or review safeguarding concerns.
           </p>
         </Link>
         <Link
           href="/receiver/settings/data"
-          className="rounded-lg border border-border bg-surface p-5 transition-colors hover:bg-surface-hover"
+          className="rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-soft hover:shadow-md transition-shadow duration-300"
         >
-          <h2 className="font-semibold text-ink">Settings</h2>
+          <h2 className="font-heading font-semibold text-ink">Settings</h2>
           <p className="mt-1 text-sm text-ink-muted">
             Data export, privacy, and account settings.
           </p>

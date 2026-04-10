@@ -101,7 +101,7 @@ export default async function ProviderDocumentsPage({
     <section className="mx-auto max-w-4xl space-y-6">
       <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight text-ink">
+          <h1 className="font-heading text-3xl font-bold tracking-tight text-ink">
             Your documents
           </h1>
           <p className="mt-1 text-ink-muted">
@@ -112,7 +112,7 @@ export default async function ProviderDocumentsPage({
         </div>
         <Link
           href="/provider/documents/upload"
-          className="inline-flex h-11 items-center justify-center rounded-md bg-brand px-5 text-base font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+          className="inline-flex h-11 items-center justify-center rounded-xl bg-brand px-5 text-base font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
         >
           Upload document
         </Link>
@@ -121,7 +121,7 @@ export default async function ProviderDocumentsPage({
       {uploaded ? (
         <div
           role="status"
-          className="rounded-md border border-success bg-surface p-3 text-sm text-ink"
+          className="rounded-xl border border-success bg-surface p-3 text-sm text-ink"
         >
           Document uploaded. It will be reviewed before it is added to your
           verified profile.
@@ -131,7 +131,7 @@ export default async function ProviderDocumentsPage({
       {deleted ? (
         <div
           role="status"
-          className="rounded-md border border-brand bg-surface p-3 text-sm text-ink"
+          className="rounded-xl border border-brand bg-surface p-3 text-sm text-ink"
         >
           Document removed.
         </div>
@@ -142,26 +142,26 @@ export default async function ProviderDocumentsPage({
           id="form-error"
           role="alert"
           tabIndex={-1}
-          className="rounded-md border border-danger bg-canvas p-3 text-sm text-danger"
+          className="rounded-xl border border-danger bg-canvas p-3 text-sm text-danger"
         >
           {error}
         </div>
       ) : null}
 
       {documents.length === 0 ? (
-        <div className="rounded-lg border border-dashed border-border bg-surface p-8 text-center">
+        <div className="rounded-2xl border border-dashed border-border bg-surface p-8 text-center">
           <p className="text-sm text-ink-muted">
             You have not uploaded any documents yet.
           </p>
           <Link
             href="/provider/documents/upload"
-            className="mt-4 inline-flex h-10 items-center justify-center rounded-md border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+            className="mt-4 inline-flex h-10 items-center justify-center rounded-xl border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
           >
             Upload your first document
           </Link>
         </div>
       ) : (
-        <ul className="divide-y divide-border rounded-lg border border-border bg-surface">
+        <ul className="divide-y divide-border rounded-2xl border border-border bg-surface">
           {documents.map((doc) => (
             <li key={doc.id} className="flex flex-col gap-3 p-5 sm:flex-row sm:items-start sm:justify-between">
               <div className="min-w-0 flex-1">
@@ -217,13 +217,13 @@ export default async function ProviderDocumentsPage({
                 single accidental click never removes a document. Opening the
                 disclosure and clicking the confirm button is the intent.
               */}
-              <details className="group shrink-0 rounded-md">
-                <summary className="inline-flex h-10 cursor-pointer list-none items-center justify-center rounded-md border border-danger px-4 text-sm font-medium text-danger transition-colors hover:bg-danger hover:text-canvas focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring [&::-webkit-details-marker]:hidden">
+              <details className="group shrink-0 rounded-xl">
+                <summary className="inline-flex h-10 cursor-pointer list-none items-center justify-center rounded-xl border border-danger px-4 text-sm font-medium text-danger transition-colors hover:bg-danger hover:text-canvas focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring [&::-webkit-details-marker]:hidden">
                   Remove
                 </summary>
                 <form
                   action={submitSoftDelete}
-                  className="mt-2 flex flex-col gap-2 rounded-md border border-danger bg-canvas p-3 text-sm text-ink"
+                  className="mt-2 flex flex-col gap-2 rounded-xl border border-danger bg-canvas p-3 text-sm text-ink"
                 >
                   <input type="hidden" name="document_id" value={doc.id} />
                   <p>
@@ -232,7 +232,7 @@ export default async function ProviderDocumentsPage({
                   </p>
                   <button
                     type="submit"
-                    className="inline-flex h-9 items-center justify-center rounded-md bg-danger px-4 text-sm font-medium text-canvas transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+                    className="inline-flex h-9 items-center justify-center rounded-xl bg-danger px-4 text-sm font-medium text-canvas transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
                     aria-label={`Confirm removal of ${doc.title}`}
                   >
                     Confirm remove

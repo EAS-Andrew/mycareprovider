@@ -18,7 +18,7 @@ export default async function ReceiverCarePlansPage() {
   return (
     <section className="mx-auto max-w-3xl space-y-6">
       <header>
-        <h1 className="text-2xl font-semibold tracking-tight text-ink">
+        <h1 className="font-heading text-2xl font-bold tracking-tight text-ink">
           My care plans
         </h1>
         <p className="mt-1 text-sm text-ink-muted">
@@ -27,13 +27,13 @@ export default async function ReceiverCarePlansPage() {
       </header>
 
       {plans.length === 0 ? (
-        <div className="rounded-lg border border-border bg-surface p-8 text-center">
+        <div className="rounded-2xl border border-border bg-surface p-8 text-center">
           <p className="text-ink-muted">
             No care plans yet. Your provider will create one for you.
           </p>
         </div>
       ) : (
-        <ul className="divide-y divide-border rounded-lg border border-border bg-surface">
+        <ul className="divide-y divide-border rounded-2xl border border-border bg-surface">
           {plans.map((plan) => (
             <li key={plan.id}>
               <Link

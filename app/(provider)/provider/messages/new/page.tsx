@@ -57,7 +57,7 @@ export default async function ProviderNewMessagePage() {
         >
           Back to messages
         </Link>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-ink">
+        <h1 className="mt-2 font-heading text-3xl font-bold tracking-tight text-ink">
           New conversation
         </h1>
         <p className="mt-2 text-ink-muted">
@@ -67,8 +67,8 @@ export default async function ProviderNewMessagePage() {
       </header>
 
       {rows.length === 0 ? (
-        <div className="rounded-lg border border-border bg-surface p-8 text-center">
-          <h2 className="text-lg font-semibold text-ink">
+        <div className="rounded-2xl border border-border bg-surface p-8 text-center">
+          <h2 className="font-heading text-lg font-semibold text-ink">
             No accepted contacts
           </h2>
           <p className="mt-2 text-sm text-ink-muted">
@@ -76,13 +76,13 @@ export default async function ProviderNewMessagePage() {
           </p>
           <Link
             href="/provider/contacts"
-            className="mt-4 inline-flex h-11 items-center justify-center rounded-md bg-brand px-5 text-base font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+            className="mt-4 inline-flex h-11 items-center justify-center rounded-xl bg-brand px-5 text-base font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
           >
             View contact requests
           </Link>
         </div>
       ) : (
-        <ul className="divide-y divide-border overflow-hidden rounded-lg border border-border bg-surface">
+        <ul className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-surface">
           {rows.map((row) => {
             const profile = Array.isArray(row.profiles)
               ? (row.profiles[0] ?? null)
@@ -108,7 +108,7 @@ export default async function ProviderNewMessagePage() {
                   />
                   <button
                     type="submit"
-                    className="inline-flex h-10 shrink-0 items-center justify-center rounded-md bg-brand px-4 text-sm font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+                    className="inline-flex h-10 shrink-0 items-center justify-center rounded-xl bg-brand px-4 text-sm font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
                   >
                     Start conversation
                   </button>

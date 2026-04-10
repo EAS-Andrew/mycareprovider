@@ -44,17 +44,17 @@ export default async function ReceiverProfileViewPage() {
     return (
       <section className="mx-auto max-w-2xl space-y-6">
         <header>
-          <h1 className="text-3xl font-semibold tracking-tight text-ink">
+          <h1 className="font-heading text-3xl font-bold tracking-tight text-ink">
             My care needs
           </h1>
         </header>
-        <div className="rounded-lg border border-brand bg-surface p-5">
+        <div className="rounded-2xl border border-brand bg-surface p-5">
           <p className="text-sm text-ink">
             You have not set up your care needs profile yet.
           </p>
           <Link
             href="/receiver/profile"
-            className="mt-4 inline-flex h-11 items-center justify-center rounded-md bg-brand px-5 text-base font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+            className="mt-4 inline-flex h-11 items-center justify-center rounded-xl bg-brand px-5 text-base font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
           >
             Set up care needs
           </Link>
@@ -77,18 +77,18 @@ export default async function ReceiverProfileViewPage() {
   return (
     <section className="mx-auto max-w-2xl space-y-6">
       <header className="flex items-center justify-between">
-        <h1 className="text-3xl font-semibold tracking-tight text-ink">
+        <h1 className="font-heading text-3xl font-bold tracking-tight text-ink">
           My care needs
         </h1>
         <Link
           href="/receiver/profile"
-          className="inline-flex h-10 items-center justify-center rounded-md border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+          className="inline-flex h-10 items-center justify-center rounded-xl border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
         >
           Edit
         </Link>
       </header>
 
-      <dl className="space-y-4 rounded-lg border border-border bg-surface p-6">
+      <dl className="space-y-4 rounded-2xl border border-border bg-surface p-6">
         <Field label="Care needs summary" value={profile.care_needs_summary} />
         <Field label="Preferred carer gender" value={genderLabel} />
         <Field label="Preferred schedule" value={profile.preferred_schedule} />

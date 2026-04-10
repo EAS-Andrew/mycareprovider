@@ -55,7 +55,7 @@ export default async function ProviderReviewPage({
           </Link>
         </div>
 
-        <h1 className="text-3xl font-semibold tracking-tight">
+        <h1 className="font-heading text-3xl font-bold tracking-tight">
           Review document
         </h1>
 
@@ -77,7 +77,7 @@ export default async function ProviderReviewPage({
           </div>
         ) : null}
 
-        <div className="mt-6 rounded-lg border border-border p-5">
+        <div className="mt-6 rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-md">
           <dl className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
             <dt className="font-medium text-ink-muted">Title</dt>
             <dd className="text-ink">{doc.title}</dd>
@@ -134,7 +134,7 @@ export default async function ProviderReviewPage({
                 id="notes"
                 name="notes"
                 rows={3}
-                className="flex w-full rounded-md border border-border bg-canvas px-3 py-2 text-base text-ink placeholder:text-ink-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+                className="flex w-full rounded-xl border border-border bg-canvas px-3 py-2 text-base text-ink placeholder:text-ink-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
                 placeholder="Optional notes for this review decision"
               />
             </div>
@@ -178,7 +178,7 @@ export default async function ProviderReviewPage({
         </Link>
       </div>
 
-      <h1 className="text-3xl font-semibold tracking-tight">
+      <h1 className="font-heading text-3xl font-bold tracking-tight">
         Review provider
       </h1>
       <p className="mt-1 text-ink-muted">
@@ -204,8 +204,8 @@ export default async function ProviderReviewPage({
       ) : null}
 
       {/* Provider profile details */}
-      <div className="mt-6 rounded-lg border border-border p-5">
-        <h2 className="mb-3 text-lg font-semibold">Profile</h2>
+      <div className="mt-6 rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-md">
+        <h2 className="font-heading mb-3 text-lg font-semibold">Profile</h2>
         <dl className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
           <dt className="font-medium text-ink-muted">Headline</dt>
           <dd className="text-ink">{provider.headline ?? "-"}</dd>
@@ -247,13 +247,13 @@ export default async function ProviderReviewPage({
 
       {/* Documents */}
       <div className="mt-6">
-        <h2 className="mb-3 text-lg font-semibold">Documents</h2>
+        <h2 className="font-heading mb-3 text-lg font-semibold">Documents</h2>
         {documents.length === 0 ? (
           <p className="text-sm text-ink-muted">
             No documents uploaded yet.
           </p>
         ) : (
-          <div className="overflow-hidden rounded-lg border border-border">
+          <div className="overflow-hidden rounded-2xl border border-border">
             <table className="w-full text-left text-sm">
               <thead className="bg-surface text-ink-muted">
                 <tr>

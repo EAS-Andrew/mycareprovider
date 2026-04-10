@@ -91,7 +91,7 @@ export default async function ProviderCapabilitiesPage({
   return (
     <section className="mx-auto max-w-2xl space-y-6">
       <header className="space-y-2">
-        <h1 className="text-3xl font-semibold tracking-tight text-ink">
+        <h1 className="font-heading text-3xl font-bold tracking-tight text-ink">
           Your capabilities
         </h1>
         <p className="text-ink-muted">
@@ -103,7 +103,7 @@ export default async function ProviderCapabilitiesPage({
       {saved ? (
         <div
           role="status"
-          className="rounded-md border border-success bg-surface p-3 text-sm text-ink"
+          className="rounded-xl border border-success bg-surface p-3 text-sm text-ink"
         >
           Capabilities saved.
         </div>
@@ -114,7 +114,7 @@ export default async function ProviderCapabilitiesPage({
           id="form-error"
           role="alert"
           tabIndex={-1}
-          className="rounded-md border border-danger bg-canvas p-3 text-sm text-danger"
+          className="rounded-xl border border-danger bg-canvas p-3 text-sm text-danger"
         >
           {error}
         </div>
@@ -122,7 +122,7 @@ export default async function ProviderCapabilitiesPage({
 
       <form
         action={submitProviderCapabilities}
-        className="space-y-6 rounded-lg border border-border bg-surface p-6"
+        className="space-y-6 rounded-2xl border border-border bg-surface p-6"
         noValidate
       >
         {categories.map((cat) => {
@@ -172,7 +172,7 @@ export default async function ProviderCapabilitiesPage({
         <div className="flex items-center gap-4">
           <button
             type="submit"
-            className="inline-flex h-11 items-center justify-center rounded-md bg-brand px-5 text-base font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+            className="inline-flex h-11 items-center justify-center rounded-xl bg-brand px-5 text-base font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
           >
             Save capabilities
           </button>

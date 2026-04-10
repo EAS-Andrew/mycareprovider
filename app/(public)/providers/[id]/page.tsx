@@ -229,8 +229,8 @@ export default async function ProviderProfileViewerPage({
         </Link>
       </nav>
 
-      <header className="rounded-lg border border-border bg-surface p-6">
-        <h1 className="text-3xl font-semibold tracking-tight text-ink">
+      <header className="rounded-2xl border-2 border-border bg-surface p-6">
+        <h1 className="font-heading text-3xl font-bold tracking-tight text-ink">
           {profile.headline ?? "Care provider"}
         </h1>
         <dl className="mt-4 grid gap-4 text-sm sm:grid-cols-3">
@@ -261,7 +261,7 @@ export default async function ProviderProfileViewerPage({
         <section className="mt-8" aria-labelledby="about-heading">
           <h2
             id="about-heading"
-            className="text-xl font-semibold text-ink"
+            className="font-heading text-xl font-bold text-ink"
           >
             About
           </h2>
@@ -275,7 +275,7 @@ export default async function ProviderProfileViewerPage({
         <section className="mt-8" aria-labelledby="services-heading">
           <h2
             id="services-heading"
-            className="text-xl font-semibold text-ink"
+            className="font-heading text-xl font-bold text-ink"
           >
             Services offered
           </h2>
@@ -296,7 +296,7 @@ export default async function ProviderProfileViewerPage({
         <section className="mt-8" aria-labelledby="capabilities-heading">
           <h2
             id="capabilities-heading"
-            className="text-xl font-semibold text-ink"
+            className="font-heading text-xl font-bold text-ink"
           >
             Capabilities
           </h2>
@@ -317,7 +317,7 @@ export default async function ProviderProfileViewerPage({
         <section className="mt-8" aria-labelledby="certifications-heading">
           <h2
             id="certifications-heading"
-            className="text-xl font-semibold text-ink"
+            className="font-heading text-xl font-bold text-ink"
           >
             Certifications
           </h2>
@@ -328,7 +328,7 @@ export default async function ProviderProfileViewerPage({
               return (
                 <li
                   key={c.id}
-                  className="rounded-md border border-border bg-canvas p-4"
+                  className="rounded-xl border border-border bg-canvas p-4"
                 >
                   <p className="font-medium text-ink">{c.cert.name}</p>
                   <p className="mt-1 text-xs text-ink-muted">
@@ -343,10 +343,10 @@ export default async function ProviderProfileViewerPage({
       ) : null}
 
       <section
-        className="mt-8 rounded-lg border border-border bg-surface p-6"
+        className="mt-8 rounded-2xl border-2 border-border bg-surface p-6"
         aria-labelledby="rates-heading"
       >
-        <h2 id="rates-heading" className="text-xl font-semibold text-ink">
+        <h2 id="rates-heading" className="font-heading text-xl font-bold text-ink">
           Rates and service area
         </h2>
         <dl className="mt-4 grid gap-4 text-sm sm:grid-cols-3">
@@ -370,10 +370,10 @@ export default async function ProviderProfileViewerPage({
       </section>
 
       <section
-        className="mt-10 rounded-lg border border-border bg-surface p-6 text-center"
+        className="mt-10 rounded-2xl border-2 border-border bg-surface p-6 text-center"
         aria-labelledby="contact-heading"
       >
-        <h2 id="contact-heading" className="text-xl font-semibold text-ink">
+        <h2 id="contact-heading" className="font-heading text-xl font-bold text-ink">
           Interested in this provider?
         </h2>
         <p className="mt-2 text-sm text-ink-muted">
@@ -388,14 +388,14 @@ export default async function ProviderProfileViewerPage({
             role="button"
             aria-disabled="true"
             aria-label={contactAria}
-            className="mt-4 inline-flex h-11 cursor-not-allowed items-center justify-center rounded-md border border-border bg-canvas px-5 text-base font-medium text-ink-muted"
+            className="mt-4 inline-flex h-11 cursor-not-allowed items-center justify-center rounded-xl border border-border bg-canvas px-5 text-base font-medium text-ink-muted"
           >
             {contactLabel}
           </span>
         ) : (
           <Link
             href={contactHref}
-            className="mt-4 inline-flex h-11 items-center justify-center rounded-md bg-ink px-5 text-base font-medium text-canvas transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink"
+            className="mt-4 inline-flex h-11 items-center justify-center rounded-xl bg-ink px-5 text-base font-medium text-canvas transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink"
           >
             {contactLabel}
           </Link>

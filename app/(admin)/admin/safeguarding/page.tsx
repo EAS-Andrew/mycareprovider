@@ -26,7 +26,7 @@ export default async function AdminSafeguardingPage({
 
   return (
     <section className="mx-auto max-w-4xl">
-      <h1 className="text-3xl font-semibold tracking-tight">Safeguarding</h1>
+      <h1 className="font-heading text-3xl font-bold tracking-tight">Safeguarding</h1>
       <p className="mt-1 text-ink-muted">
         Triage, investigate, and resolve safeguarding reports. 24-hour SLA for
         medium severity and above.
@@ -65,8 +65,8 @@ export default async function AdminSafeguardingPage({
       </div>
 
       {/* Active reports queue */}
-      <h2 className="mt-10 text-xl font-semibold">Active reports</h2>
-      <div className="mt-4 overflow-hidden rounded-lg border border-border">
+      <h2 className="font-heading mt-10 text-xl font-semibold">Active reports</h2>
+      <div className="mt-4 overflow-hidden rounded-2xl border border-border">
         <table className="w-full text-left text-sm">
           <thead className="bg-surface text-ink-muted">
             <tr>
@@ -169,7 +169,7 @@ function StatCard({
 }) {
   return (
     <div
-      className={`rounded-lg border p-4 ${alert ? "border-danger bg-red-50" : "border-border"}`}
+      className={`rounded-2xl border-2 p-4 shadow-md ${alert ? "border-danger bg-red-50" : "border-neutral-100 bg-white"}`}
     >
       <p className="text-sm text-ink-muted">{label}</p>
       <p

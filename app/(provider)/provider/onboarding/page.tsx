@@ -78,7 +78,7 @@ export default async function ProviderOnboardingPage({
   return (
     <section className="mx-auto max-w-2xl space-y-6">
       <header className="space-y-2">
-        <h1 className="text-3xl font-semibold tracking-tight text-ink">
+        <h1 className="font-heading text-3xl font-bold tracking-tight text-ink">
           Your provider profile
         </h1>
         <p className="text-ink-muted">
@@ -90,7 +90,7 @@ export default async function ProviderOnboardingPage({
       {welcome ? (
         <div
           role="status"
-          className="rounded-md border border-brand bg-surface p-3 text-sm text-ink"
+          className="rounded-xl border border-brand bg-surface p-3 text-sm text-ink"
         >
           Your account is created. Fill in the details below to continue
           onboarding.
@@ -100,7 +100,7 @@ export default async function ProviderOnboardingPage({
       {saved ? (
         <div
           role="status"
-          className="rounded-md border border-success bg-surface p-3 text-sm text-ink"
+          className="rounded-xl border border-success bg-surface p-3 text-sm text-ink"
         >
           Profile saved.
         </div>
@@ -111,7 +111,7 @@ export default async function ProviderOnboardingPage({
           id="form-error"
           role="alert"
           tabIndex={-1}
-          className="rounded-md border border-danger bg-canvas p-3 text-sm text-danger"
+          className="rounded-xl border border-danger bg-canvas p-3 text-sm text-danger"
         >
           {error}
         </div>
@@ -119,7 +119,7 @@ export default async function ProviderOnboardingPage({
 
       <form
         action={submitProviderProfile}
-        className="space-y-6 rounded-lg border border-border bg-surface p-6"
+        className="space-y-6 rounded-2xl border border-border bg-surface p-6"
         noValidate
       >
         <div className="space-y-2">
@@ -390,7 +390,7 @@ export default async function ProviderOnboardingPage({
         <div className="flex items-center gap-4">
           <button
             type="submit"
-            className="inline-flex h-11 items-center justify-center rounded-md bg-brand px-5 text-base font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+            className="inline-flex h-11 items-center justify-center rounded-xl bg-brand px-5 text-base font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
           >
             Save profile
           </button>
@@ -407,15 +407,15 @@ export default async function ProviderOnboardingPage({
         {catalogSections.map((row) => (
           <div
             key={row.id}
-            className="flex flex-col gap-3 rounded-lg border border-border bg-surface p-5 sm:flex-row sm:items-center sm:justify-between"
+            className="flex flex-col gap-3 rounded-2xl border border-border bg-surface p-5 sm:flex-row sm:items-center sm:justify-between"
           >
             <div className="min-w-0 flex-1">
-              <h2 className="text-base font-semibold text-ink">{row.title}</h2>
+              <h2 className="font-heading text-base font-semibold text-ink">{row.title}</h2>
               <p className="mt-1 text-sm text-ink-muted">{row.detail}</p>
             </div>
             <Link
               href={row.href}
-              className="inline-flex h-10 shrink-0 items-center justify-center rounded-md border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+              className="inline-flex h-10 shrink-0 items-center justify-center rounded-xl border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
             >
               {row.hrefLabel}
             </Link>

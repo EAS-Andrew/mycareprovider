@@ -44,7 +44,7 @@ export default async function DsarReviewPage({
         </Link>
       </div>
 
-      <h1 className="text-3xl font-semibold tracking-tight">
+      <h1 className="font-heading text-3xl font-bold tracking-tight">
         {request.request_type === "access"
           ? "Data export request"
           : "Erasure request"}
@@ -138,8 +138,8 @@ export default async function DsarReviewPage({
 
       {/* Erasure-specific details */}
       {erasure ? (
-        <div className="mt-8 rounded-lg border border-border p-4">
-          <h2 className="font-semibold text-ink">Erasure details</h2>
+        <div className="mt-8 rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-md">
+          <h2 className="font-heading font-semibold text-ink">Erasure details</h2>
           <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
             <dt className="font-medium text-ink-muted">Erasure status</dt>
             <dd className="text-ink">{erasure.status}</dd>
@@ -209,7 +209,7 @@ export default async function DsarReviewPage({
                 id="rejectionReason"
                 name="rejectionReason"
                 rows={3}
-                className="flex w-full rounded-md border border-border bg-canvas px-3 py-2 text-base text-ink placeholder:text-ink-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+                className="flex w-full rounded-xl border border-border bg-canvas px-3 py-2 text-base text-ink placeholder:text-ink-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
               />
             </div>
           ) : null}

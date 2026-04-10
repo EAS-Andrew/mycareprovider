@@ -61,7 +61,7 @@ export default async function ReceiverContactsIndexPage() {
     <section className="mx-auto max-w-3xl space-y-6">
       <header className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight text-ink">
+          <h1 className="font-heading text-3xl font-bold tracking-tight text-ink">
             Your contact requests
           </h1>
           <p className="mt-2 text-ink-muted">
@@ -71,15 +71,15 @@ export default async function ReceiverContactsIndexPage() {
         </div>
         <Link
           href="/providers"
-          className="inline-flex h-10 shrink-0 items-center justify-center rounded-md border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+          className="inline-flex h-10 shrink-0 items-center justify-center rounded-xl border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
         >
           Find providers
         </Link>
       </header>
 
       {rows.length === 0 ? (
-        <div className="rounded-lg border border-border bg-surface p-8 text-center">
-          <h2 className="text-lg font-semibold text-ink">
+        <div className="rounded-2xl border border-border bg-surface p-8 text-center">
+          <h2 className="font-heading text-lg font-semibold text-ink">
             No contact requests yet
           </h2>
           <p className="mt-2 text-sm text-ink-muted">
@@ -87,13 +87,13 @@ export default async function ReceiverContactsIndexPage() {
           </p>
           <Link
             href="/providers"
-            className="mt-4 inline-flex h-11 items-center justify-center rounded-md bg-brand px-5 text-base font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+            className="mt-4 inline-flex h-11 items-center justify-center rounded-xl bg-brand px-5 text-base font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
           >
             Browse providers
           </Link>
         </div>
       ) : (
-        <ul className="divide-y divide-border overflow-hidden rounded-lg border border-border bg-surface">
+        <ul className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-surface">
           {rows.map((row) => (
             <li
               key={row.id}
@@ -113,7 +113,7 @@ export default async function ReceiverContactsIndexPage() {
               </div>
               <Link
                 href={`/receiver/contacts/${row.id}`}
-                className="inline-flex h-10 shrink-0 items-center justify-center rounded-md border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+                className="inline-flex h-10 shrink-0 items-center justify-center rounded-xl border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
               >
                 Open
               </Link>

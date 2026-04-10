@@ -34,7 +34,7 @@ export default async function FamilyVerificationPage({
         </Link>
       </div>
 
-      <h1 className="text-3xl font-semibold tracking-tight">
+      <h1 className="font-heading text-3xl font-bold tracking-tight">
         Family authorisation verification
       </h1>
       <p className="mt-1 text-ink-muted">
@@ -59,7 +59,7 @@ export default async function FamilyVerificationPage({
         </div>
       ) : null}
 
-      <div className="mt-8 overflow-hidden rounded-lg border border-border">
+      <div className="mt-8 overflow-hidden rounded-2xl border border-border">
         <table className="w-full text-left text-sm">
           <thead className="bg-surface text-ink-muted">
             <tr>

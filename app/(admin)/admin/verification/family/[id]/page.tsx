@@ -51,7 +51,7 @@ export default async function FamilyAuthorisationReviewPage({
         </Link>
       </div>
 
-      <h1 className="text-3xl font-semibold tracking-tight">
+      <h1 className="font-heading text-3xl font-bold tracking-tight">
         Review family authorisation
       </h1>
 
@@ -73,8 +73,8 @@ export default async function FamilyAuthorisationReviewPage({
         </div>
       ) : null}
 
-      <div className="mt-6 rounded-lg border border-border p-5">
-        <h2 className="mb-3 text-lg font-semibold">Authorisation details</h2>
+      <div className="mt-6 rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-md">
+        <h2 className="font-heading mb-3 text-lg font-semibold">Authorisation details</h2>
         <dl className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
           <dt className="font-medium text-ink-muted">Type</dt>
           <dd className="text-ink">
@@ -114,8 +114,8 @@ export default async function FamilyAuthorisationReviewPage({
 
       {/* Attached document */}
       {doc ? (
-        <div className="mt-6 rounded-lg border border-border p-5">
-          <h2 className="mb-3 text-lg font-semibold">Attached document</h2>
+        <div className="mt-6 rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-md">
+          <h2 className="font-heading mb-3 text-lg font-semibold">Attached document</h2>
           <dl className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
             <dt className="font-medium text-ink-muted">Title</dt>
             <dd className="text-ink">{doc.title}</dd>

@@ -17,7 +17,7 @@ export default async function PublicSafeguardingPage({
 
   return (
     <section className="mx-auto max-w-2xl px-6 py-12">
-      <h1 className="text-3xl font-semibold tracking-tight">
+      <h1 className="font-heading text-3xl font-bold tracking-tight">
         Report a safeguarding concern
       </h1>
       <p className="mt-2 text-ink-muted">
@@ -26,7 +26,7 @@ export default async function PublicSafeguardingPage({
         from general complaints or service feedback.
       </p>
 
-      <div className="mt-4 rounded-md border border-border bg-surface p-4 text-sm text-ink-muted">
+      <div className="mt-4 rounded-xl border border-border bg-surface p-4 text-sm text-ink-muted">
         <p className="font-medium text-ink">
           What is a safeguarding concern?
         </p>
@@ -44,7 +44,7 @@ export default async function PublicSafeguardingPage({
       {error ? (
         <div
           role="alert"
-          className="mt-4 rounded-md border border-danger bg-canvas p-3 text-sm text-danger"
+          className="mt-4 rounded-xl border border-danger bg-canvas p-3 text-sm text-danger"
         >
           {error}
         </div>
@@ -53,7 +53,7 @@ export default async function PublicSafeguardingPage({
       {ok ? (
         <div
           role="status"
-          className="mt-6 rounded-md border border-success bg-canvas p-4 text-sm text-ink"
+          className="mt-6 rounded-xl border border-success bg-canvas p-4 text-sm text-ink"
         >
           <p className="font-medium">Your report has been submitted.</p>
           <p className="mt-1 text-ink-muted">
@@ -157,7 +157,7 @@ export default async function PublicSafeguardingPage({
             />
           </div>
 
-          <div className="rounded-md border border-border bg-surface p-3 text-sm text-ink-muted">
+          <div className="rounded-xl border border-border bg-surface p-3 text-sm text-ink-muted">
             You are submitting this report anonymously. If you are signed in,
             your identity will be recorded confidentially but will not be shared
             with the subject of the report.
@@ -167,7 +167,7 @@ export default async function PublicSafeguardingPage({
         </form>
       )}
 
-      <div className="mt-8 rounded-md border border-border bg-surface p-4 text-sm text-ink-muted">
+      <div className="mt-8 rounded-xl border border-border bg-surface p-4 text-sm text-ink-muted">
         <p className="font-medium text-ink">In an emergency</p>
         <p className="mt-1">
           If someone is in immediate danger, call 999. You can also contact

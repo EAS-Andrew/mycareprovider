@@ -163,7 +163,7 @@ export default async function ProvidersDirectoryPage({
   return (
     <section className="mx-auto max-w-5xl px-6 py-12">
       <header>
-        <h1 className="text-3xl font-semibold tracking-tight text-ink">
+        <h1 className="font-heading text-3xl font-bold tracking-tight text-ink">
           Find a care provider
         </h1>
         <p className="mt-2 max-w-2xl text-base text-ink-muted">
@@ -178,7 +178,7 @@ export default async function ProvidersDirectoryPage({
           role="alert"
           tabIndex={-1}
           id="form-error"
-          className="mt-6 rounded-md border border-danger bg-canvas p-3 text-sm text-danger"
+          className="mt-6 rounded-xl border border-danger bg-canvas p-3 text-sm text-danger"
         >
           {error}
         </div>
@@ -187,7 +187,7 @@ export default async function ProvidersDirectoryPage({
       <form
         method="get"
         action="/providers"
-        className="mt-8 rounded-lg border border-border bg-surface p-5"
+        className="mt-8 rounded-2xl border-2 border-border bg-surface p-5"
         aria-label="Provider search filters"
         noValidate
       >
@@ -262,7 +262,7 @@ export default async function ProvidersDirectoryPage({
 
         {/* Advanced filters - collapsible */}
         <details
-          className="mt-5 rounded-md border border-border bg-canvas p-4"
+          className="mt-5 rounded-xl border border-border bg-canvas p-4"
           open={hasAdvancedFilters || undefined}
         >
           <summary className="cursor-pointer text-sm font-medium text-ink hover:text-ink-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink">
@@ -393,13 +393,13 @@ export default async function ProvidersDirectoryPage({
         <div className="mt-5 flex items-center gap-3">
           <button
             type="submit"
-            className="inline-flex h-11 items-center justify-center rounded-md bg-ink px-5 text-base font-medium text-canvas transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink"
+            className="inline-flex h-11 items-center justify-center rounded-xl bg-ink px-5 text-base font-medium text-canvas transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink"
           >
             Search
           </button>
           <Link
             href="/providers"
-            className="inline-flex h-11 items-center justify-center rounded-md border border-border bg-canvas px-4 text-sm font-medium text-ink hover:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink"
+            className="inline-flex h-11 items-center justify-center rounded-xl border border-border bg-canvas px-4 text-sm font-medium text-ink hover:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink"
           >
             Reset
           </Link>
@@ -410,7 +410,7 @@ export default async function ProvidersDirectoryPage({
         <h2 className="sr-only">Search results</h2>
 
         {results.length === 0 ? (
-          <div className="rounded-lg border border-border bg-surface p-8 text-center">
+          <div className="rounded-2xl border-2 border-border bg-surface p-8 text-center">
             <p className="text-base font-medium text-ink">
               No providers match your filters.
             </p>
@@ -436,7 +436,7 @@ export default async function ProvidersDirectoryPage({
               return (
                 <li
                   key={p.id}
-                  className="rounded-lg border border-border bg-canvas p-5"
+                  className="rounded-2xl border-2 border-border bg-canvas p-5"
                 >
                   <div className="flex flex-wrap items-start justify-between gap-4">
                     <div className="min-w-0 flex-1">
@@ -475,7 +475,7 @@ export default async function ProvidersDirectoryPage({
                   <div className="mt-4">
                     <Link
                       href={`/providers/${p.id}`}
-                      className="inline-flex h-9 items-center justify-center rounded-md border border-border bg-canvas px-4 text-sm font-medium text-ink hover:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink"
+                      className="inline-flex h-9 items-center justify-center rounded-xl border border-border bg-canvas px-4 text-sm font-medium text-ink hover:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink"
                     >
                       View profile
                     </Link>
@@ -495,7 +495,7 @@ export default async function ProvidersDirectoryPage({
               <Link
                 href={buildHref(Math.max(0, offset - PAGE_SIZE))}
                 rel="prev"
-                className="inline-flex h-10 items-center justify-center rounded-md border border-border bg-canvas px-4 text-sm font-medium text-ink hover:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink"
+                className="inline-flex h-10 items-center justify-center rounded-xl border border-border bg-canvas px-4 text-sm font-medium text-ink hover:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink"
               >
                 ← Previous
               </Link>
@@ -506,7 +506,7 @@ export default async function ProvidersDirectoryPage({
               <Link
                 href={buildHref(offset + PAGE_SIZE)}
                 rel="next"
-                className="inline-flex h-10 items-center justify-center rounded-md border border-border bg-canvas px-4 text-sm font-medium text-ink hover:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink"
+                className="inline-flex h-10 items-center justify-center rounded-xl border border-border bg-canvas px-4 text-sm font-medium text-ink hover:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink"
               >
                 Next →
               </Link>

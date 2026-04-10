@@ -27,7 +27,7 @@ export default async function AdminUsersPage() {
     <section className="mx-auto max-w-3xl">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight">Users</h1>
+          <h1 className="font-heading text-3xl font-bold tracking-tight">Users</h1>
           <p className="mt-1 text-ink-muted">
             Current administrators. Only admins can invite new admins.
           </p>
@@ -46,7 +46,7 @@ export default async function AdminUsersPage() {
         </div>
       ) : null}
 
-      <div className="mt-8 overflow-hidden rounded-lg border border-border">
+      <div className="mt-8 overflow-hidden rounded-2xl border border-border">
         <table className="w-full text-left text-sm">
           <thead className="bg-surface text-ink-muted">
             <tr>

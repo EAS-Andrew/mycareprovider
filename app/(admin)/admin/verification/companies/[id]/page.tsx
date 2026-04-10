@@ -39,7 +39,7 @@ export default async function CompanyReviewPage({
         </Link>
       </div>
 
-      <h1 className="text-3xl font-semibold tracking-tight">
+      <h1 className="font-heading text-3xl font-bold tracking-tight">
         Review company
       </h1>
       <p className="mt-1 text-ink-muted">{company.company_name}</p>
@@ -62,8 +62,8 @@ export default async function CompanyReviewPage({
         </div>
       ) : null}
 
-      <div className="mt-6 rounded-lg border border-border p-5">
-        <h2 className="mb-3 text-lg font-semibold">Company details</h2>
+      <div className="mt-6 rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-md">
+        <h2 className="font-heading mb-3 text-lg font-semibold">Company details</h2>
         <dl className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
           <dt className="font-medium text-ink-muted">Company name</dt>
           <dd className="text-ink">{company.company_name}</dd>
@@ -98,13 +98,13 @@ export default async function CompanyReviewPage({
 
       {/* Documents */}
       <div className="mt-6">
-        <h2 className="mb-3 text-lg font-semibold">Documents</h2>
+        <h2 className="font-heading mb-3 text-lg font-semibold">Documents</h2>
         {documents.length === 0 ? (
           <p className="text-sm text-ink-muted">
             No documents uploaded yet.
           </p>
         ) : (
-          <div className="overflow-hidden rounded-lg border border-border">
+          <div className="overflow-hidden rounded-2xl border border-border">
             <table className="w-full text-left text-sm">
               <thead className="bg-surface text-ink-muted">
                 <tr>

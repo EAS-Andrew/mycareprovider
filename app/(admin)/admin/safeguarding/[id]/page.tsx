@@ -52,7 +52,7 @@ export default async function SafeguardingReviewPage({
         </Link>
       </div>
 
-      <h1 className="text-3xl font-semibold tracking-tight">
+      <h1 className="font-heading text-3xl font-bold tracking-tight">
         Safeguarding report
       </h1>
 
@@ -84,7 +84,7 @@ export default async function SafeguardingReviewPage({
       ) : null}
 
       {/* Report details */}
-      <div className="mt-6 rounded-lg border border-border p-5">
+      <div className="mt-6 rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-md">
         <dl className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
           <dt className="font-medium text-ink-muted">Status</dt>
           <dd className="text-ink">
@@ -133,8 +133,8 @@ export default async function SafeguardingReviewPage({
       </div>
 
       {/* Summary and details */}
-      <div className="mt-6 rounded-lg border border-border p-5">
-        <h2 className="mb-2 text-lg font-semibold">Summary</h2>
+      <div className="mt-6 rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-md">
+        <h2 className="font-heading mb-2 text-lg font-semibold">Summary</h2>
         <p className="text-sm text-ink">{report.summary}</p>
         {report.details ? (
           <>
@@ -148,7 +148,7 @@ export default async function SafeguardingReviewPage({
 
       {/* Events timeline */}
       <div className="mt-6">
-        <h2 className="mb-3 text-lg font-semibold">Timeline</h2>
+        <h2 className="font-heading mb-3 text-lg font-semibold">Timeline</h2>
         {events.length === 0 ? (
           <p className="text-sm text-ink-muted">No events recorded yet.</p>
         ) : (
@@ -156,7 +156,7 @@ export default async function SafeguardingReviewPage({
             {events.map((e) => (
               <div
                 key={e.id}
-                className="rounded-lg border border-border p-4 text-sm"
+                className="rounded-2xl border border-border p-4 text-sm"
               >
                 <div className="flex items-baseline justify-between">
                   <span className="font-medium text-ink">
@@ -182,8 +182,8 @@ export default async function SafeguardingReviewPage({
         <div className="mt-8 space-y-8">
           {/* Triage form */}
           {report.status === "submitted" ? (
-            <div className="rounded-lg border border-border p-5">
-              <h2 className="mb-3 text-lg font-semibold">Triage</h2>
+            <div className="rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-md">
+              <h2 className="font-heading mb-3 text-lg font-semibold">Triage</h2>
               <form action={triageReport} className="space-y-4">
                 <input type="hidden" name="reportId" value={report.id} />
                 <div className="space-y-2">
@@ -197,7 +197,7 @@ export default async function SafeguardingReviewPage({
                     id="severity"
                     name="severity"
                     defaultValue={report.severity}
-                    className="flex w-full rounded-md border border-border bg-canvas px-3 py-2 text-base text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+                    className="flex w-full rounded-xl border border-border bg-canvas px-3 py-2 text-base text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
                   >
                     <option value="information">Information</option>
                     <option value="low">Low</option>
@@ -217,7 +217,7 @@ export default async function SafeguardingReviewPage({
                     type="text"
                     id="triage-assignedTo"
                     name="assignedTo"
-                    className="flex w-full rounded-md border border-border bg-canvas px-3 py-2 text-base text-ink placeholder:text-ink-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+                    className="flex w-full rounded-xl border border-border bg-canvas px-3 py-2 text-base text-ink placeholder:text-ink-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
                     placeholder="Optional - admin profile UUID"
                   />
                 </div>
@@ -227,8 +227,8 @@ export default async function SafeguardingReviewPage({
           ) : null}
 
           {/* Add note */}
-          <div className="rounded-lg border border-border p-5">
-            <h2 className="mb-3 text-lg font-semibold">Add note</h2>
+          <div className="rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-md">
+            <h2 className="font-heading mb-3 text-lg font-semibold">Add note</h2>
             <form action={addReportEvent} className="space-y-4">
               <input type="hidden" name="reportId" value={report.id} />
               <input type="hidden" name="eventType" value="note" />
@@ -244,7 +244,7 @@ export default async function SafeguardingReviewPage({
                   name="notes"
                   rows={3}
                   required
-                  className="flex w-full rounded-md border border-border bg-canvas px-3 py-2 text-base text-ink placeholder:text-ink-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+                  className="flex w-full rounded-xl border border-border bg-canvas px-3 py-2 text-base text-ink placeholder:text-ink-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
                   placeholder="Investigation notes, observations, actions taken"
                 />
               </div>
@@ -255,8 +255,8 @@ export default async function SafeguardingReviewPage({
           </div>
 
           {/* Escalate */}
-          <div className="rounded-lg border border-border p-5">
-            <h2 className="mb-3 text-lg font-semibold">
+          <div className="rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-md">
+            <h2 className="font-heading mb-3 text-lg font-semibold">
               Statutory escalation
             </h2>
             <p className="mb-4 text-sm text-ink-muted">
@@ -276,7 +276,7 @@ export default async function SafeguardingReviewPage({
                   id="escalationTarget"
                   name="escalationTarget"
                   required
-                  className="flex w-full rounded-md border border-border bg-canvas px-3 py-2 text-base text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+                  className="flex w-full rounded-xl border border-border bg-canvas px-3 py-2 text-base text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
                 >
                   <option value="">Select...</option>
                   <option value="local_authority_safeguarding_board">
@@ -299,7 +299,7 @@ export default async function SafeguardingReviewPage({
                   name="justification"
                   rows={3}
                   required
-                  className="flex w-full rounded-md border border-border bg-canvas px-3 py-2 text-base text-ink placeholder:text-ink-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+                  className="flex w-full rounded-xl border border-border bg-canvas px-3 py-2 text-base text-ink placeholder:text-ink-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
                   placeholder="Reason for statutory escalation"
                 />
               </div>
@@ -308,8 +308,8 @@ export default async function SafeguardingReviewPage({
           </div>
 
           {/* Resolve */}
-          <div className="rounded-lg border border-border p-5">
-            <h2 className="mb-3 text-lg font-semibold">Resolve</h2>
+          <div className="rounded-2xl border-2 border-neutral-100 bg-white p-6 shadow-md">
+            <h2 className="font-heading mb-3 text-lg font-semibold">Resolve</h2>
             <form action={resolveReport} className="space-y-4">
               <input type="hidden" name="reportId" value={report.id} />
               <div className="space-y-2">
@@ -324,7 +324,7 @@ export default async function SafeguardingReviewPage({
                   name="resolutionNotes"
                   rows={3}
                   required
-                  className="flex w-full rounded-md border border-border bg-canvas px-3 py-2 text-base text-ink placeholder:text-ink-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+                  className="flex w-full rounded-xl border border-border bg-canvas px-3 py-2 text-base text-ink placeholder:text-ink-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
                   placeholder="How was this report resolved?"
                 />
               </div>

@@ -17,7 +17,7 @@ export default async function CompanyProfilePage({ searchParams }: PageProps) {
   return (
     <section className="mx-auto max-w-2xl space-y-6">
       <header>
-        <h1 className="text-3xl font-semibold tracking-tight text-ink">
+        <h1 className="font-heading text-3xl font-bold tracking-tight text-ink">
           Company profile
         </h1>
         <p className="mt-1 text-ink-muted">
@@ -29,7 +29,7 @@ export default async function CompanyProfilePage({ searchParams }: PageProps) {
       {saved ? (
         <div
           role="status"
-          className="rounded-md border border-success bg-surface p-3 text-sm text-ink"
+          className="rounded-xl border border-success bg-surface p-3 text-sm text-ink"
         >
           Company profile saved.
         </div>
@@ -40,7 +40,7 @@ export default async function CompanyProfilePage({ searchParams }: PageProps) {
           id="form-error"
           role="alert"
           tabIndex={-1}
-          className="rounded-md border border-danger bg-canvas p-3 text-sm text-danger"
+          className="rounded-xl border border-danger bg-canvas p-3 text-sm text-danger"
         >
           {error}
         </div>
@@ -171,7 +171,7 @@ export default async function CompanyProfilePage({ searchParams }: PageProps) {
 
         <button
           type="submit"
-          className="inline-flex h-11 w-full items-center justify-center rounded-md bg-brand px-5 text-base font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+          className="inline-flex h-11 w-full items-center justify-center rounded-xl bg-brand px-5 text-base font-medium text-brand-fg transition-colors hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
         >
           Save company profile
         </button>

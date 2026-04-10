@@ -31,7 +31,7 @@ export default async function SignInPage({ searchParams }: PageProps) {
 
   return (
     <>
-      <h1 className="text-2xl font-semibold tracking-tight text-ink">
+      <h1 className="font-heading text-2xl font-bold tracking-tight text-ink">
         Sign in
       </h1>
       <p className="mt-1 text-sm text-ink-muted">
@@ -43,7 +43,7 @@ export default async function SignInPage({ searchParams }: PageProps) {
           id="form-error"
           role="alert"
           tabIndex={-1}
-          className="mt-6 rounded-md border border-danger bg-canvas p-3 text-sm text-danger"
+          className="mt-6 rounded-xl border border-danger bg-canvas p-3 text-sm text-danger"
         >
           {errorText}
         </div>
@@ -88,7 +88,7 @@ export default async function SignInPage({ searchParams }: PageProps) {
 
         <button
           type="submit"
-          className="inline-flex h-11 w-full items-center justify-center rounded-md bg-ink px-5 text-base font-medium text-canvas transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+          className="inline-flex h-11 w-full items-center justify-center rounded-xl bg-ink px-5 text-base font-medium text-canvas transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
         >
           Sign in
         </button>

@@ -25,7 +25,7 @@ export default async function DsarQueuePage({ searchParams }: PageProps) {
         </Link>
       </div>
 
-      <h1 className="text-3xl font-semibold tracking-tight">
+      <h1 className="font-heading text-3xl font-bold tracking-tight">
         Data subject requests
       </h1>
       <p className="mt-1 text-ink-muted">
@@ -52,10 +52,10 @@ export default async function DsarQueuePage({ searchParams }: PageProps) {
       ) : null}
 
       {/* Data export requests */}
-      <h2 className="mt-8 text-xl font-semibold">
+      <h2 className="font-heading mt-8 text-xl font-semibold">
         Data export requests ({accessRequests.length})
       </h2>
-      <div className="mt-4 overflow-hidden rounded-lg border border-border">
+      <div className="mt-4 overflow-hidden rounded-2xl border border-border">
         <table className="w-full text-left text-sm">
           <thead className="bg-surface text-ink-muted">
             <tr>
@@ -112,10 +112,10 @@ export default async function DsarQueuePage({ searchParams }: PageProps) {
       </div>
 
       {/* Erasure requests */}
-      <h2 className="mt-10 text-xl font-semibold">
+      <h2 className="font-heading mt-10 text-xl font-semibold">
         Erasure requests ({erasureRequests.length})
       </h2>
-      <div className="mt-4 overflow-hidden rounded-lg border border-border">
+      <div className="mt-4 overflow-hidden rounded-2xl border border-border">
         <table className="w-full text-left text-sm">
           <thead className="bg-surface text-ink-muted">
             <tr>

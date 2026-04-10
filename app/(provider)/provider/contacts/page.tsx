@@ -60,7 +60,7 @@ export default async function ProviderContactsIndexPage() {
   return (
     <section className="mx-auto max-w-3xl space-y-6">
       <header>
-        <h1 className="text-3xl font-semibold tracking-tight text-ink">
+        <h1 className="font-heading text-3xl font-bold tracking-tight text-ink">
           Contact requests
         </h1>
         <p className="mt-2 text-ink-muted">
@@ -70,21 +70,21 @@ export default async function ProviderContactsIndexPage() {
       </header>
 
       {rows.length === 0 ? (
-        <div className="rounded-lg border border-border bg-surface p-8 text-center">
-          <h2 className="text-lg font-semibold text-ink">No requests yet</h2>
+        <div className="rounded-2xl border border-border bg-surface p-8 text-center">
+          <h2 className="font-heading text-lg font-semibold text-ink">No requests yet</h2>
           <p className="mt-2 text-sm text-ink-muted">
             Once your profile is verified and visible in the directory,
             contact requests will arrive here.
           </p>
           <Link
             href="/provider"
-            className="mt-4 inline-flex h-11 items-center justify-center rounded-md border border-brand px-5 text-base font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+            className="mt-4 inline-flex h-11 items-center justify-center rounded-xl border border-brand px-5 text-base font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
           >
             Back to dashboard
           </Link>
         </div>
       ) : (
-        <ul className="divide-y divide-border overflow-hidden rounded-lg border border-border bg-surface">
+        <ul className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-surface">
           {rows.map((row) => (
             <li
               key={row.id}
@@ -104,7 +104,7 @@ export default async function ProviderContactsIndexPage() {
               </div>
               <Link
                 href={`/provider/contacts/${row.id}`}
-                className="inline-flex h-10 shrink-0 items-center justify-center rounded-md border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+                className="inline-flex h-10 shrink-0 items-center justify-center rounded-xl border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
               >
                 Open
               </Link>

@@ -50,7 +50,7 @@ export default async function ReceiverVersionDetailPage(props: {
           &larr; Version history
         </Link>
         <div className="mt-2 flex items-center justify-between">
-          <h1 className="text-2xl font-semibold tracking-tight text-ink">
+          <h1 className="font-heading text-2xl font-bold tracking-tight text-ink">
             Version {version.version_number}
           </h1>
           <span className="text-sm text-ink-muted">
@@ -64,23 +64,23 @@ export default async function ReceiverVersionDetailPage(props: {
       </div>
 
       {version.notes ? (
-        <div className="rounded-lg border border-border bg-surface p-4">
-          <h2 className="text-sm font-semibold text-ink">Notes</h2>
+        <div className="rounded-2xl border border-border bg-surface p-4">
+          <h2 className="font-heading text-sm font-semibold text-ink">Notes</h2>
           <p className="mt-1 text-sm text-ink-muted">{version.notes}</p>
         </div>
       ) : null}
 
       {version.rejection_reason ? (
-        <div className="rounded-md border border-danger bg-danger/10 p-4 text-sm text-danger">
+        <div className="rounded-xl border border-danger bg-danger/10 p-4 text-sm text-danger">
           <strong>Rejection reason:</strong> {version.rejection_reason}
         </div>
       ) : null}
 
       {/* Activities */}
       {activities.length > 0 ? (
-        <div className="rounded-lg border border-border bg-surface">
+        <div className="rounded-2xl border border-border bg-surface">
           <div className="border-b border-border px-5 py-3">
-            <h2 className="font-semibold text-ink">Activities</h2>
+            <h2 className="font-heading font-semibold text-ink">Activities</h2>
           </div>
           <ul className="divide-y divide-border">
             {activities.map((a) => (
@@ -107,9 +107,9 @@ export default async function ReceiverVersionDetailPage(props: {
 
       {/* Line items */}
       {lineItems.length > 0 ? (
-        <div className="rounded-lg border border-border bg-surface">
+        <div className="rounded-2xl border border-border bg-surface">
           <div className="border-b border-border px-5 py-3">
-            <h2 className="font-semibold text-ink">Pricing</h2>
+            <h2 className="font-heading font-semibold text-ink">Pricing</h2>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
@@ -166,8 +166,8 @@ export default async function ReceiverVersionDetailPage(props: {
       ) : null}
 
       {/* Consent and approval */}
-      <div className="rounded-lg border border-border bg-surface p-5 space-y-3">
-        <h2 className="font-semibold text-ink">Consent and approval</h2>
+      <div className="rounded-2xl border border-border bg-surface p-5 space-y-3">
+        <h2 className="font-heading font-semibold text-ink">Consent and approval</h2>
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
             <p className="text-ink-muted">Visit media consent</p>
@@ -198,7 +198,7 @@ export default async function ReceiverVersionDetailPage(props: {
         >
           <button
             type="submit"
-            className="inline-flex h-9 items-center justify-center rounded-md border border-brand px-3 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg"
+            className="inline-flex h-9 items-center justify-center rounded-xl border border-brand px-3 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg"
           >
             Export for print
           </button>

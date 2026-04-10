@@ -53,7 +53,7 @@ export default async function FamilyCirclePage({ searchParams }: PageProps) {
     <section className="mx-auto max-w-3xl space-y-6">
       <header className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight text-ink">
+          <h1 className="font-heading text-3xl font-bold tracking-tight text-ink">
             {circle?.name ?? "Family circle"}
           </h1>
           <p className="mt-2 text-ink-muted">
@@ -74,15 +74,15 @@ export default async function FamilyCirclePage({ searchParams }: PageProps) {
       {invited === "1" && (
         <div
           role="status"
-          className="rounded-md border border-success bg-canvas p-3 text-sm text-success"
+          className="rounded-xl border border-success bg-canvas p-3 text-sm text-success"
         >
           Invitation sent successfully.
         </div>
       )}
 
       {!circle ? (
-        <div className="rounded-lg border border-border bg-surface p-8 text-center">
-          <h2 className="text-lg font-semibold text-ink">
+        <div className="rounded-2xl border border-border bg-surface p-8 text-center">
+          <h2 className="font-heading text-lg font-semibold text-ink">
             No care circle yet
           </h2>
           <p className="mt-2 text-sm text-ink-muted">
@@ -95,8 +95,8 @@ export default async function FamilyCirclePage({ searchParams }: PageProps) {
       ) : (
         <>
           {members.length === 0 ? (
-            <div className="rounded-lg border border-border bg-surface p-8 text-center">
-              <h2 className="text-lg font-semibold text-ink">
+            <div className="rounded-2xl border border-border bg-surface p-8 text-center">
+              <h2 className="font-heading text-lg font-semibold text-ink">
                 No members yet
               </h2>
               <p className="mt-2 text-sm text-ink-muted">
@@ -104,7 +104,7 @@ export default async function FamilyCirclePage({ searchParams }: PageProps) {
               </p>
             </div>
           ) : (
-            <ul className="divide-y divide-border overflow-hidden rounded-lg border border-border bg-surface">
+            <ul className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-surface">
               {members.map((member) => (
                 <li
                   key={member.id}
@@ -164,10 +164,10 @@ export default async function FamilyCirclePage({ searchParams }: PageProps) {
 
           {pendingInvites.length > 0 && (
             <div className="space-y-3">
-              <h2 className="text-lg font-semibold text-ink">
+              <h2 className="font-heading text-lg font-semibold text-ink">
                 Pending invitations
               </h2>
-              <ul className="divide-y divide-border overflow-hidden rounded-lg border border-border bg-surface">
+              <ul className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-surface">
                 {pendingInvites.map((invite) => (
                   <li
                     key={invite.id}
