@@ -1,4 +1,4 @@
--- 0010_provider_companies.sql
+-- 0012_provider_companies.sql
 --
 -- C3b: Provider companies and company memberships.
 --   - provider_companies table (1:1 with profiles where role='provider_company')

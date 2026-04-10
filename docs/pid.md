@@ -448,7 +448,7 @@ Full finding-by-finding status lives in `docs/bug-hunt/*.md`. All 71 findings ar
 
 Exit criterion: verified providers and provider companies can be onboarded, family members can manage care on behalf of receivers, administrators can approve or reject documentation, DSAR and erasure flows are operational. The platform is legally and operationally ready to open to paying UK users, even though payments themselves are still deferred to Phase 2.
 
-**C3b. Provider companies & live trust integrations (W1)**
+**C3b. Provider companies & live trust integrations (W1)** - **Status: shipped (2026-04-10), stories 3/4/7 only. Live integrations (71, 72) deferred to W1 workstream.**
 
 - Provider company registration, company documentation upload, association of individual providers with a company
 - Live DBS integration (uCheck or Credas), insurance verification API, document expiry alerts via Vercel Cron
@@ -456,12 +456,28 @@ Exit criterion: verified providers and provider companies can be onboarded, fami
 - Phase: 1b
 - Covers stories 3, 4, 7, 71, 72
 
-**C4. Receiver family circles & authorisation**
+**What landed:**
+
+- `supabase/migrations/0012_provider_companies.sql`: `provider_companies` table (1:1 with `profiles` where `role='provider_company'`), same guard-trigger pattern as `provider_profiles` (verified_at/undelete admin-only); `company_memberships` table linking individual providers to companies with role enum (`owner | admin | member`), partial unique index on active memberships per (company, provider); real body for `app.is_company_member()` replacing the 0001 stub; FK upgrade on `documents.provider_company_id`; `documents_owner_insert` policy extended to allow company uploads; `documents_company_read` policy so company members can read company docs; narrow anon column grant on `provider_companies` excluding phone and registered_address.
+- `lib/companies/{actions,queries,types}.ts` and `lib/companies/upload.ts`: `signUpCompany`, `updateCompanyProfile` (with geocoding), `inviteMember`, `acceptInvitation`, `removeMember`, `uploadCompanyDocument`. All mutations call `recordAuditEvent`.
+- `app/(public)/auth/company-sign-up/page.tsx`: dedicated company registration form following the provider-sign-up pattern; role set server-side, never from user input.
+- UI under `app/(provider)/provider/company/`: dashboard with setup checklist (`page.tsx`), profile editor (`profile/page.tsx`), member management with invite/remove (`members/page.tsx`), document vault with upload flow (`documents/page.tsx`, `documents/upload/page.tsx`). All in purple theme.
+- pgTAP tests (18 assertions): anon directory read, narrow column grant, owner self-read/update, guard trigger rejection, membership visibility, `is_company_member` helper, admin verify/soft-delete.
+
+**C4. Receiver family circles & authorisation** - **Status: shipped (2026-04-10).**
 
 - Family member accounts, power-of-attorney and other authorisation document upload, `care_circles` membership table with invitation flow, additional family member add flow
 - Depends on: C2, C9a
 - Phase: 1b
 - Covers stories 10, 11, 12
+
+**What landed:**
+
+- `supabase/migrations/0011_family_circles.sql`: `care_circles` table (one per receiver, unique constraint on `receiver_id`); `care_circle_members` with partial unique index on active members; `family_authorisations` with admin-only `verified_at` guard trigger; `family_invitations` table for email-based invite flow (7-day expiry, token-based); real body for `app.is_care_circle_member()` replacing the 0001 stub (returns true for active members or the owning receiver); `receiver-docs` storage bucket with quarantine pattern matching `provider-docs`; expanded `documents.kind` CHECK to include `'authorisation'`.
+- Full RLS on all tables: circle-member scoped reads, receiver/primary write access, admin full access. Anon can read unexpired invitations (needed for the public sign-up acceptance page).
+- `lib/care-circles/{actions,queries,types}.ts`: `createCareCircle`, `inviteFamilyMember`, `acceptInvitation`, `removeMember`, `uploadAuthorisationDocument`, `signUpFamilyMember`. The family sign-up uses the admin client with `app_metadata.invited_by` so migration 0009's role coercion honours the `family_member` role. All mutations call `recordAuditEvent`.
+- UI routes: `/receiver/family` (circle overview with member list), `/receiver/family/invite` (invite form), `/receiver/family/[memberId]` (member detail with authorisation doc upload), `/auth/family-invite` (public invitation acceptance + sign-up page). All receiver routes in blue theme.
+- pgTAP tests (24 assertions) covering all RLS policies, guard triggers, `is_care_circle_member`, and unique constraints.
 
 **C5. Admin verification console**
 
@@ -478,12 +494,21 @@ Exit criterion: verified providers and provider companies can be onboarded, fami
 - Phase: 1b
 - Covers stories 14, 15
 
-**C7b. Advanced provider filtering**
+**C7b. Advanced provider filtering** - **Status: shipped (2026-04-10).**
 
 - Filtering by gender, certifications, capabilities, rate bands; filter combinations persisted in URL for shareability
 - Depends on: C6a, C7a
 - Phase: 1b
 - Covers story 19
+
+**What landed:**
+
+- `supabase/migrations/0010_advanced_filtering.sql`: added `gender` column to `provider_profiles` with CHECK constraint (`female | male | non_binary | prefer_not_to_say`); granted gender to anon/authenticated; added indexes for gender and `hourly_rate_pence` filtering. Replaced the single-slug `search_providers` signature with a new version accepting `filter_services text[]`, `filter_capabilities text[]`, `filter_certifications text[]` (all ALL-match semantics), `filter_gender text`, `filter_rate_min int` / `filter_rate_max int` (pence). Both `app.search_providers` and `public.search_providers` wrapper updated with matching signatures. Maintained SECURITY DEFINER and all existing clamping/escaping from 0009.
+- `lib/search/filter-options.ts` (new): fetches available services, capabilities, certifications from reference tables; provides static gender options for the UI.
+- `lib/search/provider-search.ts`: extended `ProviderSearchFilters` with `serviceSlugs[]`, `capabilitySlugs[]`, `certificationSlugs[]`, `gender`, `rateMinPence`, `rateMaxPence`. Backwards-compatible with legacy single-slug params. Added gender to result type.
+- `app/(public)/providers/page.tsx`: collapsible "Advanced filters" panel with gender select, rate range inputs, and checkbox groups for services/capabilities/certifications. All filters persisted in URL search params (shareable/bookmarkable). Accessible fieldsets, legends, labels, and keyboard navigation. Neutral theme only.
+- `app/api/providers/search/route.ts`: updated to pass through all new filter params.
+- `supabase/seed.sql`: added gender values to seed provider profiles for dev testing.
 
 **C24. Data subject rights (DSAR & erasure)**
 
