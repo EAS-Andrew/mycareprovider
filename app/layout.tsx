@@ -1,17 +1,17 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Serif, Outfit } from "next/font/google";
+import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 
-const instrumentSerif = Instrument_Serif({
+const inter = Inter({
   subsets: ["latin"],
-  weight: "400",
-  variable: "--font-heading",
+  variable: "--font-body",
   display: "swap",
 });
 
-const outfit = Outfit({
+const poppins = Poppins({
   subsets: ["latin"],
-  variable: "--font-body",
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-heading",
   display: "swap",
 });
 
@@ -37,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en-GB" className={`${instrumentSerif.variable} ${outfit.variable}`}>
+    <html lang="en-GB" className={`${inter.variable} ${poppins.variable}`}>
       <body className="min-h-dvh antialiased">{children}</body>
     </html>
   );

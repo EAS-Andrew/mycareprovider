@@ -7,25 +7,29 @@
  * Any component that hardcodes blue or purple is a bug.
  */
 @theme {
-  --color-canvas: oklch(0.99 0 0);
-  --color-surface: oklch(0.97 0.003 250);
-  --color-ink: oklch(0.22 0.02 250);
-  --color-ink-muted: oklch(0.45 0.02 250);
-  --color-border: oklch(0.9 0.01 250);
+  --color-canvas: #ffffff;
+  --color-surface: #fafafa;
+  --color-ink: #171717;
+  --color-ink-muted: #737373;
+  --color-border: #e5e5e5;
 
-  --color-success: oklch(0.62 0.15 150);
-  --color-warning: oklch(0.75 0.15 75);
-  --color-danger: oklch(0.58 0.2 25);
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
 
   --color-brand: var(--brand-500);
   --color-brand-strong: var(--brand-600);
   --color-brand-fg: var(--brand-fg);
   --color-brand-ring: var(--brand-ring);
 
-  --color-surface-hover: oklch(0.95 0.003 250);
+  --color-surface-hover: #f5f5f5;
 
-  --font-sans: var(--font-body), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-heading: var(--font-heading), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-body), "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-heading: var(--font-heading), "Poppins", ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-soft: 0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04);
+  --shadow-medium: 0 4px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-large: 0 10px 40px -10px rgba(0, 0, 0, 0.15), 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 html,
@@ -40,11 +44,16 @@ body {
   outline-offset: 2px;
 }
 
-/* Staggered reveal animations for landing page sections */
-@keyframes fadeInUp {
+/* Animation keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -52,23 +61,33 @@ body {
   }
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.6s ease both;
+  animation: fadeIn 0.5s ease-in-out both;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s ease-out both;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.4s ease-out both;
 }
 
 /* Stagger children - apply to parent */
 .stagger-children > * {
   opacity: 0;
-  animation: fadeInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: slideUp 0.6s ease-out both;
 }
 .stagger-children > *:nth-child(1) { animation-delay: 0ms; }
 .stagger-children > *:nth-child(2) { animation-delay: 100ms; }
@@ -76,27 +95,6 @@ body {
 .stagger-children > *:nth-child(4) { animation-delay: 300ms; }
 .stagger-children > *:nth-child(5) { animation-delay: 400ms; }
 .stagger-children > *:nth-child(6) { animation-delay: 500ms; }
-
-/* Warm canvas for the public marketing surface */
-.warm-canvas {
-  background: linear-gradient(
-    180deg,
-    oklch(0.985 0.005 80) 0%,
-    oklch(0.99 0.002 250) 100%
-  );
-}
-
-/* Subtle grain texture overlay */
-.grain::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: 0.025;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 256px 256px;
-}
 
 @media (prefers-reduced-motion: reduce) {
   *,

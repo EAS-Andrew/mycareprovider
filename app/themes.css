@@ -10,23 +10,23 @@
  */
 
 [data-theme="blue"] {
-  --brand-500: oklch(0.6 0.14 235);
-  --brand-600: oklch(0.52 0.16 238);
-  --brand-fg: oklch(0.99 0 0);
-  --brand-ring: oklch(0.72 0.1 235);
+  --brand-500: #3b82f6;
+  --brand-600: #2563eb;
+  --brand-fg: #ffffff;
+  --brand-ring: #60a5fa;
 }
 
 [data-theme="purple"] {
-  --brand-500: oklch(0.56 0.19 300);
-  --brand-600: oklch(0.48 0.2 300);
-  --brand-fg: oklch(0.99 0 0);
-  --brand-ring: oklch(0.7 0.12 300);
+  --brand-500: #9333ea;
+  --brand-600: #7c3aed;
+  --brand-fg: #ffffff;
+  --brand-ring: #c084fc;
 }
 
 [data-theme="admin"] {
   /* Single slate gray per docs/brand/COLORS.md - the admin mark uses #64748b. */
-  --brand-500: oklch(0.55 0.03 250);
-  --brand-600: oklch(0.45 0.03 250);
-  --brand-fg: oklch(0.99 0 0);
-  --brand-ring: oklch(0.68 0.02 250);
+  --brand-500: #64748b;
+  --brand-600: #475569;
+  --brand-fg: #ffffff;
+  --brand-ring: #94a3b8;
 }

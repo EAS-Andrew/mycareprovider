@@ -44,7 +44,7 @@ export default async function PublicLayout({
           aria-label="MyCareProvider home"
         >
           <BrandMark variant="unified" size={32} />
-          <span className="font-heading text-lg">MyCareProvider</span>
+          <span className="font-heading text-lg font-bold text-neutral-800">MyCareProvider</span>
         </Link>
         <nav
           className="flex items-center gap-4 text-sm"

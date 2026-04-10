@@ -69,6 +69,46 @@ Blue and purple carry the brand. Every other color is reserved and should only a
 
 A good rule of thumb for any logged-in screen: most of it should be neutral, a clear share of it should be the side's brand color (blue or purple, not both), and the semantic colors should only show up where they are carrying real meaning. Public marketing pages follow a different rule - see the exception above.
 
+## Design system values
+
+The brand is implemented in `app/themes.css` and `app/globals.css`. These are the canonical color values:
+
+### Brand colors
+
+| Slot | Blue (receiver) | Purple (provider) | Admin |
+|------|-----------------|-------------------|-------|
+| 500 (primary) | `#3b82f6` | `#9333ea` | `#64748b` |
+| 600 (strong) | `#2563eb` | `#7c3aed` | `#475569` |
+| fg (text on brand) | `#ffffff` | `#ffffff` | `#ffffff` |
+| ring (focus) | `#60a5fa` | `#c084fc` | `#94a3b8` |
+
+### Typography
+
+- **Headings**: Poppins (loaded via `next/font/google`, CSS variable `--font-heading`). Use `font-heading` in Tailwind classes.
+- **Body**: Inter (loaded via `next/font/google`, CSS variable `--font-body`). Applied as the default `font-sans`.
+- Both fonts use `display: "swap"` for fast rendering.
+
+### Visual patterns
+
+The visual identity uses clean sans-serif typography, generous whitespace, and soft rounded containers. Key patterns from the established design:
+
+- **Border radius**: `rounded-3xl` (1.5rem) for cards and buttons, `rounded-2xl` (1rem) for smaller containers
+- **Shadows**: Three levels defined as CSS variables: `--shadow-soft`, `--shadow-medium`, `--shadow-large`
+- **Cards**: White background, `border-2 border-neutral-100`, rounded-3xl, p-10, shadow-xl
+- **Buttons**: `rounded-3xl`, generous padding (px-8 py-4), `hover:scale-105` with `transition-all duration-300`
+- **Glass morphism**: Used sparingly for hero elements: `bg-white/95 backdrop-blur-lg`
+- **Background blurs**: Soft gradient circles (`bg-blue-100/40 blur-3xl`) for depth on hero sections
+- **Neutrals**: Standard Tailwind neutral scale (neutral-50 through neutral-900)
+
+### What to avoid
+
+- Serif fonts anywhere in the interface
+- Sharp corners (use rounded-3xl or rounded-2xl, never rounded-lg for primary cards/buttons)
+- Thin borders (prefer border-2 over border)
+- Small padding on feature cards (prefer p-10, p-8 minimum)
+- Gradients on logged-in screens (only permitted on public marketing surfaces)
+- oklch or other non-hex color formats (use standard hex values for consistency)
+
 ## Logo variants
 
 The four logo files in `assets/` match the rules above:
