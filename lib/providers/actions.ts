@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { recordAuditEvent } from "@/lib/audit/record-audit-event";
 import { getCurrentRole } from "@/lib/auth/current-role";
 import { geocodePostcode, isLikelyUkPostcode } from "@/lib/geo/postcode";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { createServerClient } from "@/lib/supabase/server";
 
 import { CatalogValidationError } from "./catalog";
@@ -122,10 +123,22 @@ export async function signUpProvider(formData: FormData): Promise<void> {
     );
   }
 
-  // The db trigger on auth.users stamps app_role from raw_user_meta_data.role,
-  // so the provider_profiles row is created lazily by updateProviderProfile
-  // the first time the caller saves any onboarding form. Audit the signup
-  // itself so the W2 log captures intent independent of profile completion.
+  // Migration 0009 hardened handle_new_auth_user to ignore
+  // raw_user_meta_data.role on public sign-ups (only admin invites honour
+  // it). The trigger creates the profile as 'receiver' by default, so we
+  // must use the admin client to set the correct role post-signup.
+  const { data: authData } = await supabase.auth.getUser();
+  if (authData.user) {
+    const admin = createAdminClient();
+    await admin
+      .from("profiles")
+      .update({ role: "provider" })
+      .eq("id", authData.user.id);
+  }
+
+  // Audit the signup so the W2 log captures intent independent of profile
+  // completion. The provider_profiles row is created lazily by
+  // updateProviderProfile the first time the caller saves onboarding.
   await recordAuditEvent({
     action: "provider.signup",
     subjectTable: "auth.users",
