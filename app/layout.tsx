@@ -1,5 +1,19 @@
 import type { Metadata, Viewport } from "next";
+import { Instrument_Serif, Outfit } from "next/font/google";
 import "./globals.css";
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-heading",
+  display: "swap",
+});
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -23,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en-GB">
+    <html lang="en-GB" className={`${instrumentSerif.variable} ${outfit.variable}`}>
       <body className="min-h-dvh antialiased">{children}</body>
     </html>
   );
