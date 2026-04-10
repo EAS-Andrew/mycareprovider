@@ -255,6 +255,13 @@ export async function markAsRead(conversationId: string): Promise<void> {
   if (error) {
     throw new MessagingValidationError("db_error", error.message);
   }
+
+  await recordAuditBestEffort({
+    action: "conversation.mark_read",
+    subjectTable: "public.conversation_participants",
+    subjectId: conversationId,
+    after: { profile_id: caller.profileId },
+  });
 }
 
 // ---------------------------------------------------------------- 4. uploadAttachment

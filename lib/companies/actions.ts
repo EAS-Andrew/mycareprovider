@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 
 import { recordAuditEvent } from "@/lib/audit/record-audit-event";
+import { classifyAuthError } from "@/lib/auth/classify-error";
 import { getCurrentRole } from "@/lib/auth/current-role";
 import { geocodePostcode, isLikelyUkPostcode } from "@/lib/geo/postcode";
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -50,21 +51,16 @@ export async function signUpCompany(formData: FormData): Promise<void> {
     email,
     password,
     options: {
-      // Role is set server-side, never from user input. The
-      // handle_new_auth_user trigger reads raw_user_meta_data.role.
-      // See migration 0009 for the role-escalation guard - same treatment
-      // as provider sign-up.
+      // Role is set via admin client post-signup (see below). Do not pass in metadata.
       data: {
-        role: "provider_company",
         display_name: displayName,
       },
     },
   });
 
   if (error) {
-    redirect(
-      `/auth/company-sign-up?error=${encodeURIComponent(error.message)}`,
-    );
+    const code = classifyAuthError(error.message);
+    redirect(`/auth/company-sign-up?error=${code}`);
   }
 
   // Migration 0009 hardened handle_new_auth_user to ignore
@@ -74,10 +70,14 @@ export async function signUpCompany(formData: FormData): Promise<void> {
   const { data: authData } = await supabase.auth.getUser();
   if (authData.user) {
     const admin = createAdminClient();
-    await admin
+    const { error: roleError } = await admin
       .from("profiles")
       .update({ role: "provider_company" })
       .eq("id", authData.user.id);
+
+    if (roleError) {
+      redirect(`/auth/company-sign-up?error=unknown`);
+    }
   }
 
   await recordAuditEvent({

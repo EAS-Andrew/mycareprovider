@@ -393,10 +393,10 @@ export async function rejectCarePlan(
 }
 
 /**
- * Pause an active care plan.
+ * Pause an active care plan. Only providers may pause.
  */
 export async function pauseCarePlan(carePlanId: string): Promise<void> {
-  const { supabase } = await requireAuth();
+  const { supabase } = await requireProvider();
 
   const { error } = await supabase
     .from("care_plans")
@@ -414,10 +414,10 @@ export async function pauseCarePlan(carePlanId: string): Promise<void> {
 }
 
 /**
- * Resume a paused care plan.
+ * Resume a paused care plan. Only providers may resume.
  */
 export async function resumeCarePlan(carePlanId: string): Promise<void> {
-  const { supabase } = await requireAuth();
+  const { supabase } = await requireProvider();
 
   const { error } = await supabase
     .from("care_plans")
@@ -435,10 +435,10 @@ export async function resumeCarePlan(carePlanId: string): Promise<void> {
 }
 
 /**
- * Complete an active care plan.
+ * Complete an active care plan. Only providers may complete.
  */
 export async function completeCarePlan(carePlanId: string): Promise<void> {
-  const { supabase } = await requireAuth();
+  const { supabase } = await requireProvider();
 
   const { error } = await supabase
     .from("care_plans")
@@ -456,10 +456,17 @@ export async function completeCarePlan(carePlanId: string): Promise<void> {
 }
 
 /**
- * Cancel a care plan (from any status).
+ * Cancel a care plan (from any status). Providers or receivers may cancel,
+ * but not family members.
  */
 export async function cancelCarePlan(carePlanId: string): Promise<void> {
-  const { supabase } = await requireAuth();
+  const { supabase, role } = await requireAuth();
+  if (role !== "provider" && role !== "provider_company" && role !== "receiver") {
+    throw new CarePlanError(
+      "not-authorized",
+      "Only providers or receivers can cancel care plans",
+    );
+  }
 
   const { error } = await supabase
     .from("care_plans")

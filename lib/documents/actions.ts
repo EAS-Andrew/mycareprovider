@@ -282,14 +282,15 @@ export async function softDeleteDocument(documentId: string): Promise<void> {
     throw new Error("sign-in-required");
   }
 
-  // documents_owner_soft_delete policy scopes the UPDATE to the caller's own
-  // rows and forces deleted_at to non-null. tg_documents_guard freezes every
-  // other column on the owner path, so this is the only legal owner write.
-  const { error } = await supabase
-    .from("documents")
-    .update({ deleted_at: new Date().toISOString() })
-    .eq("id", documentId)
-    .eq("uploaded_by", user.id);
+  // Use the SECURITY DEFINER helper from migration 0009 instead of a direct
+  // .update({ deleted_at }). The direct UPDATE fails RLS because the row
+  // becomes invisible (deleted_at IS NULL filter) mid-transaction. The helper
+  // does its own ownership check internally. The app schema is not in
+  // PostgREST's extra_search_path, so we call via the admin client.
+  const admin = createAdminClient();
+  const { error } = await admin.rpc("soft_delete_document", {
+    p_document_id: documentId,
+  });
 
   if (error) {
     throw new Error(`softDeleteDocument: ${error.message}`);

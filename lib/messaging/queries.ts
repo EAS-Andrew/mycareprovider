@@ -268,6 +268,11 @@ export async function getMessages(
   const hasMore = raw.length > limit;
   const slice = hasMore ? raw.slice(0, limit) : raw;
 
+  // Capture the cursor BEFORE reversing. The slice is in DESC order, so
+  // the last element is the oldest message - the correct cursor for
+  // "load older" pagination.
+  const nextCursor = hasMore ? slice[slice.length - 1].created_at : null;
+
   // Reverse to chronological order for display
   const messages: MessageRow[] = slice.reverse().map((r) => ({
     id: r.id,
@@ -281,8 +286,6 @@ export async function getMessages(
     created_at: r.created_at,
     edited_at: r.edited_at,
   }));
-
-  const nextCursor = hasMore ? slice[slice.length - 1].created_at : null;
 
   return { messages, nextCursor };
 }

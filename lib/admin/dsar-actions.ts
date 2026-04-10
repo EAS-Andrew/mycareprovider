@@ -150,6 +150,13 @@ export async function processErasure(formData: FormData): Promise<void> {
   // Each table that the user owns rows in gets deleted_at stamped.
   // Exempt: audit_log (append-only), safeguarding_reports (C25 exempt).
   const softDeleteTables = [
+    // C9 messaging (children first)
+    { table: "messages", column: "sender_id" },
+    { table: "conversation_participants", column: "profile_id", softDeleteColumn: "left_at" },
+    // C10 care plans
+    { table: "care_plans", column: "receiver_id" },
+    { table: "care_plans", column: "provider_id" },
+    // Original tables
     { table: "contact_thread_posts", column: "author_id" },
     { table: "contact_requests", column: "receiver_id" },
     { table: "care_circle_members", column: "member_id" },
@@ -164,12 +171,13 @@ export async function processErasure(formData: FormData): Promise<void> {
     { table: "profiles", column: "id" },
   ];
 
-  for (const { table, column } of softDeleteTables) {
+  for (const entry of softDeleteTables) {
+    const col = (entry as { softDeleteColumn?: string }).softDeleteColumn ?? "deleted_at";
     await admin
-      .from(table)
-      .update({ deleted_at: now })
-      .eq(column, userId)
-      .is("deleted_at", null);
+      .from(entry.table)
+      .update({ [col]: now })
+      .eq(entry.column, userId)
+      .is(col, null);
   }
 
   // Also soft-delete contact requests where user is provider

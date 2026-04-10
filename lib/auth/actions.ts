@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 
 import { recordAuditEvent } from "@/lib/audit/record-audit-event";
+import { classifyAuthError } from "@/lib/auth/classify-error";
 import { getCurrentRole, type AppRole } from "@/lib/auth/current-role";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createServerClient } from "@/lib/supabase/server";
@@ -22,41 +23,6 @@ function homeForRole(role: AppRole | null | undefined): string {
   return "/";
 }
 
-/**
- * Whitelisted enum of error codes that may appear in auth flow query params.
- * We deliberately never echo raw Supabase error messages back to the user -
- * they can leak implementation detail and are a poor UX. See finding auth#11.
- */
-export type AuthErrorCode =
-  | "invalid_credentials"
-  | "email_taken"
-  | "rate_limited"
-  | "admin_required"
-  | "missing_field"
-  | "unknown";
-
-function classifyAuthError(message: string | undefined): AuthErrorCode {
-  if (!message) return "unknown";
-  const lower = message.toLowerCase();
-  if (
-    lower.includes("invalid login") ||
-    lower.includes("invalid credentials") ||
-    lower.includes("email not confirmed")
-  ) {
-    return "invalid_credentials";
-  }
-  if (
-    lower.includes("already registered") ||
-    lower.includes("already been registered") ||
-    lower.includes("user already")
-  ) {
-    return "email_taken";
-  }
-  if (lower.includes("rate") || lower.includes("too many")) {
-    return "rate_limited";
-  }
-  return "unknown";
-}
 
 /**
  * Safe predicate for the `?next=` redirect target. Must start with a single
@@ -154,11 +120,27 @@ export async function inviteAdmin(formData: FormData): Promise<void> {
     redirect("/auth/sign-in?error=admin_required");
   }
 
+  // Read the caller's user ID for the invited_by field.
+  const supabase = await createServerClient();
+  const {
+    data: { user: callerUser },
+  } = await supabase.auth.getUser();
+
   const admin = createAdminClient();
-  const { error } = await admin.auth.admin.inviteUserByEmail(email, {
-    data: {
+
+  // Use createUser (not inviteUserByEmail) so we can set app_metadata.invited_by.
+  // Migration 0009's hardened trigger only honours raw_user_meta_data.role when
+  // raw_app_meta_data.invited_by is present. Pattern matches signUpFamilyMember
+  // in lib/care-circles/actions.ts.
+  const { data: newUser, error } = await admin.auth.admin.createUser({
+    email,
+    email_confirm: true,
+    user_metadata: {
       role: "admin",
       display_name: displayName,
+    },
+    app_metadata: {
+      invited_by: callerUser?.id ?? null,
     },
   });
 
@@ -167,10 +149,20 @@ export async function inviteAdmin(formData: FormData): Promise<void> {
     redirect(`/admin/users/invite?error=${code}`);
   }
 
+  // Send a password-reset link so the invited admin can set their password.
+  const { error: linkError } = await admin.auth.admin.generateLink({
+    type: "magiclink",
+    email,
+  });
+
+  if (linkError) {
+    console.error("inviteAdmin: failed to generate login link", linkError);
+  }
+
   await recordAuditEvent({
     action: "admin.invite",
     subjectTable: "auth.users",
-    subjectId: email,
+    subjectId: newUser.user.id,
     after: { email, role: "admin", display_name: displayName },
   });
 
