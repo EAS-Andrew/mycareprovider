@@ -363,26 +363,28 @@ for each row execute function public.tg_family_authorisations_guard();
 
 -- =============================================================================
 -- app.is_care_circle_member() real body (replaces the 0001 stub)
+-- Keeps the original parameter name "circle_id" from the 0001 stub because
+-- Postgres does not allow renaming parameters via CREATE OR REPLACE.
 -- =============================================================================
-create or replace function app.is_care_circle_member(p_circle_id uuid)
+create or replace function app.is_care_circle_member(circle_id uuid)
 returns boolean
 language sql
 stable
 as $$
   select exists (
     select 1
-    from public.care_circle_members
-    where circle_id = p_circle_id
-      and profile_id = app.current_profile_id()
-      and accepted_at is not null
-      and removed_at is null
+    from public.care_circle_members ccm
+    where ccm.circle_id = is_care_circle_member.circle_id
+      and ccm.profile_id = app.current_profile_id()
+      and ccm.accepted_at is not null
+      and ccm.removed_at is null
   )
   or exists (
     select 1
-    from public.care_circles
-    where id = p_circle_id
-      and receiver_id = app.current_profile_id()
-      and deleted_at is null
+    from public.care_circles cc
+    where cc.id = is_care_circle_member.circle_id
+      and cc.receiver_id = app.current_profile_id()
+      and cc.deleted_at is null
   );
 $$;
 

@@ -85,6 +85,34 @@ Teammates in the same wave work in isolated worktrees and may pick the same migr
 5. Commit any fixups (renumbering, PID corrections)
 6. Delete the team and create the next wave
 
+## Migrations
+
+Supabase migrations must be applied after implementation and before pushing to main.
+
+### Local development
+
+After a teammate or the team lead creates a new migration file in `supabase/migrations/`, run:
+
+```bash
+npx supabase db reset
+```
+
+This drops and recreates the local database, replaying all migrations in order. Verify the migration applies cleanly before committing.
+
+### Remote (production/staging)
+
+Before pushing to main (or as part of the push workflow), apply pending migrations to the linked Supabase project:
+
+```bash
+npx supabase db push
+```
+
+This runs any migrations not yet applied to the remote database. Never push code to main that references tables or columns from a migration that has not been applied remotely.
+
+### Teammate responsibility
+
+Each teammate working in an isolated worktree should run `npx supabase db reset` after writing their migration to confirm it applies cleanly alongside all prior migrations. The team lead runs `npx supabase db reset` again after merging all worktree branches to catch any numbering conflicts or incompatibilities.
+
 ## Writing style
 
 - Never use emdashes. Use hyphens, commas, or rephrase instead.

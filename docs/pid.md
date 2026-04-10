@@ -473,13 +473,13 @@ Exit criterion: verified providers and provider companies can be onboarded, fami
 
 **What landed:**
 
-- `supabase/migrations/0011_family_circles.sql`: `care_circles` table (one per receiver, unique constraint on `receiver_id`); `care_circle_members` with partial unique index on active members; `family_authorisations` with admin-only `verified_at` guard trigger; `family_invitations` table for email-based invite flow (7-day expiry, token-based); real body for `app.is_care_circle_member()` replacing the 0001 stub (returns true for active members or the owning receiver); `receiver-docs` storage bucket with quarantine pattern matching `provider-docs`; expanded `documents.kind` CHECK to include `'authorisation'`.
+- `supabase/migrations/0011_family_circles.sql`: `care_circles` table (one per receiver, unique constraint on `receiver_id`); `care_circle_members` with partial unique index on active members; `family_authorisations` with admin-only `verified_at` guard trigger; `family_invitations` table for email-based invite flow (7-day expiry, token-based); real body for `app.is_care_circle_member()` replacing the 0001 stub (returns true for active members or the owning receiver, parameter name kept as `circle_id` to match the 0001 stub signature, column references qualified with table aliases to avoid ambiguity); `receiver-docs` storage bucket with quarantine pattern matching `provider-docs`; expanded `documents.kind` CHECK to include `'authorisation'`.
 - Full RLS on all tables: circle-member scoped reads, receiver/primary write access, admin full access. Anon can read unexpired invitations (needed for the public sign-up acceptance page).
 - `lib/care-circles/{actions,queries,types}.ts`: `createCareCircle`, `inviteFamilyMember`, `acceptInvitation`, `removeMember`, `uploadAuthorisationDocument`, `signUpFamilyMember`. The family sign-up uses the admin client with `app_metadata.invited_by` so migration 0009's role coercion honours the `family_member` role. All mutations call `recordAuditEvent`.
 - UI routes: `/receiver/family` (circle overview with member list), `/receiver/family/invite` (invite form), `/receiver/family/[memberId]` (member detail with authorisation doc upload), `/auth/family-invite` (public invitation acceptance + sign-up page). All receiver routes in blue theme.
 - pgTAP tests (24 assertions) covering all RLS policies, guard triggers, `is_care_circle_member`, and unique constraints.
 
-**C5. Admin verification console**
+**C5. Admin verification console** - **Status: shipped (2026-04-10).**
 
 - Admin-only routes to review provider documentation, company documentation, and family authorisation; approve or reject with notes; every action recorded in `audit_log` via W2
 - Lives under `/app/(admin)` and therefore renders in the neutral slate admin theme with `favicon-admin.svg`; embedded previews of a specific provider or receiver record may show the appropriate side colour within a bounded preview frame
@@ -495,7 +495,7 @@ Exit criterion: verified providers and provider companies can be onboarded, fami
 - UI routes: `/admin/verification` (dashboard with queue counts), `/admin/verification/providers` (pending providers + pending document verifications), `/admin/verification/providers/[id]` (provider profile review with documents table + verify action; document review with approve/reject form and notes), `/admin/verification/companies` (pending companies list), `/admin/verification/companies/[id]` (company detail review + verify action), `/admin/verification/family` (pending family authorisations), `/admin/verification/family/[id]` (authorisation detail with attached document + verify action). All routes in neutral slate admin theme.
 - Updated admin home page with link to verification queue.
 
-**C6b. Company & receiver needs profiles**
+**C6b. Company & receiver needs profiles** - **Status: shipped (2026-04-10).**
 
 - Provider company profile (team, services, capabilities), receiver needs profile
 - Depends on: C3b, C4
@@ -526,7 +526,7 @@ Exit criterion: verified providers and provider companies can be onboarded, fami
 - `app/api/providers/search/route.ts`: updated to pass through all new filter params.
 - `supabase/seed.sql`: added gender values to seed provider profiles for dev testing.
 
-**C24. Data subject rights (DSAR & erasure)**
+**C24. Data subject rights (DSAR & erasure)** - **Status: shipped (2026-04-10).**
 
 - Self-service data export endpoint producing a machine-readable bundle of every row the requesting user is the subject of
 - Erasure request flow (soft-delete with a 30-day cool-off, then hard delete honouring legal retention holds on care and financial records)
@@ -549,7 +549,7 @@ Exit criterion: verified providers and provider companies can be onboarded, fami
 - All mutations call `recordAuditEvent` per W2. Soft-delete cascade in `processErasure` covers contact_thread_posts, contact_requests, care_circle_members, company_memberships, documents, provider_profiles, provider_companies, receiver_profiles, family_authorisations, care_circles, and profiles. Audit log is never deleted (append-only). Safeguarding records (C25) are exempt.
 - Build passes cleanly on Next.js 16 (Turbopack) with all routes compiled.
 
-**C25. Safeguarding escalation (W1)**
+**C25. Safeguarding escalation (W1)** - **Status: shipped (2026-04-10).**
 
 - Confidential "raise a safeguarding concern" entry points from every authenticated context (receiver, family member, provider, admin) and a public entry point reachable without login for reporters who do not have an account
 - `safeguarding_reports` entity (see Core Domain Model) with severity scale (`information | low | medium | high | immediate_risk`), 24-hour triage SLA for `medium` and above, immediate-notification fan-out to the safeguarding lead for `high` and `immediate_risk`
