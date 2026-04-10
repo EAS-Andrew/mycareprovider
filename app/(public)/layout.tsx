@@ -56,18 +56,20 @@ export default async function PublicLayout({
           {user ? (
             <>
               {dashboard ? (
-                <Link href={dashboard.href} className="font-medium hover:underline">
+                <Link
+                  href={dashboard.href}
+                  className="rounded-md bg-ink px-3 py-1.5 text-sm font-medium text-canvas transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink"
+                >
                   {dashboard.label}
                 </Link>
               ) : null}
               <span className="text-ink-muted" aria-live="polite">
-                Signed in as{" "}
-                <span className="font-medium text-ink">{displayName}</span>
+                {displayName}
               </span>
               <form action="/auth/sign-out" method="post">
                 <button
                   type="submit"
-                  className="rounded-md px-2 py-1 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+                  className="rounded-md px-2 py-1 text-ink-muted hover:text-ink hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink"
                 >
                   Sign out
                 </button>
@@ -75,17 +77,17 @@ export default async function PublicLayout({
             </>
           ) : (
             <>
-              <Link href="/auth/sign-in" className="hover:underline">
+              <Link
+                href="/auth/sign-in"
+                className="text-ink-muted hover:text-ink hover:underline"
+              >
                 Sign in
               </Link>
-              <Link href="/auth/sign-up" className="hover:underline">
-                Sign up
-              </Link>
               <Link
-                href="/auth/provider-sign-up"
-                className="hover:underline"
+                href="/auth/sign-up"
+                className="rounded-md bg-ink px-3 py-1.5 font-medium text-canvas transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink"
               >
-                Register as provider
+                Get started
               </Link>
             </>
           )}

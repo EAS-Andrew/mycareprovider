@@ -24,6 +24,18 @@ Blue and purple never share a logged-in screen. Once someone has signed in, the 
 
 The only time the two colors appear together is on shared, pre-login surfaces where the audience is not yet known: the public marketing site, the landing page, and sign-in / sign-up flows. In those contexts the unified blue-and-purple mark is used to represent the brand as a whole. Transactional emails sent before the recipient has a role (for example, the initial sign-up confirmation) also use the unified mark. Once a role is known, every subsequent email to that recipient uses their side's color.
 
+### Public marketing surface exception
+
+The public marketing pages (landing page, provider directory, public provider profiles) are the platform's sales surface. They must communicate what the platform is, who it serves, and why it is trustworthy. On these pages:
+
+- **Blue and purple are used illustratively** to represent the two sides of the marketplace (blue for receiver-facing content, purple for provider-facing content). Cards, icons, borders, and section backgrounds can use both colours to distinguish the audiences.
+- **Subtle gradients across blue and purple are permitted** on the landing page for visual warmth (for example, a `blue-50` to `purple-50` background on a final CTA section). These are restricted to the public marketing surface and must never appear on logged-in screens.
+- **Green is permitted** for trust-signal iconography (verified, secure, safe) on the landing page and provider profiles.
+- **The unified mark** remains the logo on all public surfaces.
+- **Auth pages** (sign-in, sign-up, provider-sign-up, company-sign-up, family-invite) stay minimal and neutral with the unified mark. They are not marketing surfaces.
+
+This exception exists because a colourless landing page fails to communicate what the platform is or who it is for. The rule that blue and purple never share a logged-in screen is unchanged.
+
 ## Admin - neutral grays
 
 Administrators are not an audience. They are the people who operate the platform on behalf of both sides: verifying providers, triaging disputes and safeguarding reports, fulfilling data subject requests. They see both care receivers' and care providers' data in the same sitting, and it would be dishonest to dress an admin screen in either brand color when the admin is not the audience of the service.
@@ -52,9 +64,10 @@ Blue and purple carry the brand. Every other color is reserved and should only a
 - **Green** means success. Use it only for confirmations and positive status like "saved" or "verified". Never for decoration, never as a stand-in for the brand.
 - **Amber** means warning. Use it only when something needs attention but is not an error.
 - **Red** means error or destructive. Use it only for delete actions and failure states. Never for emphasis.
-- **No other colors.** Do not introduce new hues, do not reach for extra palette entries to add "visual interest", and do not mix blue and purple into gradients. If something needs to stand out, it stands out in the current side's brand color.
+- **No other colors.** Do not introduce new hues and do not reach for extra palette entries to add "visual interest". If something needs to stand out, it stands out in the current side's brand color.
+- **No mixing blue and purple on logged-in screens.** A logged-in provider screen is purple, a logged-in receiver screen is blue, and neither borrows from the other. The only exception is the public marketing surface (see "Public marketing surface exception" above), where both colours are used illustratively.
 
-A good rule of thumb for any screen: most of it should be neutral, a clear share of it should be the side's brand color (blue or purple, not both), and the semantic colors should only show up where they are carrying real meaning.
+A good rule of thumb for any logged-in screen: most of it should be neutral, a clear share of it should be the side's brand color (blue or purple, not both), and the semantic colors should only show up where they are carrying real meaning. Public marketing pages follow a different rule - see the exception above.
 
 ## Logo variants
 
