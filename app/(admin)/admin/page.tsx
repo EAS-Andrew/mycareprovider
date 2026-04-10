@@ -1,4 +1,5 @@
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { buttonStyles } from "@/components/ui/button";
 
 export default function AdminHome() {
   return (
@@ -7,12 +8,19 @@ export default function AdminHome() {
         Administrator console
       </h1>
       <p className="mt-3 text-ink-muted">
-        This is where admins verify providers, triage disputes and
-        safeguarding reports, and handle data subject requests. Nothing here
-        is wired up yet.
+        Verify providers, triage disputes and safeguarding reports, and handle
+        data subject requests.
       </p>
-      <div className="mt-8">
-        <Button>Open verification queue</Button>
+      <div className="mt-8 flex flex-wrap gap-3">
+        <Link href="/admin/verification" className={buttonStyles()}>
+          Verification queue
+        </Link>
+        <Link
+          href="/admin/users"
+          className={buttonStyles({ variant: "outline" })}
+        >
+          Users
+        </Link>
       </div>
     </section>
   );

@@ -487,6 +487,14 @@ Exit criterion: verified providers and provider companies can be onboarded, fami
 - Phase: 1b
 - Covers stories 16, 17
 
+**What landed:**
+
+- `supabase/migrations/0014_admin_verification.sql`: query-path indexes only (no new tables needed). Partial indexes on `verifications(state, created_at)` for pending/in-review queue, `provider_profiles(created_at)` for unverified providers, `provider_companies(created_at)` for unverified companies, `family_authorisations(created_at)` for unverified authorisations, and `documents(status, created_at)` for quarantined docs.
+- `lib/admin/verification-queries.ts`: `getVerificationStats` (counts across all four queues), `getPendingVerifications`, `getDocumentForReview`, `getPendingProviders`, `getProviderForReview`, `getProviderDocuments`, `getPendingCompanies`, `getCompanyForReview`, `getCompanyDocuments`, `getPendingFamilyAuthorisations`, `getFamilyAuthorisationForReview`. Every query gates on `getCurrentRole() === 'admin'`.
+- `lib/admin/verification-actions.ts`: `reviewDocument` (approve/reject document verification with notes), `verifyProvider` (stamp `provider_profiles.verified_at`), `verifyCompany` (stamp `provider_companies.verified_at`), `verifyFamilyAuthorisation` (stamp `family_authorisations.verified_at` and `verified_by`). All actions gate on admin role, use `createAdminClient()` for writes, and call `recordAuditEvent` with redacted before/after state.
+- UI routes: `/admin/verification` (dashboard with queue counts), `/admin/verification/providers` (pending providers + pending document verifications), `/admin/verification/providers/[id]` (provider profile review with documents table + verify action; document review with approve/reject form and notes), `/admin/verification/companies` (pending companies list), `/admin/verification/companies/[id]` (company detail review + verify action), `/admin/verification/family` (pending family authorisations), `/admin/verification/family/[id]` (authorisation detail with attached document + verify action). All routes in neutral slate admin theme.
+- Updated admin home page with link to verification queue.
+
 **C6b. Company & receiver needs profiles**
 
 - Provider company profile (team, services, capabilities), receiver needs profile
