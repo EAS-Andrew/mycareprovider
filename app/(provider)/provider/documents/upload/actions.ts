@@ -14,6 +14,8 @@ import { DisallowedUploadError } from "@/lib/documents/mime";
  * specific failure code.
  */
 export async function submitUpload(formData: FormData): Promise<void> {
+  const from = (formData.get("from") as string | null) ?? null;
+
   try {
     await uploadProviderDocument(formData);
   } catch (err) {
@@ -31,9 +33,15 @@ export async function submitUpload(formData: FormData): Promise<void> {
     } else {
       message = "Something went wrong";
     }
+    const fromParam = from === "onboarding" ? "&from=onboarding" : "";
     redirect(
-      `/provider/documents/upload?error=${encodeURIComponent(message)}`,
+      `/provider/documents/upload?error=${encodeURIComponent(message)}${fromParam}`,
     );
+  }
+
+  // Return to dashboard if upload was initiated from the onboarding checklist
+  if (from === "onboarding") {
+    redirect("/provider?uploaded=1");
   }
   redirect("/provider/documents?uploaded=1");
 }

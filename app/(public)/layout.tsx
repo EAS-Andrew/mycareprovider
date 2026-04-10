@@ -1,7 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BrandMark } from "@/components/ui/brand-mark";
+import { getCurrentRole, type AppRole } from "@/lib/auth/current-role";
 import { createServerClient } from "@/lib/supabase/server";
+
+const ROLE_DASHBOARD: Record<AppRole, { href: string; label: string }> = {
+  admin: { href: "/admin", label: "Admin console" },
+  provider: { href: "/provider", label: "Provider dashboard" },
+  provider_company: { href: "/provider/company", label: "Company dashboard" },
+  receiver: { href: "/receiver", label: "My dashboard" },
+  family_member: { href: "/receiver", label: "My dashboard" },
+};
 
 export const metadata: Metadata = {
   title: "MyCareProvider",
@@ -17,6 +26,9 @@ export default async function PublicLayout({
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  const role = user ? await getCurrentRole(supabase, user) : null;
+  const dashboard = role ? ROLE_DASHBOARD[role] : null;
 
   const displayName =
     (user?.user_metadata?.display_name as string | undefined) ??
@@ -43,6 +55,11 @@ export default async function PublicLayout({
           </Link>
           {user ? (
             <>
+              {dashboard ? (
+                <Link href={dashboard.href} className="font-medium hover:underline">
+                  {dashboard.label}
+                </Link>
+              ) : null}
               <span className="text-ink-muted" aria-live="polite">
                 Signed in as{" "}
                 <span className="font-medium text-ink">{displayName}</span>

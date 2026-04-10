@@ -7,7 +7,7 @@ export const metadata = {
 };
 
 type PageProps = {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; return?: string }>;
 };
 
 // Finding auth#11: map whitelisted error codes to friendly strings instead
@@ -25,7 +25,7 @@ function errorMessage(code: string | undefined): string | null {
 }
 
 export default async function SignUpPage({ searchParams }: PageProps) {
-  const { error } = await searchParams;
+  const { error, return: returnTo } = await searchParams;
   const errorText = errorMessage(error);
 
   return (
@@ -50,6 +50,9 @@ export default async function SignUpPage({ searchParams }: PageProps) {
       ) : null}
 
       <form action={signUp} className="mt-6 space-y-5" noValidate>
+        {returnTo ? (
+          <input type="hidden" name="next" value={returnTo} />
+        ) : null}
         <div className="space-y-2">
           <label
             htmlFor="display_name"

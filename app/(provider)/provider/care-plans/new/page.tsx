@@ -8,14 +8,30 @@ export default async function NewCarePlanPage(props: {
   const searchParams = await props.searchParams;
   const supabase = await createServerClient();
 
-  // Fetch receivers with accepted contact relationships.
-  // For now, fetch all receiver profiles visible to this provider via RLS.
-  const { data: receivers } = await supabase
-    .from("profiles")
-    .select("id, display_name, role")
-    .eq("role", "receiver")
-    .is("deleted_at", null)
-    .order("display_name", { ascending: true });
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  // Only show receivers who have an accepted contact request with this provider.
+  const { data: acceptedContacts } = await supabase
+    .from("contact_requests")
+    .select("receiver_id, profiles!contact_requests_receiver_id_fkey(id, display_name)")
+    .eq("provider_id", user?.id ?? "")
+    .eq("status", "accepted")
+    .is("deleted_at", null);
+
+  const seen = new Set<string>();
+  const receivers: { id: string; display_name: string | null }[] = [];
+  for (const c of acceptedContacts ?? []) {
+    // The FK join returns a single object (not an array) for a belongs-to relation,
+    // but Supabase types it loosely. Cast through unknown to satisfy strict TS.
+    const profile = c.profiles as unknown as { id: string; display_name: string | null } | null;
+    if (profile && !seen.has(profile.id)) {
+      seen.add(profile.id);
+      receivers.push({ id: profile.id, display_name: profile.display_name });
+    }
+  }
+  receivers.sort((a, b) => (a.display_name ?? "").localeCompare(b.display_name ?? ""));
 
   async function handleCreate(formData: FormData) {
     "use server";
@@ -47,7 +63,23 @@ export default async function NewCarePlanPage(props: {
         </div>
       ) : null}
 
-      <form action={handleCreate} className="space-y-4">
+      {receivers.length === 0 ? (
+        <div className="rounded-lg border border-border bg-surface p-6 text-center">
+          <p className="text-ink-muted">
+            You do not have any accepted contact requests yet. A care receiver
+            must contact you and you must accept before you can create a care
+            plan for them.
+          </p>
+          <a
+            href="/provider/contacts"
+            className="mt-4 inline-flex h-10 items-center justify-center rounded-md border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+          >
+            View contact requests
+          </a>
+        </div>
+      ) : null}
+
+      <form action={handleCreate} className={`space-y-4${receivers.length === 0 ? " hidden" : ""}`}>
         <div>
           <label
             htmlFor="title"
@@ -79,13 +111,11 @@ export default async function NewCarePlanPage(props: {
             className="mt-1 block w-full rounded-md border border-border bg-canvas px-3 py-2 text-ink shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand-ring"
           >
             <option value="">Select a receiver</option>
-            {((receivers ?? []) as { id: string; display_name: string | null }[]).map(
-              (r) => (
-                <option key={r.id} value={r.id}>
-                  {r.display_name ?? "Unnamed receiver"}
-                </option>
-              ),
-            )}
+            {receivers.map((r) => (
+              <option key={r.id} value={r.id}>
+                {r.display_name ?? "Unnamed receiver"}
+              </option>
+            ))}
           </select>
         </div>
 

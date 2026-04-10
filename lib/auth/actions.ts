@@ -70,6 +70,7 @@ export async function signUp(formData: FormData): Promise<void> {
   const email = formString(formData, "email");
   const password = formString(formData, "password");
   const displayName = (formData.get("display_name") as string | null) ?? null;
+  const next = safeNext(formData.get("next") as string | null);
 
   const supabase = await createServerClient();
   const { error } = await supabase.auth.signUp({
@@ -89,10 +90,11 @@ export async function signUp(formData: FormData): Promise<void> {
 
   if (error) {
     const code = classifyAuthError(error.message);
-    redirect(`/auth/sign-up?error=${code}`);
+    const nextParam = next ? `&return=${encodeURIComponent(next)}` : "";
+    redirect(`/auth/sign-up?error=${code}${nextParam}`);
   }
 
-  redirect("/receiver");
+  redirect(next ?? "/receiver");
 }
 
 export async function signOut(): Promise<void> {

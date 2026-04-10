@@ -18,7 +18,7 @@ const KIND_LABELS: Record<DocumentKind, string> = {
 };
 
 type PageProps = {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; from?: string }>;
 };
 
 function formatMaxSize(bytes: number): string {
@@ -26,7 +26,7 @@ function formatMaxSize(bytes: number): string {
 }
 
 export default async function ProviderUploadPage({ searchParams }: PageProps) {
-  const { error } = await searchParams;
+  const { error, from } = await searchParams;
   const acceptAttr = ALLOWED_MIME_TYPES.join(",");
 
   return (
@@ -58,6 +58,9 @@ export default async function ProviderUploadPage({ searchParams }: PageProps) {
         className="space-y-5 rounded-lg border border-border bg-surface p-6"
         noValidate
       >
+        {from === "onboarding" ? (
+          <input type="hidden" name="from" value="onboarding" />
+        ) : null}
         <div className="space-y-2">
           <label
             htmlFor="kind"
@@ -170,10 +173,10 @@ export default async function ProviderUploadPage({ searchParams }: PageProps) {
             Upload
           </button>
           <Link
-            href="/provider/documents"
+            href={from === "onboarding" ? "/provider" : "/provider/documents"}
             className="text-sm text-ink-muted underline hover:text-ink"
           >
-            Cancel
+            {from === "onboarding" ? "Back to dashboard" : "Cancel"}
           </Link>
         </div>
       </form>

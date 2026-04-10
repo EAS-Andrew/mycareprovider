@@ -7,6 +7,7 @@ import type {
   DocumentKind,
   ProviderDocumentRow,
 } from "@/lib/documents/types";
+import { createServerClient } from "@/lib/supabase/server";
 
 type ChecklistState = "done" | "missing" | "in_review" | "rejected";
 
@@ -82,11 +83,55 @@ function StatusBadge({ state }: { state: ChecklistState }) {
   );
 }
 
+async function getDashboardCounts() {
+  const supabase = await createServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { pendingContacts: 0, unreadMessages: 0 };
+
+  const [contactsRes, participantsRes] = await Promise.all([
+    supabase
+      .from("contact_requests")
+      .select("id", { count: "exact", head: true })
+      .eq("provider_id", user.id)
+      .eq("status", "pending")
+      .is("deleted_at", null),
+    supabase
+      .from("conversation_participants")
+      .select("conversation_id, last_read_at")
+      .eq("profile_id", user.id)
+      .is("left_at", null),
+  ]);
+
+  const pendingContacts = contactsRes.count ?? 0;
+
+  // Count conversations with unread messages
+  let unreadMessages = 0;
+  const participants = participantsRes.data ?? [];
+  for (const p of participants) {
+    const lastRead = p.last_read_at as string | null;
+    const query = supabase
+      .from("messages")
+      .select("id", { count: "exact", head: true })
+      .eq("conversation_id", p.conversation_id as string)
+      .neq("sender_id", user.id);
+    if (lastRead) {
+      query.gt("created_at", lastRead);
+    }
+    const { count } = await query;
+    if ((count ?? 0) > 0) unreadMessages++;
+  }
+
+  return { pendingContacts, unreadMessages };
+}
+
 export default async function ProviderHome() {
-  const [profile, documents, catalog] = await Promise.all([
+  const [profile, documents, catalog, counts] = await Promise.all([
     getOwnProviderProfile(),
     listOwnDocuments(),
     getOwnProviderProfileWithCatalog(),
+    getDashboardCounts(),
   ]);
 
   const profileDone = profileIsComplete(profile);
@@ -143,7 +188,7 @@ export default async function ProviderHome() {
       id: "identity",
       label: "Upload proof of identity",
       description: "Passport, driving licence, or national ID card.",
-      href: "/provider/documents/upload",
+      href: "/provider/documents/upload?from=onboarding",
       hrefLabel: "Upload",
       state: identity.state,
       detail: identity.detail,
@@ -153,7 +198,7 @@ export default async function ProviderHome() {
       label: "Upload DBS check",
       description:
         "Enhanced DBS certificate. Live integration ships later - for now, upload a scan.",
-      href: "/provider/documents/upload",
+      href: "/provider/documents/upload?from=onboarding",
       hrefLabel: "Upload",
       state: dbs.state,
       detail: dbs.detail,
@@ -162,7 +207,7 @@ export default async function ProviderHome() {
       id: "insurance",
       label: "Upload insurance",
       description: "Public liability or professional indemnity certificate.",
-      href: "/provider/documents/upload",
+      href: "/provider/documents/upload?from=onboarding",
       hrefLabel: "Upload",
       state: insurance.state,
       detail: insurance.detail,
@@ -172,7 +217,7 @@ export default async function ProviderHome() {
       label: "Upload at least one certification",
       description:
         "NVQ, first aid, medication training, or equivalent. You can add more later.",
-      href: "/provider/documents/upload",
+      href: "/provider/documents/upload?from=onboarding",
       hrefLabel: "Upload",
       state: certification.state,
       detail: certification.detail,
@@ -180,6 +225,8 @@ export default async function ProviderHome() {
   ];
 
   const completeCount = checklist.filter((row) => row.state === "done").length;
+  const allComplete = completeCount === checklist.length;
+  const isVerified = profile?.verified_at !== null && profile?.verified_at !== undefined;
 
   return (
     <section className="mx-auto max-w-3xl space-y-8">
@@ -188,10 +235,38 @@ export default async function ProviderHome() {
           Welcome, care provider
         </h1>
         <p className="text-ink-muted">
-          Complete the steps below to get your profile verified and visible to
-          care receivers.
+          {allComplete && isVerified
+            ? "Your profile is verified and visible to care receivers."
+            : "Complete the steps below to get your profile verified and visible to care receivers."}
         </p>
       </header>
+
+      {allComplete && !isVerified ? (
+        <div
+          role="status"
+          className="rounded-lg border border-warning bg-warning/10 p-5"
+        >
+          <h2 className="font-semibold text-ink">Profile under review</h2>
+          <p className="mt-1 text-sm text-ink-muted">
+            You have completed all onboarding steps. Our team is reviewing your
+            documents and will verify your profile shortly. Once approved, your
+            profile will be visible to care receivers in the directory.
+          </p>
+        </div>
+      ) : null}
+
+      {allComplete && isVerified ? (
+        <div
+          role="status"
+          className="rounded-lg border border-success bg-success/10 p-5"
+        >
+          <h2 className="font-semibold text-ink">Profile verified</h2>
+          <p className="mt-1 text-sm text-ink-muted">
+            Your profile is live and visible in the provider directory. Care
+            receivers can find you and send contact requests.
+          </p>
+        </div>
+      ) : null}
 
       {!profile ? (
         <div className="rounded-lg border border-brand bg-surface p-5">
@@ -241,42 +316,79 @@ export default async function ProviderHome() {
         </ul>
       </div>
 
-      <div className="rounded-lg border border-border bg-surface p-5">
-        <h2 className="text-lg font-semibold text-ink">Messages</h2>
-        <p className="mt-1 text-sm text-ink-muted">
-          View conversations with care receivers and their families.
-        </p>
+      <div className="grid gap-4 sm:grid-cols-2">
         <Link
           href="/provider/messages"
-          className="mt-4 inline-flex h-10 items-center justify-center rounded-md border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+          className="rounded-lg border border-border bg-surface p-5 transition-colors hover:bg-surface-hover"
         >
-          Open messages
+          <div className="flex items-center justify-between">
+            <h2 className="font-semibold text-ink">Messages</h2>
+            {counts.unreadMessages > 0 ? (
+              <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-brand px-1.5 text-xs font-medium text-brand-fg">
+                {counts.unreadMessages}
+              </span>
+            ) : null}
+          </div>
+          <p className="mt-1 text-sm text-ink-muted">
+            View conversations with care receivers and their families.
+          </p>
         </Link>
-      </div>
 
-      <div className="rounded-lg border border-border bg-surface p-5">
-        <h2 className="text-lg font-semibold text-ink">Care plans</h2>
-        <p className="mt-1 text-sm text-ink-muted">
-          Create and manage care plans for your clients.
-        </p>
+        <Link
+          href="/provider/contacts"
+          className="rounded-lg border border-border bg-surface p-5 transition-colors hover:bg-surface-hover"
+        >
+          <div className="flex items-center justify-between">
+            <h2 className="font-semibold text-ink">Contact requests</h2>
+            {counts.pendingContacts > 0 ? (
+              <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-brand px-1.5 text-xs font-medium text-brand-fg">
+                {counts.pendingContacts}
+              </span>
+            ) : null}
+          </div>
+          <p className="mt-1 text-sm text-ink-muted">
+            View and respond to contact requests from care receivers.
+          </p>
+        </Link>
+
         <Link
           href="/provider/care-plans"
-          className="mt-4 inline-flex h-10 items-center justify-center rounded-md border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+          className="rounded-lg border border-border bg-surface p-5 transition-colors hover:bg-surface-hover"
         >
-          Manage care plans
+          <h2 className="font-semibold text-ink">Care plans</h2>
+          <p className="mt-1 text-sm text-ink-muted">
+            Create and manage care plans for your clients.
+          </p>
         </Link>
-      </div>
 
-      <div className="rounded-lg border border-border bg-surface p-5">
-        <h2 className="text-lg font-semibold text-ink">Your documents</h2>
-        <p className="mt-1 text-sm text-ink-muted">
-          View everything you have uploaded and check the review status.
-        </p>
         <Link
           href="/provider/documents"
-          className="mt-4 inline-flex h-10 items-center justify-center rounded-md border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+          className="rounded-lg border border-border bg-surface p-5 transition-colors hover:bg-surface-hover"
         >
-          Open document vault
+          <h2 className="font-semibold text-ink">Documents</h2>
+          <p className="mt-1 text-sm text-ink-muted">
+            View everything you have uploaded and check the review status.
+          </p>
+        </Link>
+
+        <Link
+          href="/provider/safeguarding"
+          className="rounded-lg border border-border bg-surface p-5 transition-colors hover:bg-surface-hover"
+        >
+          <h2 className="font-semibold text-ink">Safeguarding</h2>
+          <p className="mt-1 text-sm text-ink-muted">
+            Raise or review safeguarding concerns.
+          </p>
+        </Link>
+
+        <Link
+          href="/provider/settings/data"
+          className="rounded-lg border border-border bg-surface p-5 transition-colors hover:bg-surface-hover"
+        >
+          <h2 className="font-semibold text-ink">Settings</h2>
+          <p className="mt-1 text-sm text-ink-muted">
+            Data export, privacy, and account settings.
+          </p>
         </Link>
       </div>
     </section>

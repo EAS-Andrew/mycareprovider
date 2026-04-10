@@ -20,12 +20,17 @@ export default function LandingPage() {
         </Link>
         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
           <div data-theme="blue">
-            <Link href="/receiver" className={buttonStyles()}>
+            <Link href="/auth/sign-up" className={buttonStyles()}>
               I need care
             </Link>
           </div>
+          <div data-theme="blue">
+            <Link href="/auth/sign-up" className={buttonStyles({ variant: "outline" })}>
+              I&apos;m helping a loved one
+            </Link>
+          </div>
           <div data-theme="purple">
-            <Link href="/provider" className={buttonStyles()}>
+            <Link href="/auth/provider-sign-up" className={buttonStyles()}>
               I provide care
             </Link>
           </div>

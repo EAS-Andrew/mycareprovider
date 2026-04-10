@@ -35,6 +35,7 @@ MyCareProvider is a UK care marketplace connecting care receivers with care prov
 - `scripts/check-theme-isolation.mjs` - theme cross-import guard
 - `docs/pid.md` - authoritative project spec with "What landed" per component
 - `docs/user_stories.md` - acceptance criteria by story number
+- `docs/ux-journeys.md` - per-role user journeys defining routes, navigation, and empty states
 
 ## Using agent teams
 
@@ -61,6 +62,7 @@ Every teammate prompt should contain:
 - Which component they're building and which user stories it covers
 - Which existing files to read first (migrations, Server Actions, UI patterns)
 - The security/RLS patterns to follow (reference this CLAUDE.md or specific migrations)
+- **UX journey instruction**: "Read `docs/ux-journeys.md` before building UI. Your routes, navigation links, empty states, redirects, and error handling must match the patterns defined there. If your component adds new routes or changes navigation, update the relevant journey section as part of your deliverable."
 - **PID update instruction**: "As part of your deliverable, write a 'What landed' section for [component] in docs/pid.md, matching the format of existing shipped components."
 
 ### Keeping the PID current
@@ -84,6 +86,17 @@ Teammates in the same wave work in isolated worktrees and may pick the same migr
 4. Verify PID "What landed" entries are present and accurate
 5. Commit any fixups (renumbering, PID corrections)
 6. Delete the team and create the next wave
+
+## UX journeys
+
+`docs/ux-journeys.md` is the single source of truth for how users traverse the application. It defines every route, navigation link, empty state, redirect, and form submission target per role.
+
+Rules:
+- **Read before building UI.** Every teammate must read the journeys doc before writing any page or layout component.
+- **Follow the patterns.** Empty states must guide the user to the next action (never a dead end). Form errors use `?error=` URL params with `role="alert"`. Success uses `?saved=1` etc. Redirects follow the role-based rules in section 7.2.
+- **Update when you ship.** If your component adds routes, changes navigation, or alters redirects, update the relevant section of `docs/ux-journeys.md` as part of your deliverable. Future journeys in section 8 should be moved into their role section and fleshed out when the component ships.
+- **No orphan routes.** Every new page must be reachable from the navigation or from a CTA on an existing page. If a user cannot get to your page without typing the URL, something is missing.
+- **Theme rules are non-negotiable.** Receiver pages are blue, provider pages are purple, admin pages are neutral slate, public pages use the unified mark. Every themed layout has a persistent audience label in the header.
 
 ## Migrations
 

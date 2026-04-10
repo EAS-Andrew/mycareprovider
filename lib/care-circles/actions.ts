@@ -526,5 +526,17 @@ export async function signUpFamilyMember(
     },
   });
 
-  redirect(`/auth/sign-in?next=/receiver/family`);
+  // Sign the new user in automatically so they don't have to re-enter
+  // the credentials they just set.
+  const { error: signInError } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (signInError) {
+    // Fall back to the sign-in page if auto-sign-in fails.
+    redirect(`/auth/sign-in?next=/receiver/family`);
+  }
+
+  redirect("/receiver/family");
 }
