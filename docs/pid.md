@@ -494,6 +494,14 @@ Exit criterion: verified providers and provider companies can be onboarded, fami
 - Phase: 1b
 - Covers stories 14, 15
 
+**What landed:**
+
+- `supabase/migrations/0013_company_receiver_profiles.sql`: `mobility_level` enum; `company_services` and `company_capabilities` composite-PK linking tables (mirroring `provider_services`/`provider_capabilities` from 0005) with public-read gated on `provider_companies.verified_at`, owner insert/delete, admin full access; `receiver_profiles` table with self-read/update, care-circle-member read via `app.is_care_circle_member`, admin full access, zero anon access. Geocoding columns on receiver_profiles for postcode-based matching.
+- `lib/companies/profile-actions.ts`: `setCompanyServices`, `setCompanyCapabilities` (delete-and-reinsert pattern matching `lib/providers/profile-actions.ts`), `getCompanyProfileWithCatalog`. All mutations call `recordAuditEvent`.
+- `lib/receivers/{types,queries,actions}.ts`: `ReceiverProfileRow` and `MobilityLevel` types, `getReceiverProfile`, `getReceiverProfileForCircle`, `upsertReceiverProfile` (with postcode geocoding via `lib/geo/postcode.ts`). All mutations call `recordAuditEvent`.
+- UI routes (purple theme): `app/(provider)/provider/company/services/page.tsx` (service picker), `app/(provider)/provider/company/capabilities/page.tsx` (capability picker). Company dashboard checklist extended with services and capabilities rows.
+- UI routes (blue theme): `app/(receiver)/receiver/profile/page.tsx` (needs profile editor with care needs, preferences, mobility, communication, dietary, medical summary, postcode), `app/(receiver)/receiver/profile/view/page.tsx` (read-only view).
+
 **C7b. Advanced provider filtering** - **Status: shipped (2026-04-10).**
 
 - Filtering by gender, certifications, capabilities, rate bands; filter combinations persisted in URL for shareability

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getCompanyProfileWithCatalog } from "@/lib/companies/profile-actions";
 import { getCompanyProfile } from "@/lib/companies/queries";
 import { getCompanyDocuments } from "@/lib/companies/queries";
 import type { CompanyProfileRow } from "@/lib/companies/types";
@@ -39,13 +40,16 @@ export default async function CompanyDashboardPage({
   searchParams,
 }: PageProps) {
   const { welcome } = await searchParams;
-  const [profile, documents] = await Promise.all([
+  const [profile, documents, catalog] = await Promise.all([
     getCompanyProfile(),
     getCompanyDocuments(),
+    getCompanyProfileWithCatalog(),
   ]);
 
   const profileDone = profileIsComplete(profile);
   const hasDocuments = documents.length > 0;
+  const hasServices = (catalog?.serviceCategoryIds.length ?? 0) > 0;
+  const hasCapabilities = (catalog?.capabilityIds.length ?? 0) > 0;
 
   const checklist = [
     {
@@ -56,6 +60,24 @@ export default async function CompanyDashboardPage({
       href: "/provider/company/profile",
       hrefLabel: profile ? "Edit profile" : "Start profile",
       state: profileDone ? ("done" as const) : ("missing" as const),
+    },
+    {
+      id: "services",
+      label: "Select services your company offers",
+      description:
+        "Choose the service categories that describe what your company provides.",
+      href: "/provider/company/services",
+      hrefLabel: hasServices ? "Edit services" : "Add services",
+      state: hasServices ? ("done" as const) : ("missing" as const),
+    },
+    {
+      id: "capabilities",
+      label: "Select specialist capabilities",
+      description:
+        "Highlight the specialist skills and training your team can deliver.",
+      href: "/provider/company/capabilities",
+      hrefLabel: hasCapabilities ? "Edit capabilities" : "Add capabilities",
+      state: hasCapabilities ? ("done" as const) : ("missing" as const),
     },
     {
       id: "documents",
