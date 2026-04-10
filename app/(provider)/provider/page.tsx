@@ -242,6 +242,32 @@ export default async function ProviderHome() {
       </div>
 
       <div className="rounded-lg border border-border bg-surface p-5">
+        <h2 className="text-lg font-semibold text-ink">Messages</h2>
+        <p className="mt-1 text-sm text-ink-muted">
+          View conversations with care receivers and their families.
+        </p>
+        <Link
+          href="/provider/messages"
+          className="mt-4 inline-flex h-10 items-center justify-center rounded-md border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+        >
+          Open messages
+        </Link>
+      </div>
+
+      <div className="rounded-lg border border-border bg-surface p-5">
+        <h2 className="text-lg font-semibold text-ink">Care plans</h2>
+        <p className="mt-1 text-sm text-ink-muted">
+          Create and manage care plans for your clients.
+        </p>
+        <Link
+          href="/provider/care-plans"
+          className="mt-4 inline-flex h-10 items-center justify-center rounded-md border border-brand px-4 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring"
+        >
+          Manage care plans
+        </Link>
+      </div>
+
+      <div className="rounded-lg border border-border bg-surface p-5">
         <h2 className="text-lg font-semibold text-ink">Your documents</h2>
         <p className="mt-1 text-sm text-ink-muted">
           View everything you have uploaded and check the review status.

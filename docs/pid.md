@@ -576,22 +576,49 @@ Phase 1 (1a + 1b) explicitly excludes: Stripe and GoCardless, care plan document
 
 #### Phase 2 - Care delivery & monetisation
 
-**C9. Realtime secure messaging**
+**C9. Realtime secure messaging** - **Status: shipped (2026-04-10).**
 
-- `conversations` and `messages` tables, Supabase Realtime subscriptions, per-conversation RLS, attachment sharing via `care-plan-attachments` bucket, emergency alert fan-out to care circle
+- `conversations` and `messages` tables, Supabase Realtime subscriptions, per-conversation RLS, attachment sharing via `message-attachments` bucket, emergency alert fan-out to care circle
 - Includes a one-shot migration that copies existing `contact_threads` rows from the C8 messaging bridge into `conversations`, then retires the bridge
 - Inherits the C8 abuse-control conventions: per-user rolling message rate limits via `rate_limit_buckets`, attachment MIME allow-list, and the shared virus-scan quarantine flow
 - **Themed surfaces:** the conversation view is rendered in the viewer's theme (a receiver sees the thread in blue, a provider sees the same thread in purple). Email and push fallbacks for unread messages are themed by recipient role.
 - Depends on: C2, C8
 - Covers stories 35, 36, 37, 38
 
-**C10. Care plan management**
+**What landed:**
+
+- `supabase/migrations/0017_realtime_messaging.sql` ships three tables - `conversations`, `conversation_participants`, `messages` - plus the `app.is_conversation_participant(conversation_id)` RLS helper. Conversations support `direct` and `group` types. Messages support four types: `text`, `attachment`, `system`, and `emergency_alert`. The `conversation_participants` table tracks unread state via `last_read_at` and soft-leave via `left_at`.
+- **Data migration from C8 bridge:** the migration copies all `contact_threads` into `conversations` (with `legacy_thread_id` for traceability) and all `contact_thread_posts` into `messages`, preserving sender, body, and timestamps. Receiver and provider are added as `conversation_participants` for each migrated conversation.
+- **RLS follows the project pattern:** helpers in the `app` schema, policies as one-liners. `app.is_conversation_participant()` gates all read/write access on conversations, participants, and messages. Messages are append-only from the user perspective (no UPDATE/DELETE policies for regular users). Admin gets full access on all three tables.
+- **Rate limiting:** a BEFORE INSERT trigger on `messages` calls `app.bump_rate_limit('message.create', 60, 60)` - 60 messages per minute per user, reusing the `rate_limit_buckets` infrastructure from migration 0008.
+- **Storage:** `message-attachments` bucket (private) with the quarantine upload pattern matching `provider-docs` and `receiver-docs`. Uploads land in `quarantine/<profile-id>/`, promotion to `clean/` after scan. MIME allow-list enforced server-side in the `uploadAttachment` Server Action (PDF, images, Word docs, plain text). 10 MB size limit.
+- **Emergency alert fan-out:** `sendEmergencyAlert` creates an `emergency_alert` message and uses the admin client to look up the receiver's `care_circles` and add all active `care_circle_members` as conversation participants, so family members are pulled into the conversation.
+- **Supabase Realtime:** `messages` table added to the `supabase_realtime` publication. `lib/messaging/realtime.ts` provides a client-side `subscribeToMessages()` helper that subscribes to INSERT events filtered by `conversation_id` via Supabase Realtime channels.
+- `lib/messaging/{types,queries,actions,realtime}.ts` expose five Server Actions: `sendMessage`, `createConversation`, `markAsRead`, `uploadAttachment`, `sendEmergencyAlert`. Query helpers: `getMyConversations` (with latest message preview and unread count), `getConversation`, `getMessages` (paginated with cursor), `getConversationParticipants`. Every mutation writes a W2 `recordAuditEvent` with a redacted payload (conversation ID and message type only, no body content).
+- UI slice under both authenticated route groups: `app/(receiver)/receiver/messages/{page,new/page,[conversationId]/page}.tsx` for the receiver conversation list, new conversation picker, and realtime conversation view; `app/(provider)/provider/messages/{page,new/page,[conversationId]/page}.tsx` mirrors in the provider purple theme. Conversation views are client components with Supabase Realtime subscriptions for live message delivery. Both dashboards (`receiver/page.tsx`, `provider/page.tsx`) link to the messages section.
+
+**C10. Care plan management** - **Status: shipped (2026-04-10).**
 
 - Versioned care plans with an append-only `care_plan_versions` table (full snapshots, not diffs), approval workflow for receivers and family, transparent per-line-item pricing, PDF export
 - **Visit media consent capture.** The care-plan approval step requires the receiver (or authorised family member) to explicitly opt in or out of allowing the provider to capture photos or video during visits. The decision is recorded as a consent record on the approved `care_plan_versions` snapshot and cannot be changed retroactively - a new version must be approved to change it. C11 enforces this consent before any media upload is permitted.
 - **Themed PDF exports:** the same care plan rendered for a receiver uses the receiver theme and `favicon-blue.svg`; the same plan rendered for the authoring provider uses the provider theme and `favicon-purple.svg`. The PDF renderer takes the recipient role as an input, not the plan's author.
 - Depends on: C6
 - Covers stories 26, 27, 28, 29, 30, 78
+
+**What landed:**
+
+- `supabase/migrations/0018_care_plan_management.sql` (will be renumbered by team lead): three tables - `care_plans` (soft-delete, status state machine with guard trigger), `care_plan_versions` (append-only, full snapshot + line_items jsonb + generated `total_pence` column), `care_plan_activities` (ordered activities per version). Visit media consent fields (`visit_media_consent`, `consent_granted_by`, `consent_granted_at`) on `care_plan_versions` are set at approval time and immutable thereafter.
+- **Real body for `app.can_see_care_plan(care_plan_id)`** replaces the 0001 stub. Returns true if the caller is the plan's provider, the receiver, or a care circle member of the receiver (via `app.is_care_circle_member`).
+- **RLS follows the project pattern:** `care_plans` readable by participants via `app.can_see_care_plan()`, writable by providers (INSERT) and participants (UPDATE, status changes guarded by trigger). `care_plan_versions` is append-only for regular users (SELECT + INSERT only, no UPDATE/DELETE policies). `care_plan_activities` readable/insertable by anyone who can see the parent care plan. Admin gets full access on all three tables.
+- **Status transition guard trigger** on `care_plans` enforces: draft -> pending_approval, pending_approval -> active/draft, active -> paused/completed, paused -> active, any -> cancelled. Admin bypasses. A rejection transitions the plan back to draft so the provider can revise.
+- `lib/care-plans/types.ts`: TypeScript types for `CarePlanStatus`, `CarePlanVersionStatus`, `ActivityFrequency`, `LineItem`, row interfaces, and label maps.
+- `lib/care-plans/queries.ts`: `getMyCarePlans` (scoped by RLS, includes participant display names), `getCarePlan` (with latest version), `getCarePlanVersions`, `getCarePlanVersion` (with activities), `getActiveCarePlan` (for a provider-receiver pair).
+- `lib/care-plans/actions.ts`: `createCarePlan` (provider creates draft), `createCarePlanVersion` (provider adds version with activities, line items, snapshot), `submitForApproval` (submits version and transitions plan to pending_approval), `approveCarePlan` (receiver/family approves with visit media consent decision via admin client), `rejectCarePlan` (with reason, transitions plan back to draft), `pauseCarePlan`, `resumeCarePlan`, `completeCarePlan`, `cancelCarePlan`. All mutations call `recordAuditEvent`.
+- `lib/care-plans/pdf.ts`: `generateCarePlanPdf(versionId, recipientRole)` generates a themed HTML document - blue header for receiver copy, purple for provider copy - with activities table, line items with per-item pricing, totals, consent status, and approval details.
+- Provider UI routes (purple theme): `app/(provider)/provider/care-plans/page.tsx` (list with status badges), `new/page.tsx` (create form with receiver picker), `[planId]/page.tsx` (detail with latest version summary, action buttons for submit/pause/resume/complete/cancel), `[planId]/versions/page.tsx` (version history), `[planId]/versions/new/page.tsx` (version editor with activities and line items), `[planId]/versions/[versionId]/page.tsx` (version detail with full pricing table and export).
+- Receiver UI routes (blue theme): `app/(receiver)/receiver/care-plans/page.tsx` (list), `[planId]/page.tsx` (detail with approval flow - line items table, visit media consent checkbox with explanatory text, approve/reject with reason), `[planId]/versions/page.tsx` (version history), `[planId]/versions/[versionId]/page.tsx` (version detail with pricing and export).
+- Navigation links added to provider dashboard (`/provider`) and receiver dashboard (`/receiver`) linking to care plans.
+- Build passes cleanly on Next.js 16 (Turbopack) with all routes compiled.
 
 **C11. Visit scheduling, GPS check-in, documentation**
 
