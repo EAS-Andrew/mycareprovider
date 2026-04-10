@@ -550,6 +550,16 @@ Exit criterion: verified providers and provider companies can be onboarded, fami
 - Phase: 1b
 - Covers stories 76, 77
 
+**What landed:**
+
+- `supabase/migrations/0015_safeguarding.sql`: four new enums (`safeguarding_subject_type`, `safeguarding_severity`, `safeguarding_status`, `safeguarding_event_type`); `safeguarding_reports` table (append-only, no `deleted_at`, exempt from C24 erasure) with severity scale, triage deadline, status state machine, and `updated_at` trigger; `safeguarding_report_events` table (append-only timeline, INSERT-only for admins, no UPDATE/DELETE). RLS: INSERT for authenticated + anon on reports; SELECT restricted to reporter (own reports), assigned reviewer, and admins - the subject of a report cannot see it; UPDATE on reports for admin only (status transitions). Events follow parent report visibility. Indexes on status, severity, reporter, assigned reviewer, and triage deadline.
+- `lib/safeguarding/types.ts`: TypeScript types for all four enums, row interfaces for reports and events, label maps for severity/status/event types.
+- `lib/safeguarding/actions.ts`: `submitSafeguardingReport` (works for authenticated and anonymous users via admin client, sets 24h triage deadline for medium+ severity, audit-logs with redacted payload), `triageReport` (admin sets severity/assigns reviewer, creates triage event), `addReportEvent` (admin adds notes/assignment changes), `escalateReport` (records statutory escalation target and justification), `resolveReport` (admin resolves with notes). All mutations write to `audit_log` via W2.
+- `lib/safeguarding/queries.ts`: `getMySafeguardingReports` (reporter's own, RLS-scoped), `getPendingSafeguardingReports` (admin queue sorted by triage deadline), `getSafeguardingReport` (full report with events timeline), `getSafeguardingStats` (counts by status/severity, overdue triage count).
+- UI submission forms: `app/(receiver)/receiver/safeguarding/page.tsx` (blue theme), `app/(provider)/provider/safeguarding/page.tsx` (purple theme), `app/(public)/safeguarding/page.tsx` (unified mark, no auth required for anonymous reports). All forms include guidance text distinguishing safeguarding from general complaints, severity picker, emergency contacts.
+- Admin triage: `app/(admin)/admin/safeguarding/page.tsx` (queue with severity badges, overdue triage warnings, stat cards), `app/(admin)/admin/safeguarding/[id]/page.tsx` (full report review with events timeline, triage/assign/escalate/resolve action forms, statutory escalation targets including local authority safeguarding board, police, CQC). Neutral slate theme.
+- Updated admin home page with safeguarding queue link.
+
 Phase 1 (1a + 1b) explicitly excludes: Stripe and GoCardless, care plan documents, visit tracking, rich realtime messaging, medication management. Phase 1 includes accessibility conformance (story 75) as a cross-cutting requirement on every component rather than a discrete deliverable.
 
 #### Phase 2 - Care delivery & monetisation

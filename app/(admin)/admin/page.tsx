@@ -15,6 +15,9 @@ export default function AdminHome() {
         <Link href="/admin/verification" className={buttonStyles()}>
           Verification queue
         </Link>
+        <Link href="/admin/safeguarding" className={buttonStyles()}>
+          Safeguarding
+        </Link>
         <Link
           href="/admin/users"
           className={buttonStyles({ variant: "outline" })}
