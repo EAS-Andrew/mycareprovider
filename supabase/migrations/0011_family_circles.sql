@@ -536,7 +536,7 @@ create table if not exists public.family_invitations (
   email        text not null,
   role         public.care_circle_role not null default 'member',
   invited_by   uuid not null references public.profiles(id),
-  token        text not null unique default encode(gen_random_bytes(32), 'hex'),
+  token        text not null unique default encode(extensions.gen_random_bytes(32), 'hex'),
   expires_at   timestamptz not null default (now() + interval '7 days'),
   accepted_at  timestamptz,
   created_at   timestamptz not null default now()
