@@ -23,7 +23,7 @@ export default function AdminLayout({
           aria-label="MyCareProvider, administrator home"
         >
           <BrandMark variant="admin" size={32} />
-          <span>MyCareProvider</span>
+          <span className="font-heading text-lg font-bold">MyCareProvider</span>
         </Link>
       </header>
       <main className="px-6 py-8">{children}</main>

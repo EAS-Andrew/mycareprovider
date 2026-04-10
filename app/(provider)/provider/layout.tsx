@@ -23,7 +23,7 @@ export default function ProviderLayout({
           aria-label="MyCareProvider, care provider home"
         >
           <BrandMark variant="provider" size={32} />
-          <span>MyCareProvider</span>
+          <span className="font-heading text-lg font-bold">MyCareProvider</span>
         </Link>
       </header>
       <main className="px-6 py-8">{children}</main>

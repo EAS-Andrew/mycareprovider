@@ -19,7 +19,7 @@ export default function AuthLayout({
           </Link>
           <span className="text-sm text-ink-muted">MyCareProvider</span>
         </div>
-        <div className="rounded-lg border border-border bg-surface p-8 shadow-sm">
+        <div className="rounded-2xl border-2 border-border bg-surface p-8 shadow-lg">
           {children}
         </div>
       </div>

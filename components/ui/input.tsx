@@ -4,7 +4,7 @@ import { cn } from "@/lib/cn";
 
 export const inputStyles = tv({
   base: [
-    "flex h-11 w-full rounded-md border border-border bg-canvas px-3 py-2",
+    "flex h-11 w-full rounded-lg border border-border bg-canvas px-3 py-2",
     "text-base text-ink placeholder:text-ink-muted",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring",
     "disabled:opacity-50 disabled:pointer-events-none",
