@@ -537,6 +537,18 @@ Exit criterion: verified providers and provider companies can be onboarded, fami
 - Phase: 1b
 - Covers stories 73, 74
 
+**What landed:**
+
+- `supabase/migrations/0016_dsar_erasure.sql`: `dsar_requests` table (uuid PK, requester FK, request_type CHECK access/erasure, status CHECK pending/processing/completed/rejected, download_url, download_expires_at, rejection_reason, notes, deleted_at soft-delete) with unique partial index enforcing one pending request per user per type; `erasure_requests` table (uuid PK, FK to dsar_requests, requester FK, status CHECK pending_cooloff/cooloff_expired/processing/completed/cancelled, cooloff_ends_at defaulting to now()+30 days, legal_holds jsonb). Full RLS on both tables: requester self-read/insert, admin full access and update. Private `dsar-exports` storage bucket for export bundles accessed via signed URLs.
+- `lib/dsar/export.ts`: `generateDataExport(profileId)` collects all user data across 14 table queries in parallel using the admin client - profiles, provider_profiles, provider_companies, company_memberships, receiver_profiles, care_circles, care_circle_members, family_authorisations, documents (metadata only), contact_requests (sent and received), contact_threads, contact_thread_posts, and audit_log entries. Returns a structured JSON bundle with `exported_at` timestamp.
+- `lib/dsar/queries.ts`: `getMyDsarRequests`, `getMyErasureRequests` (user-scoped via RLS), `getErasurePreview` (shows what will be erased vs retained with statutory reasons).
+- `lib/dsar/actions.ts`: `requestDataExport` (creates DSAR access request, generates export bundle, uploads to `dsar-exports` bucket, creates 7-day signed URL, auto-completes), `requestErasure` (creates DSAR erasure request + erasure_requests row with 30-day cool-off), `cancelErasure` (user cancels during cool-off). All three call `recordAuditEvent`.
+- `lib/admin/dsar-actions.ts`: `processDsarRequest` (admin marks processing/completed/rejected with optional rejection reason), `processErasure` (admin triggers soft-delete cascade across all regulated tables after cool-off, stamps legal holds for audit_log and safeguarding records), `getPendingDsarRequests`, `getDsarRequestForReview`. All admin actions gate on `requireAdmin()` + `createAdminClient()` and call `recordAuditEvent`.
+- `app/(admin)/admin/dsar/page.tsx`: DSAR queue split into data-export and erasure sections with status badges, requester names, and review links. `app/(admin)/admin/dsar/[id]/page.tsx`: individual request review with full detail dl, erasure-specific panel showing cool-off countdown and legal holds, admin action forms (mark processing/completed/rejected, process erasure with danger-styled button).
+- `app/(receiver)/receiver/settings/data/page.tsx`: receiver DSAR hub in blue theme with export-request form, export history table with download links and expiry, erasure section with cool-off status and cancel form, erasure history table. `app/(provider)/provider/settings/data/page.tsx`: identical for providers in purple theme.
+- All mutations call `recordAuditEvent` per W2. Soft-delete cascade in `processErasure` covers contact_thread_posts, contact_requests, care_circle_members, company_memberships, documents, provider_profiles, provider_companies, receiver_profiles, family_authorisations, care_circles, and profiles. Audit log is never deleted (append-only). Safeguarding records (C25) are exempt.
+- Build passes cleanly on Next.js 16 (Turbopack) with all routes compiled.
+
 **C25. Safeguarding escalation (W1)**
 
 - Confidential "raise a safeguarding concern" entry points from every authenticated context (receiver, family member, provider, admin) and a public entry point reachable without login for reporters who do not have an account
