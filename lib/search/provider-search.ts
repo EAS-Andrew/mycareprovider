@@ -24,14 +24,16 @@ export type ProviderSearchFilters = {
   near?: { lat: number; lng: number; radiusKm: number };
   serviceSlug?: string;
   capabilitySlug?: string;
+  serviceSlugs?: string[];
+  capabilitySlugs?: string[];
+  certificationSlugs?: string[];
+  gender?: string;
+  rateMinPence?: number;
+  rateMaxPence?: number;
   limit?: number;
   offset?: number;
 };
 
-// M-1: lat/lng/service_postcode are no longer returned to anon callers.
-// The anon column grant on `provider_profiles` (sql-fixer's half) drops
-// those columns; the RPC still computes `distance_km` server-side so
-// radius sort/filter keeps working without exposing home coordinates.
 export type ProviderSearchResult = {
   id: string;
   headline: string | null;
@@ -40,6 +42,7 @@ export type ProviderSearchResult = {
   country: string | null;
   hourlyRatePence: number | null;
   yearsExperience: number | null;
+  gender: string | null;
   distanceKm: number | null;
   verifiedAt: string;
 };
@@ -52,6 +55,7 @@ type RpcRow = {
   country: string | null;
   hourly_rate_pence: number | null;
   years_experience: number | null;
+  gender: string | null;
   distance_km: number | null;
   verified_at: string;
 };
@@ -111,18 +115,29 @@ export async function searchProviders(
       ? clampRadiusKm(filters.near.radiusKm)
       : null;
 
-  // Calls the thin `public.search_providers` wrapper (migration 0006 +
-  // follow-up) which just forwards to `app.search_providers`. Going
-  // through the wrapper keeps PostgREST's exposed-schemas list limited
-  // to `public` / `graphql_public` so internal helpers in `app` stay
-  // private. Arg names must match the SQL signature exactly.
+  // Build service/capability slug arrays. Support both legacy single-slug
+  // params and new array params for backwards compatibility during the
+  // transition. The RPC signature (migration 0010) accepts arrays only.
+  const serviceSlugs: string[] = [
+    ...(filters.serviceSlugs ?? []),
+    ...(filters.serviceSlug ? [filters.serviceSlug] : []),
+  ];
+  const capabilitySlugs: string[] = [
+    ...(filters.capabilitySlugs ?? []),
+    ...(filters.capabilitySlug ? [filters.capabilitySlug] : []),
+  ];
+
   const { data, error } = await supabase.rpc("search_providers", {
     query: filters.query && filters.query.trim().length > 0 ? filters.query.trim() : null,
     near_lat: filters.near?.lat ?? null,
     near_lng: filters.near?.lng ?? null,
     radius_km: radiusKm,
-    service_slug: filters.serviceSlug ?? null,
-    capability_slug: filters.capabilitySlug ?? null,
+    filter_services: serviceSlugs.length > 0 ? serviceSlugs : null,
+    filter_capabilities: capabilitySlugs.length > 0 ? capabilitySlugs : null,
+    filter_certifications: filters.certificationSlugs?.length ? filters.certificationSlugs : null,
+    filter_gender: filters.gender ?? null,
+    filter_rate_min: filters.rateMinPence ?? null,
+    filter_rate_max: filters.rateMaxPence ?? null,
     limit_count: limit,
     offset_count: offset,
   });
@@ -139,6 +154,7 @@ export async function searchProviders(
     country: row.country,
     hourlyRatePence: row.hourly_rate_pence,
     yearsExperience: row.years_experience,
+    gender: row.gender,
     distanceKm: row.distance_km,
     verifiedAt: row.verified_at,
   }));

@@ -110,20 +110,31 @@ export async function GET(request: Request): Promise<Response> {
   const q = url.searchParams.get("q") ?? undefined;
   const nearRaw = url.searchParams.get("near") ?? undefined;
   const radiusRaw = url.searchParams.get("radius") ?? undefined;
-  const serviceSlug = url.searchParams.get("service") ?? undefined;
-  const capabilitySlug = url.searchParams.get("capability") ?? undefined;
+  const serviceSlugs = url.searchParams.getAll("service").filter(Boolean);
+  const capabilitySlugs = url.searchParams.getAll("capability").filter(Boolean);
+  const certificationSlugs = url.searchParams.getAll("certification").filter(Boolean);
+  const gender = url.searchParams.get("gender") ?? undefined;
+  const rateMinRaw = url.searchParams.get("rate_min");
+  const rateMaxRaw = url.searchParams.get("rate_max");
   const limit = parseLimit(url.searchParams.get("limit"));
   const offset = parseOffset(url.searchParams.get("offset"));
 
   const near = await resolveSearchLocation(nearRaw, radiusRaw);
+
+  const rateMinPence = rateMinRaw ? Math.round(Number(rateMinRaw) * 100) : undefined;
+  const rateMaxPence = rateMaxRaw ? Math.round(Number(rateMaxRaw) * 100) : undefined;
 
   let results: ProviderSearchResult[];
   try {
     results = await searchProviders({
       query: q,
       near,
-      serviceSlug,
-      capabilitySlug,
+      serviceSlugs: serviceSlugs.length > 0 ? serviceSlugs : undefined,
+      capabilitySlugs: capabilitySlugs.length > 0 ? capabilitySlugs : undefined,
+      certificationSlugs: certificationSlugs.length > 0 ? certificationSlugs : undefined,
+      gender,
+      rateMinPence: Number.isFinite(rateMinPence) ? rateMinPence : undefined,
+      rateMaxPence: Number.isFinite(rateMaxPence) ? rateMaxPence : undefined,
       limit,
       offset,
     });

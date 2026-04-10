@@ -110,7 +110,7 @@ insert into public.provider_profiles (
   id, headline, bio,
   date_of_birth, phone,
   address_line1, city, postcode, country,
-  years_experience, hourly_rate_pence,
+  years_experience, hourly_rate_pence, gender,
   service_postcode, latitude, longitude, service_radius_km, geocoded_at,
   verified_at
 ) values
@@ -120,7 +120,7 @@ insert into public.provider_profiles (
     'Fifteen years supporting older adults across central and south London, with a focus on dementia care, medication support, and dignified personal care. Enhanced DBS, manual handling trained, and comfortable working alongside district nurses and family members.',
     '1985-04-12', '+447700900001',
     '1 Example Street', 'London', 'SW1A 1AA', 'GB',
-    15, 2800,
+    15, 2800, 'female',
     'SW1A 1AA', 51.5014, -0.1419, 30, now(),
     now()
   ),
@@ -130,7 +130,7 @@ insert into public.provider_profiles (
     'Seven years of live-in and visiting care across Greater Manchester. I specialise in companionship, domestic support, and helping people stay independent at home. Trained in manual handling and mental health first aid.',
     '1990-09-22', '+447700900002',
     '2 Example Road', 'Manchester', 'M1 1AE', 'GB',
-    7, 2200,
+    7, 2200, 'male',
     'M1 1AE', 53.4794, -2.2453, 25, now(),
     now()
   )
@@ -141,6 +141,7 @@ on conflict (id) do update set
   postcode          = excluded.postcode,
   years_experience  = excluded.years_experience,
   hourly_rate_pence = excluded.hourly_rate_pence,
+  gender            = excluded.gender,
   service_postcode  = excluded.service_postcode,
   latitude          = excluded.latitude,
   longitude         = excluded.longitude,
